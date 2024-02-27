@@ -11,11 +11,7 @@ class ReservationsScreen extends StatelessWidget {
         title: const Text('Reservations Screen'),
         centerTitle: true,
       ),
-      body: Center(child: const Text('List reservations')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.plus_one),
-      ),
+      body: const Center(child: Text('List reservations')),
     );
   }
 }
