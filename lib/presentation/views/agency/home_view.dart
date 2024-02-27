@@ -11,7 +11,9 @@ class HomeView extends StatelessWidget {
     required this.titles,
   });
 
+  // ignore: prefer_typing_uninitialized_variables
   final height;
+  // ignore: prefer_typing_uninitialized_variables
   final widht;
   final List titles;
 

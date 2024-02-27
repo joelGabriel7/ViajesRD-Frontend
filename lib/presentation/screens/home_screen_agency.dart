@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../views/agency/home_view.dart';
 
 class HomeScreenAgency extends StatelessWidget {
-  var height, widht;
+  var height = 0.0, widht = 0.0;
 
   List titles = ['Excursions', 'Reservations', 'Clients', 'Tourist places'];
   HomeScreenAgency({super.key});
