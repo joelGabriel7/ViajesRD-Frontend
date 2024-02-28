@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:viajes/presentation/screens/category_screen.dart';
 import 'package:viajes/presentation/screens/clientes_screen.dart';
 import 'package:viajes/presentation/screens/excursions_screen.dart';
 import 'package:viajes/presentation/screens/home_screen_agency.dart';
@@ -26,5 +27,9 @@ final appRouter = GoRouter(routes: [
   GoRoute(
     path: '/touristplaces',
     builder: (context, state) => const TouristPlaceScreen(),
+  ),
+  GoRoute(
+    path: '/categories',
+    builder: (context, state) => const CategoryScreen(),
   ),
 ]);

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:viajes/presentation/provider/providers.dart';
 
-class _CategoryView extends ConsumerStatefulWidget {
-  const _CategoryView();
+class CategoryView extends ConsumerStatefulWidget {
+  const CategoryView({super.key});
 
   @override
-  _ReservationViewState createState() => _ReservationViewState();
+  CategoryViewState createState() => CategoryViewState();
 }
 
-class _ReservationViewState extends ConsumerState<_CategoryView> {
+class CategoryViewState extends ConsumerState<CategoryView> {
   @override
   void initState() {
     super.initState();
@@ -25,10 +25,13 @@ class _ReservationViewState extends ConsumerState<_CategoryView> {
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final category = categories[index];
-          return ListTile(
-            title: Text(category.name),
-            subtitle: Text(category.description),
-          );
+          if (categories.isNotEmpty) {
+            return ListTile(
+              title: Text(category.name),
+              subtitle: Text(category.description),
+            );
+          }
+          return const Text("No hay categorias");
         },
       ),
     );

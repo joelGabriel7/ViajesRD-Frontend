@@ -15,13 +15,14 @@ class HomeScreenAgency extends StatelessWidget {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     widht = MediaQuery.of(context).size.width;
+    final scaffolKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.indigo,
           iconTheme: const IconThemeData(color: Colors.white),
         ),
         bottomNavigationBar: const BottomNavigations(),
-        drawer: const SideMenu(),
+        drawer: SideMenu(scaffolKey: scaffolKey),
         body: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: HomeView(height: height, widht: widht, titles: titles),

@@ -5,5 +5,6 @@ class CategoryMapper {
   static Category categoryToEntity(CategoryResponse category) => Category(
       id: category.id,
       name: category.name,
+      description: category.description!,
       codeCategory: category.codeCategory);
 }

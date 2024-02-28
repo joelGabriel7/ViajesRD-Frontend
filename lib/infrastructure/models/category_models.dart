@@ -18,7 +18,7 @@ class CategoryResponse {
   factory CategoryResponse.fromJson(Map<String, dynamic> json) =>
       CategoryResponse(
         name: json["name"],
-        description: json["description"] ?? '',
+        description: json["description"],
         codeCategory: json["code_category"],
         id: json["id"],
         createdAt: DateTime.parse(json["created_at"]),
