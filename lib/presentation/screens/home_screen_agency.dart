@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:viajes/presentation/widgets/bottom_navigations.dart';
+import 'package:viajes/presentation/widgets/side_menu.dart';
 
 import '../views/agency/home_view.dart';
 
@@ -13,7 +15,17 @@ class HomeScreenAgency extends StatelessWidget {
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     widht = MediaQuery.of(context).size.width;
-    return HomeView(height: height, widht: widht, titles: titles);
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.indigo,
+          iconTheme: const IconThemeData(color: Colors.white),
+        ),
+        bottomNavigationBar: const BottomNavigations(),
+        drawer: const SideMenu(),
+        body: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: HomeView(height: height, widht: widht, titles: titles),
+        ));
   }
 
 //

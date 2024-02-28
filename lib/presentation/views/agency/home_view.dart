@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../shared/bottom_navigations.dart';
+// import '../../shared/bottom_navigations.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({
@@ -19,71 +19,41 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: const BottomNavigations(),
-      body: Container(
-        color: Colors.indigo,
-        height: height,
-        width: widht,
-        child: Column(
-          children: [
-            Container(
-                decoration: const BoxDecoration(),
-                height: height * 0.25,
-                width: widht,
-                child: Column(children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(top: 45, left: 20, right: 20),
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.menu,
+    return Container(
+      color: Colors.indigo,
+      height: height,
+      width: widht,
+      child: Column(
+        children: [
+          Container(
+              decoration: const BoxDecoration(),
+              height: height * 0.25,
+              width: widht,
+              child: const Column(children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 100, left: 20, right: 20),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Agency Name',
+                        style: TextStyle(
                             color: Colors.white,
-                            size: 30,
-                          ),
-                        ),
-                        const Spacer(),
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            // color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            // image: const DecorationImage(
-                            //     image: AssetImage(
-                            //   'images/woman.png',
-                            // ))
-                          ),
-                        )
-                      ],
-                    ),
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'Last Update: 24 feb 2024',
+                        style: TextStyle(
+                            color: Colors.white54,
+                            fontSize: 15,
+                            letterSpacing: 1),
+                      ),
+                    ],
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 35, left: 20, right: 20),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Agency Name',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'Last Update: 24 feb 2024',
-                          style: TextStyle(
-                              color: Colors.white54,
-                              fontSize: 15,
-                              letterSpacing: 1),
-                        ),
-                      ],
-                    ),
-                  )
-                ])),
-            Container(
+                )
+              ])),
+          Expanded(
+            child: Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -91,7 +61,7 @@ class HomeView extends StatelessWidget {
                   topRight: Radius.circular(50),
                 ),
               ),
-              height: 539,
+              height: height,
               width: widht,
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -140,8 +110,8 @@ class HomeView extends StatelessWidget {
                 },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
