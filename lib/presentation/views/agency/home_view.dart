@@ -27,11 +27,11 @@ class HomeView extends StatelessWidget {
         children: [
           Container(
               decoration: const BoxDecoration(),
-              height: height * 0.25,
+              height: height * 0.18,
               width: widht,
               child: const Column(children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 100, left: 20, right: 20),
+                  padding: EdgeInsets.only(top: 60, left: 20, right: 20),
                   child: Column(
                     children: [
                       Text(

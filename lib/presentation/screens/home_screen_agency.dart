@@ -17,6 +17,7 @@ class HomeScreenAgency extends StatelessWidget {
     widht = MediaQuery.of(context).size.width;
     final scaffolKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+        // key: scaffolKey,
         appBar: AppBar(
           backgroundColor: Colors.indigo,
           iconTheme: const IconThemeData(color: Colors.white),

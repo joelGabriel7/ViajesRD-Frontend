@@ -6,6 +6,6 @@ class AppTheme {
   ThemeData getTheme() => ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        brightness: Brightness.light,
+        // brightness: Brightness.,
       );
 }
