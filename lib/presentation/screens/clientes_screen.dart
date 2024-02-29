@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../views/agency/clients_view_by_agency.dart';
+
 class ClientsScreen extends StatelessWidget {
   static const name = 'clients-name';
   const ClientsScreen({super.key});
@@ -11,7 +13,7 @@ class ClientsScreen extends StatelessWidget {
         title: const Text('Clients Screen'),
         centerTitle: true,
       ),
-      body: const Placeholder(),
+      body: const ClientsView(),
     );
   }
 }

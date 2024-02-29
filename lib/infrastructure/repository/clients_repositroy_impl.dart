@@ -7,7 +7,7 @@ class ClientsRepositoryImpl extends ClientsRepository {
   ClientsRepositoryImpl(this.datasources);
 
   @override
-  Future<List<Clients>> getClients() {
-    return datasources.getClients();
+  Future<List<Clients>> getClients({int page = 1}) {
+    return datasources.getClients(page: page);
   }
 }

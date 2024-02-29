@@ -1,5 +1,5 @@
 import 'package:viajes/domain/entity/clients.dart';
 
 abstract class ClientsDatasources {
-  Future<List<Clients>> getClients();
+  Future<List<Clients>> getClients({int page = 1});
 }

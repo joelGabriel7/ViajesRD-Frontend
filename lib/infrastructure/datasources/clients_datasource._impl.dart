@@ -8,7 +8,7 @@ class ClienteApiDatasource extends ClientsDatasources {
   final dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.3:8000'));
 
   @override
-  Future<List<Clients>> getClients() async {
+  Future<List<Clients>> getClients({int page = 1}) async {
     final response = await dio.get('/clients/list');
     List<dynamic> clientsResponse = response.data;
     final List<Clients> clients = clientsResponse
