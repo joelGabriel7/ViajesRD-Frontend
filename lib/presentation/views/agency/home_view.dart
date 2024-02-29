@@ -74,7 +74,7 @@ class HomeView extends StatelessWidget {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: 1.1,
                   crossAxisCount: 2,
-                  mainAxisSpacing: 25,
+                  mainAxisSpacing: 15,
                 ),
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -86,7 +86,7 @@ class HomeView extends StatelessWidget {
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 8),
+                          horizontal: 18, vertical: 8),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
@@ -107,7 +107,10 @@ class HomeView extends StatelessWidget {
                           const SizedBox(
                             height: 15,
                           ),
-                          Center(child: Text(lastFourTitles[index].title)),
+                          Center(
+                              child: Text(
+                            lastFourTitles[index].title,
+                          )),
                         ],
                       ),
                     ),
