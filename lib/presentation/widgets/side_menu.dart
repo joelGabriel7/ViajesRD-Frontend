@@ -16,7 +16,7 @@ class _SideMenuState extends State<SideMenu> {
   @override
   Widget build(BuildContext context) {
     return NavigationDrawer(
-        backgroundColor: Colors.grey.shade50,
+        // backgroundColor: Colors.grey.shade50,
         selectedIndex: navDrawerIndex,
         onDestinationSelected: (value) {
           setState(() {
@@ -24,6 +24,7 @@ class _SideMenuState extends State<SideMenu> {
 
             final menuItem = appMenuItem[value];
             context.push(menuItem.link);
+            widget.scaffolKey.currentState?.closeDrawer();
           });
         },
         children: [

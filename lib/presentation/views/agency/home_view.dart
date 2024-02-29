@@ -1,5 +1,9 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:viajes/config/menu/menu_item.dart';
 
 // import '../../shared/bottom_navigations.dart';
 
@@ -11,16 +15,19 @@ class HomeView extends StatelessWidget {
     required this.titles,
   });
 
-  // ignore: prefer_typing_uninitialized_variables
   final height;
-  // ignore: prefer_typing_uninitialized_variables
   final widht;
-  final List titles;
+  final List<MenuItem> titles;
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final date = DateTime.now();
+    final format = DateFormat('jm').format(date);
+    final lastFourTitles =
+        titles.length >= 4 ? titles.sublist(titles.length - 4) : titles;
     return Container(
-      color: Colors.indigo,
+      color: colors.primary,
       height: height,
       width: widht,
       child: Column(
@@ -29,22 +36,22 @@ class HomeView extends StatelessWidget {
               decoration: const BoxDecoration(),
               height: height * 0.18,
               width: widht,
-              child: const Column(children: [
+              child: Column(children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 60, left: 20, right: 20),
+                  padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
                   child: Column(
                     children: [
-                      Text(
-                        'Agency Name',
+                      const Text(
+                        'Nombre de Agencia',
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 30,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        'Last Update: 24 feb 2024',
-                        style: TextStyle(
-                            color: Colors.white54,
+                        'Ultima actualizacion: $format',
+                        style: const TextStyle(
+                            color: Colors.white,
                             fontSize: 15,
                             letterSpacing: 1),
                       ),
@@ -54,9 +61,9 @@ class HomeView extends StatelessWidget {
               ])),
           Expanded(
             child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
+              decoration: BoxDecoration(
+                color: colors.onSecondary,
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(50),
                 ),
@@ -71,21 +78,11 @@ class HomeView extends StatelessWidget {
                 ),
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: titles.length,
+                itemCount: lastFourTitles.length,
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
-                      final routesMap = {
-                        'Excursions': '/excursions',
-                        'Reservations': '/reservations',
-                        'Clients': '/clients',
-                        'Tourist places': '/touristplaces',
-                      };
-
-                      final route = routesMap[titles[index]];
-                      if (route != null) {
-                        context.push(route);
-                      }
+                      context.push(lastFourTitles[index].link);
                     },
                     child: Container(
                       margin: const EdgeInsets.symmetric(
@@ -102,7 +99,15 @@ class HomeView extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Center(child: Text(titles[index])),
+                          Icon(
+                            lastFourTitles[index].icon,
+                            size: 50,
+                            color: colors.primary,
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Center(child: Text(lastFourTitles[index].title)),
                         ],
                       ),
                     ),

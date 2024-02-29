@@ -7,8 +7,6 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const CategoryView(),
-    );
+    return const CategoryView();
   }
 }

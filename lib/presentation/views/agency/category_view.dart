@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:viajes/domain/entity/category.dart';
 import 'package:viajes/presentation/provider/providers.dart';
 
 import '../../provider/loader.dart';
@@ -39,24 +40,34 @@ class CategoryViewState extends ConsumerState<CategoryView> {
       ));
     }
     final categories = ref.watch(getAllCategoryProvider);
+    return CustomList(categories: categories);
+  }
+}
 
+class CustomList extends StatelessWidget {
+  const CustomList({
+    super.key,
+    required this.categories,
+  });
+
+  final List categories;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Listado de categorias')),
-      body: ListView.builder(
+      body: ListView.separated(
+        separatorBuilder: (context, index) => const Divider(),
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final category = categories[index];
           if (categories.isNotEmpty) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Card(
-                elevation: 6,
-                shadowColor: Colors.grey.shade50,
-                child: ListTile(
-                  contentPadding: const EdgeInsets.all(5.0),
-                  title: Text(category.name),
-                  subtitle: Text(category.description),
-                ),
+              child: ListTile(
+                contentPadding: const EdgeInsets.all(5.0),
+                title: Text(category.name),
+                subtitle: Text(category.description),
               ),
             );
           }

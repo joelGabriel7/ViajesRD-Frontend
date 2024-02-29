@@ -26,7 +26,8 @@ class CategoryNotifier extends StateNotifier<List<Category>> {
     currentPage++;
 
     final List<Category> category = await fetchMoreCategory(page: currentPage);
-    state = [...state, ...category];
+    state = category;
+    // state = [...state, ...category];
 
     await Future.delayed(const Duration(milliseconds: 3000));
     isLoading = false;
