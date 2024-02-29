@@ -6,7 +6,7 @@ import 'package:viajes/infrastructure/mappers/category_mapper.dart';
 import '../models/category_models.dart';
 
 class CategoryApiDatasource extends CategoryDatasource {
-  final dio = Dio(BaseOptions(baseUrl: 'http://192.168.1.3:8000'));
+  final dio = Dio(BaseOptions(baseUrl: 'http://192.168.113.82:8000'));
 
   @override
   Future<List<Category>> getAllCategories({int page = 1}) async {

@@ -10,7 +10,7 @@ class ClientsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Clients Screen'),
+        title: const Text('Listado de clientes'),
         centerTitle: true,
       ),
       body: const ClientsView(),
