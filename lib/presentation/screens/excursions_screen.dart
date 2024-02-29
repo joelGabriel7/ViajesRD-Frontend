@@ -10,7 +10,14 @@ class ExcursionsScreen extends StatelessWidget {
         title: const Text('Excursion Screen'),
         centerTitle: true,
       ),
-      body: const Placeholder(),
+      body: ListView.separated(
+          itemBuilder: (context, index) {
+            return const Text('data');
+          },
+          separatorBuilder: (context, index) => const Divider(),
+          itemCount: 9),
+      floatingActionButton:
+          FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),
     );
   }
 }
