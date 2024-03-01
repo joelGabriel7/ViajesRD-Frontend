@@ -1,4 +1,4 @@
-import 'package:viajes/domain/entity/category.dart';
+import 'package:viajes/infrastructure/models/tourist_places_models.dart';
 
 class TouristPlaces {
   final String name;
@@ -6,7 +6,7 @@ class TouristPlaces {
   final String location;
   final int categoryId;
   final int id;
-  final Category category;
+  final Categories category;
   final List images;
 
   TouristPlaces({
