@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_places_repository.dart';
-import 'package:viajes/presentation/views/agency/tourist_place_view.dart';
 
 import '../../../domain/entity/tourist_places.dart';
 
