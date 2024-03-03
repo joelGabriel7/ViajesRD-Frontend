@@ -18,7 +18,7 @@ class TabBarWidget extends StatelessWidget {
     return Opacity(
       opacity: isSelected ? 1 : 0.5,
       child: Card(
-        margin: EdgeInsets.symmetric(vertical: 4),
+        margin: const EdgeInsets.symmetric(vertical: 4),
         elevation: isSelected ? 1 : 0,
         // color: _backgroundColor,
         child: Padding(

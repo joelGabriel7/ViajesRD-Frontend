@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 
 const heightCategory = 50.0;
-const heightProduct = 120.0;
+const heightProduct = 150.0;
 
 class CategoryItem extends StatelessWidget {
   final String category;
@@ -44,14 +44,24 @@ class TouristPlacesItems extends StatelessWidget {
             // Image.network('https://api-viajesrd.onrender.com/${touristPlaces.images[0].imageUrl}')
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Image.asset(
-                'assets/images/OIP.jpeg',
-                scale: 7.0,
-                fit: BoxFit.cover,
-              ),
+              child: touristPlaces.images.isNotEmpty
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(
+                        'https://api-viajesrd.onrender.com/${touristPlaces.images[0].imageUrl}',
+                        width: 100,
+                        height: 350,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Image.asset(
+                      'assets/images/OIP.jpeg', // Proporciona una imagen predeterminada si no hay imágenes
+                      scale: 7.0,
+                      fit: BoxFit.cover,
+                    ),
             ),
             const SizedBox(
-              width: 10,
+              width: 5,
             ),
             Expanded(
               child: Column(
