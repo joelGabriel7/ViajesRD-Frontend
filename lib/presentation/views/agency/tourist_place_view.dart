@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/provider/categories/categories_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_places_provider.dart';
@@ -82,9 +83,32 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
           .where((places) => places.categoryId == category.id)
           .toList();
 
-      categoryPlaces.addAll(placesInCategory
-          .map((place) => TouristPlacesItems(touristPlaces: place))
-          .toList());
+      categoryPlaces.addAll(placesInCategory.map((place) {
+        return Slidable(
+            startActionPane:
+                ActionPane(motion: const StretchMotion(), children: [
+              SlidableAction(
+                onPressed: (context) {},
+                backgroundColor: const Color(0xFF21CA70),
+                foregroundColor: Colors.white,
+                icon: Icons.edit,
+                label: 'Editar',
+              ),
+            ]),
+            endActionPane: ActionPane(motion: const StretchMotion(), children: [
+              SlidableAction(
+                onPressed: (context) {},
+                backgroundColor: const Color(0xFFFE4A49),
+                foregroundColor: Colors.white,
+                icon: Icons.delete,
+                label: 'Eliminar',
+              ),
+            ]),
+            child: TouristPlacesItems(touristPlaces: place));
+      }).toList());
+      // categoryPlaces.addAll(placesInCategory
+      //     .map((place) => TouristPlacesItems(touristPlaces: place))
+      //     .toList());
     }
 
     void scrollToCategory(int categoryIndex) {
@@ -165,6 +189,15 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: _backgroundColor,
+        child: const Icon(
+          Icons.add,
+          color: Colors.blue,
+        ),
+        // backgroundColor: Colors.blue,
       ),
     );
   }
