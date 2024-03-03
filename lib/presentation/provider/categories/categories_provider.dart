@@ -16,9 +16,17 @@ typedef CategoryCallback = Future<List<Category>> Function({int page});
 class CategoryNotifier extends StateNotifier<List<Category>> {
   int currentPage = 0;
   bool isLoading = false;
+  int selectedCategory = 0;
   CategoryCallback fetchMoreCategory;
 
   CategoryNotifier({required this.fetchMoreCategory}) : super([]);
+
+  int get selectedCategoryIndex => selectedCategory;
+
+  void setSelectCategory(int index) {
+    selectedCategory = index;
+    state = [...state];
+  }
 
   Future<void> loadNextPage() async {
     if (isLoading) return;

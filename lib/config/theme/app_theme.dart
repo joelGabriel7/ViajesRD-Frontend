@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 
 const colorList = <Color>[
-  Colors.red,
   Colors.blue,
-  Colors.pink,
-  Colors.purple,
-  Colors.green,
-  Colors.amber,
-  Colors.brown,
 ];
 
 class AppTheme {
@@ -21,8 +15,8 @@ class AppTheme {
 
   ThemeData getTheme({required int selectedColor, required bool isDarkMode}) =>
       ThemeData(
-          useMaterial3: true,
           brightness: isDarkMode ? Brightness.dark : Brightness.light,
+          cardTheme: const CardTheme(color: Colors.white),
           colorSchemeSeed: colorList[selectedColor],
           appBarTheme: const AppBarTheme(centerTitle: true));
 

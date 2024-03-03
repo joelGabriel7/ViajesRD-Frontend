@@ -5,7 +5,7 @@ class TouristPlacesResponses {
   final int categoryId;
   final int id;
   final Categories category;
-  final List<Image> images;
+  final List<Images> images;
 
   TouristPlacesResponses({
     required this.name,
@@ -25,7 +25,8 @@ class TouristPlacesResponses {
         categoryId: json["category_id"],
         id: json["id"],
         category: Categories.fromJson(json["category"]),
-        images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+        images:
+            List<Images>.from(json["images"].map((x) => Images.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,16 +60,16 @@ class Categories {
       };
 }
 
-class Image {
+class Images {
   final int id;
   final String imageUrl;
 
-  Image({
+  Images({
     required this.id,
     required this.imageUrl,
   });
 
-  factory Image.fromJson(Map<String, dynamic> json) => Image(
+  factory Images.fromJson(Map<String, dynamic> json) => Images(
         id: json["id"],
         imageUrl: json["image_url"],
       );
