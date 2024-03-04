@@ -106,9 +106,6 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
             ]),
             child: TouristPlacesItems(touristPlaces: place));
       }).toList());
-      // categoryPlaces.addAll(placesInCategory
-      //     .map((place) => TouristPlacesItems(touristPlaces: place))
-      //     .toList());
     }
 
     void scrollToCategory(int categoryIndex) {
@@ -181,10 +178,18 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
                 ),
               ),
               Expanded(
-                  child: ListView(
-                controller: scrollController,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                children: categoryPlaces,
+                  child: RefreshIndicator(
+                onRefresh: ref
+                    .read(getTouristPlacesProvider.notifier)
+                    .loadTouristPlaces,
+                child: ListView.builder(
+                  itemCount: categoryPlaces.length,
+                  controller: scrollController,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  itemBuilder: (context, index) {
+                    return categoryPlaces[index];
+                  },
+                ),
               ))
             ],
           ),

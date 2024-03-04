@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 
@@ -31,6 +32,8 @@ class TouristPlacesItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return SizedBox(
       height: heightProduct,
       child: Card(
@@ -41,28 +44,33 @@ class TouristPlacesItems extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: Row(
           children: [
-            // Image.network('https://api-viajesrd.onrender.com/${touristPlaces.images[0].imageUrl}')
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: touristPlaces.images.isNotEmpty
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
+            //* Images
+            touristPlaces.images.isNotEmpty
+                ? SizedBox(
+                    width: size.width * 0.3,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
                       child: Image.network(
                         'https://api-viajesrd.onrender.com/${touristPlaces.images[0].imageUrl}',
-                        width: 100,
                         height: 350,
                         fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) =>
+                            FadeIn(
+                                delay: const Duration(milliseconds: 600),
+                                child: child),
                       ),
-                    )
-                  : Image.asset(
-                      'assets/images/OIP.jpeg', // Proporciona una imagen predeterminada si no hay imágenes
-                      scale: 7.0,
-                      fit: BoxFit.cover,
                     ),
-            ),
+                  )
+                : Image.asset(
+                    'assets/images/OIP.jpeg', // Proporciona una imagen predeterminada si no hay imágenes
+                    scale: 7.0,
+                    fit: BoxFit.cover,
+                  ),
             const SizedBox(
-              width: 5,
+              width: 10,
             ),
+
+            //* Data
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
