@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 
 const heightCategory = 50.0;
@@ -51,14 +52,24 @@ class TouristPlacesItems extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
-                        'https://apiviajesrd.info/${touristPlaces.images[0].imageUrl}',
-                        height: 350,
-                        fit: BoxFit.cover,
-                        loadingBuilder: (context, child, loadingProgress) =>
-                            FadeIn(
-                                delay: const Duration(milliseconds: 600),
-                                child: child),
-                      ),
+                          'https://apiviajesrd.info/${touristPlaces.images[0].imageUrl}',
+                          height: 350,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress != null) {
+                          return const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                                child:
+                                    CircularProgressIndicator(strokeWidth: 2)),
+                          );
+                        }
+
+                        return GestureDetector(
+                            onTap: () => context
+                                .push('/touristplaces/${touristPlaces.id}'),
+                            child: FadeIn(child: child));
+                      }),
                     ),
                   )
                 : SizedBox(

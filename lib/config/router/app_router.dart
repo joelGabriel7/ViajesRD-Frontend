@@ -4,6 +4,7 @@ import 'package:viajes/presentation/screens/clientes_screen.dart';
 import 'package:viajes/presentation/screens/excursions_screen.dart';
 import 'package:viajes/presentation/screens/home_screen_agency.dart';
 import 'package:viajes/presentation/screens/reservations_screen.dart';
+import 'package:viajes/presentation/screens/tourist_place_details.dart';
 import 'package:viajes/presentation/screens/tourist_place_screen.dart';
 
 final appRouter = GoRouter(routes: [
@@ -28,6 +29,13 @@ final appRouter = GoRouter(routes: [
     path: '/touristplaces',
     builder: (context, state) => const TouristPlaceScreen(),
   ),
+  GoRoute(
+      path: '/touristplaces/:id',
+      builder: (context, state) {
+        final String isId = state.pathParameters['id']!;
+        final int id = int.parse(isId);
+        return TouristPlaceDetailsScreen(touristPlaceId: id);
+      }),
   GoRoute(
     path: '/categories',
     builder: (context, state) => const CategoryScreen(),
