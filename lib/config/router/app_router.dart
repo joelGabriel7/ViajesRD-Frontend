@@ -4,8 +4,8 @@ import 'package:viajes/presentation/screens/clientes_screen.dart';
 import 'package:viajes/presentation/screens/excursions_screen.dart';
 import 'package:viajes/presentation/screens/home_screen_agency.dart';
 import 'package:viajes/presentation/screens/reservations_screen.dart';
-import 'package:viajes/presentation/screens/tourist_place_details.dart';
-import 'package:viajes/presentation/screens/tourist_place_screen.dart';
+import 'package:viajes/presentation/screens/Tourists%20Places/details/tourist_place_details.dart';
+import 'package:viajes/presentation/screens/Tourists%20Places/tourist_place_screen.dart';
 
 final appRouter = GoRouter(routes: [
   GoRoute(

@@ -5,8 +5,8 @@ import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/provider/categories/categories_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_places_provider.dart';
 
-import '../../widgets/items_tabBar_listview.dart';
-import '../../widgets/tabBar_widget.dart';
+import '../../widgets/items_tabbar_listview.dart';
+import '../../widgets/tabbar_widget.dart';
 
 const _backgroundColor = Color(0xFFF6F7FA);
 

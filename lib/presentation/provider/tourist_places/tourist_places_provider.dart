@@ -27,14 +27,3 @@ class TouristPlacesNotifier extends StateNotifier<List<TouristPlaces>> {
     state = touristPlaces;
   }
 }
-
-// class CategoryProvider with ChangeNotifier {
-//   void init() {}
-// }
-
-// class CategoryTab {
-//   final CategoryItem category;
-//   final bool selected;
-
-//   CategoryTab({required this.category, required this.selected});
-// }
