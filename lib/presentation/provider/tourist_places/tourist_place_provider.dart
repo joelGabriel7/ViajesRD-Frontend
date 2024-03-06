@@ -21,6 +21,6 @@ class TouristPlaceMapNotifier extends StateNotifier<Map<int, TouristPlaces>> {
     if (state[placeId] != null) return;
 
     final place = await getPlace(placeId);
-    state = {...state, placeId: place};
+    state = {placeId: place};
   }
 }

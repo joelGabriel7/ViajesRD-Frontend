@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants/constants.dart';
+
 const colorList = <Color>[
   Colors.blue,
 ];
@@ -15,10 +17,28 @@ class AppTheme {
 
   ThemeData getTheme({required int selectedColor, required bool isDarkMode}) =>
       ThemeData(
+          fontFamily: 'Muli',
           brightness: isDarkMode ? Brightness.dark : Brightness.light,
           cardTheme: const CardTheme(color: Colors.white),
           colorSchemeSeed: colorList[selectedColor],
-          appBarTheme: const AppBarTheme(centerTitle: true));
+          appBarTheme: appBarTheme(selectedColor),
+          visualDensity: VisualDensity.adaptivePlatformDensity);
+
+  TextTheme textTheme() {
+    return const TextTheme(
+      bodyLarge: TextStyle(color: kTextColor, fontSize: 12),
+      bodyMedium: TextStyle(color: kTextColor),
+      titleLarge: TextStyle(color: Color(0XFF8B8B8B), fontSize: 18),
+    );
+  }
+
+  AppBarTheme appBarTheme(int selectedColor) {
+    return AppBarTheme(
+      centerTitle: true,
+      elevation: 0,
+      iconTheme: IconThemeData(color: colorList[selectedColor]),
+    );
+  }
 
   AppTheme copyWith({int? selectedColor, bool? isDarkMode}) => AppTheme(
         selectedColor: selectedColor ?? this.selectedColor,
