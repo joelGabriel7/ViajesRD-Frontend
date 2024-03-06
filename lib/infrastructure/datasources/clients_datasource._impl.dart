@@ -5,7 +5,7 @@ import 'package:viajes/infrastructure/mappers/clients_mapper.dart';
 import 'package:viajes/infrastructure/models/clients_models.dart';
 
 class ClienteApiDatasource extends ClientsDatasources {
-  final dio = Dio(BaseOptions(baseUrl: 'https://api-viajesrd.onrender.com'));
+  final dio = Dio(BaseOptions(baseUrl: 'https://apiviajesrd.info'));
 
   @override
   Future<List<Clients>> getClients({int page = 1}) async {

@@ -51,7 +51,7 @@ class TouristPlacesItems extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
-                        'https://api-viajesrd.onrender.com/${touristPlaces.images[0].imageUrl}',
+                        'https://apiviajesrd.info/${touristPlaces.images[0].imageUrl}',
                         height: 350,
                         fit: BoxFit.cover,
                         loadingBuilder: (context, child, loadingProgress) =>
@@ -61,10 +61,16 @@ class TouristPlacesItems extends StatelessWidget {
                       ),
                     ),
                   )
-                : Image.asset(
-                    'assets/images/OIP.jpeg', // Proporciona una imagen predeterminada si no hay imágenes
-                    scale: 7.0,
-                    fit: BoxFit.cover,
+                : SizedBox(
+                    width: size.width * 0.3,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset(
+                        'assets/images/OIP.jpeg', // Proporciona una imagen predeterminada si no hay imágenes
+                        scale: 7.0,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
             const SizedBox(
               width: 10,

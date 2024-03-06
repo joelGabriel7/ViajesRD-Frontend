@@ -5,8 +5,7 @@ import 'package:viajes/infrastructure/mappers/tourist_places_mapper.dart';
 import 'package:viajes/infrastructure/models/tourist_places_models.dart';
 
 class TouristPlacesApiDatasources extends TouristPlacesDatasources {
-  final dio = Dio(BaseOptions(baseUrl: 'https://api-viajesrd.onrender.com'));
-
+  final dio = Dio(BaseOptions(baseUrl: 'https://apiviajesrd.info'));
   @override
   Future<List<TouristPlaces>> getTouristPlaces({int page = 1}) async {
     final response = await dio.get('/tourist_place/list');
