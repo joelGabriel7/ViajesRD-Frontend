@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:viajes/presentation/provider/providers.dart';
-
 import '../../provider/loader.dart';
 
 class ClientsView extends ConsumerStatefulWidget {
-  const ClientsView({
-    super.key,
-  });
+  const ClientsView({super.key});
 
   @override
   ClientsViewState createState() => ClientsViewState();
@@ -32,26 +29,39 @@ class ClientsViewState extends ConsumerState<ClientsView> {
     }
     final clients = ref.watch(getClientsProvider);
 
-    return ListView.separated(
-      separatorBuilder: (context, index) => const Divider(),
-      itemCount: clients.length,
-      itemBuilder: (context, index) {
-        final client = clients[index];
-        if (clients.isNotEmpty) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
+    return RefreshIndicator(
+      onRefresh: () async {
+        ref.watch(getClientsProvider.notifier).loadClients();
+      },
+      child: ListView.builder(
+        itemCount: clients.length,
+        itemBuilder: (context, index) {
+          final client = clients[index];
+          return Card(
+            elevation: 0,
+            margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10), // Bordes redondeados
+            ),
             child: ExpansionTile(
-              leading: const Icon(
-                Icons.person,
-                size: 50,
+              leading: CircleAvatar(
+                backgroundColor: Colors.blue,
+                child: Text(
+                  client.firstName[0],
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
               title: Text(
                 '${client.firstName} ${client.lastName}',
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.blue.shade300),
               ),
               children: <Widget>[
                 ListTile(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   title: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -69,35 +79,33 @@ class ClientsViewState extends ConsumerState<ClientsView> {
               ],
             ),
           );
-        }
-        return const CircularProgressIndicator(
-          strokeWidth: 2,
-        );
-      },
+        },
+      ),
     );
   }
-}
 
-Widget _buildRichText(String label, String value) {
-  return Padding(
-    padding: const EdgeInsets.only(top: 4.0),
-    child: RichText(
-      text: TextSpan(
-        text: label,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          color: Colors.black, // Asegúrate de que el color sea legible
-        ),
-        children: <TextSpan>[
-          TextSpan(
-            text: value,
-            style: const TextStyle(
-              fontWeight: FontWeight.normal,
-              color: Colors.black,
-            ),
+  Widget _buildRichText(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 4.0),
+      child: RichText(
+        text: TextSpan(
+          text: label,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
           ),
-        ],
+          children: <TextSpan>[
+            TextSpan(
+              text: value,
+              style: const TextStyle(
+                fontWeight: FontWeight.normal,
+                color: Colors
+                    .grey, // Cambia el color para darle un estilo distinto
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
