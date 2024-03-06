@@ -34,7 +34,7 @@ final appRouter = GoRouter(routes: [
       builder: (context, state) {
         final String isId = state.pathParameters['id']!;
         final int id = int.parse(isId);
-        return TouristPlaceDetailsScreen(touristPlaceId: id);
+        return TouristPlaceDetailsScreen(placeId: id);
       }),
   GoRoute(
     path: '/categories',

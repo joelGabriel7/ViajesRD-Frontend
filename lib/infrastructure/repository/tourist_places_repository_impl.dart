@@ -10,4 +10,9 @@ class TouristPlacesRepositoryImpl extends TouristPlacesRepository {
   Future<List<TouristPlaces>> getTouristPlaces({int page = 1}) {
     return datasource.getTouristPlaces(page: page);
   }
+
+  @override
+  Future<TouristPlaces> getTouristPlacesById(int id) {
+    return datasource.getTouristPlacesById(id);
+  }
 }
