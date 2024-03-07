@@ -43,7 +43,7 @@ class TouristPlaceDetailsScreenState
         iconData: Icons.arrow_back,
         press: () => context.pop(),
       )),
-      body: PlaceDetailBodyView(places: place),
+      body: PlaceDetailBody(places: place),
     );
   }
 }
