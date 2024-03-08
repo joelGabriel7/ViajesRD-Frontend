@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/provider/categories/categories_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_places_provider.dart';
@@ -88,7 +89,9 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
             startActionPane:
                 ActionPane(motion: const StretchMotion(), children: [
               SlidableAction(
-                onPressed: (context) {},
+                onPressed: (context) {
+                  context.push('/new/touristplaces');
+                },
                 backgroundColor: const Color(0xFF21CA70),
                 foregroundColor: Colors.white,
                 icon: Icons.edit,
@@ -97,7 +100,24 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
             ]),
             endActionPane: ActionPane(motion: const StretchMotion(), children: [
               SlidableAction(
-                onPressed: (context) {},
+                onPressed: (context) {
+                  showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: const Text(
+                          'Estas seguro de eliminar esta lugar turistico?'),
+                      actions: [
+                        TextButton(
+                            onPressed: () => context.pop(),
+                            child: const Text('Cancelar')),
+                        FilledButton(
+                            onPressed: () => context.pop(),
+                            child: const Text('Aceptar')),
+                      ],
+                    ),
+                  );
+                },
                 backgroundColor: const Color(0xFFFE4A49),
                 foregroundColor: Colors.white,
                 icon: Icons.delete,
@@ -196,7 +216,9 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          context.push('/new/touristplaces');
+        },
         backgroundColor: _backgroundColor,
         child: const Icon(
           Icons.add,

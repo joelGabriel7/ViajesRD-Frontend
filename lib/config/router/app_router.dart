@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:viajes/presentation/screens/Tourists%20Places/tourist_place_created_screen.dart';
 import 'package:viajes/presentation/screens/category_screen.dart';
 import 'package:viajes/presentation/screens/clientes_screen.dart';
 import 'package:viajes/presentation/screens/excursions_screen.dart';
@@ -36,6 +37,10 @@ final appRouter = GoRouter(routes: [
         final int id = int.parse(isId);
         return TouristPlaceDetailsScreen(placeId: id);
       }),
+  GoRoute(
+    path: '/new/touristplaces',
+    builder: (context, state) => const TouristPlacesCreateScreen(),
+  ),
   GoRoute(
     path: '/categories',
     builder: (context, state) => const CategoryScreen(),
