@@ -23,13 +23,16 @@ class _PlaceImagesState extends State<PlaceImages> {
     return Column(
       children: [
         SizedBox(
-          width: 500,
-          height: 275,
-          child: AspectRatio(
-            aspectRatio: 1,
-            child: Image.network(
-              widget.base + widget.places.images[selectedImage].imageUrl,
-              fit: BoxFit.cover,
+          width: double.infinity,
+          height: 300,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: Image.network(
+                widget.base + widget.places.images[selectedImage].imageUrl,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),

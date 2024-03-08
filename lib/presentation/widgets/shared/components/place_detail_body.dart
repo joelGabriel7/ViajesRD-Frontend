@@ -35,11 +35,14 @@ class PlaceDetailBody extends StatelessWidget {
                         places: places, textStyles: textStyles),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: DefaultButton(
-                    text: 'Crea una excursión',
-                    press: () {},
+                Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: DefaultButton(
+                      text: 'Crea una excursión',
+                      press: () {},
+                    ),
                   ),
                 ),
               ],
