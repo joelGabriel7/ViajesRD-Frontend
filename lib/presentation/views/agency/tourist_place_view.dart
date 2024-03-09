@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
+import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/provider/categories/categories_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_places_provider.dart';
@@ -92,7 +93,8 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
                 onPressed: (context) {
                   context.push('/new/touristplaces');
                 },
-                backgroundColor: const Color(0xFF21CA70),
+                backgroundColor: TColors.success,
+                // backgroundColor: const Color(0xFF21CA70),
                 foregroundColor: Colors.white,
                 icon: Icons.edit,
                 label: 'Editar',
@@ -118,7 +120,8 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
                     ),
                   );
                 },
-                backgroundColor: const Color(0xFFFE4A49),
+                backgroundColor: TColors.error,
+                // backgroundColor: const Color(0xFFFE4A49),
                 foregroundColor: Colors.white,
                 icon: Icons.delete,
                 label: 'Eliminar',
@@ -145,8 +148,6 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
         offset += placesCount * heightProduct;
       }
 
-      // Desplázate a la posición calculada.
-
       scrollController
           .animateTo(
             offset,
@@ -164,7 +165,7 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: TColors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: const Text('Zonas turisticas'),

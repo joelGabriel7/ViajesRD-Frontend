@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:viajes/config/router/app_router.dart';
 import 'package:viajes/config/theme/app_theme.dart';
+import 'package:viajes/utils/theme/theme.dart';
 
 void main() {
   runApp(const ProviderScope(child: MainApp()));
@@ -16,6 +17,7 @@ class MainApp extends StatelessWidget {
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
       theme: AppTheme().getTheme(selectedColor: 0, isDarkMode: false),
+      darkTheme: TAppTheme.darkTheme,
     );
   }
 }

@@ -17,7 +17,7 @@ class AppTheme {
 
   ThemeData getTheme({required int selectedColor, required bool isDarkMode}) =>
       ThemeData(
-          fontFamily: 'Muli',
+          fontFamily: 'Poppins',
           brightness: isDarkMode ? Brightness.dark : Brightness.light,
           cardTheme: const CardTheme(color: Colors.white),
           colorSchemeSeed: colorList[selectedColor],
