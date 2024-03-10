@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viajes/config/constants/colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -12,6 +13,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? TColors.dark : TColors.white;
+
     return SafeArea(
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
@@ -23,7 +28,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             height: 150,
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
             decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+                color: backgroundColor,
+                borderRadius: BorderRadius.circular(10)),
             child: Row(
               children: [
                 const Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/presentation/provider/providers.dart';
 
 import '../../provider/loader.dart';
@@ -21,6 +22,12 @@ class ClientsViewState extends ConsumerState<ClientsView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    // Usamos colorScheme para tener colores que se adaptan al tema.
+    final isDarkMode = theme.brightness == Brightness.dark;
+
+    // Establece los colores basados en si es modo claro u oscuro.
+    final backgroundColor = isDarkMode ? TColors.dark : TColors.white;
     final initialLoading = ref.watch(initlLoadingProvider);
     if (initialLoading) {
       return const Center(
@@ -39,6 +46,7 @@ class ClientsViewState extends ConsumerState<ClientsView> {
         itemBuilder: (context, index) {
           final client = clients[index];
           return Card(
+            color: backgroundColor,
             elevation: 0,
             margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             shape: RoundedRectangleBorder(

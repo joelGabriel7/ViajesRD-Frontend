@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/menu/menu_item.dart';
 
 // import '../../shared/bottom_navigations.dart';
@@ -21,13 +22,19 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDarkMode = theme.brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? TColors.dark : colorScheme.primary;
+    final textColor = isDarkMode ? TColors.textWhite : TColors.textWhite;
+    final iconColor = isDarkMode ? TColors.black : colorScheme.primary;
+
     final date = DateTime.now();
     final format = DateFormat('jm').format(date);
     final lastFourTitles =
         titles.length >= 4 ? titles.sublist(titles.length - 4) : titles;
     return Container(
-      color: colors.primary,
+      color: backgroundColor,
       height: height,
       width: widht,
       child: Column(
@@ -41,19 +48,17 @@ class HomeView extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
                   child: Column(
                     children: [
-                      const Text(
+                      Text(
                         'Nombre de Agencia',
                         style: TextStyle(
-                            color: Colors.white,
+                            color: textColor,
                             fontSize: 30,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         'Ultima actualizacion: $format',
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            letterSpacing: 1),
+                        style: TextStyle(
+                            color: textColor, fontSize: 15, letterSpacing: 1),
                       ),
                     ],
                   ),
@@ -61,9 +66,9 @@ class HomeView extends StatelessWidget {
               ])),
           Expanded(
             child: Container(
-              decoration: BoxDecoration(
-                color: colors.onSecondary,
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                color: TColors.light,
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
                 ),
@@ -88,7 +93,7 @@ class HomeView extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(
                           horizontal: 18, vertical: 15),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: TColors.white,
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: const [
                             BoxShadow(
@@ -102,7 +107,7 @@ class HomeView extends StatelessWidget {
                           Icon(
                             lastFourTitles[index].icon,
                             size: 50,
-                            color: colors.primary,
+                            color: iconColor,
                           ),
                           const SizedBox(
                             height: 15,
@@ -110,6 +115,7 @@ class HomeView extends StatelessWidget {
                           Center(
                               child: Text(
                             lastFourTitles[index].title,
+                            style: TextStyle(color: iconColor),
                           )),
                         ],
                       ),

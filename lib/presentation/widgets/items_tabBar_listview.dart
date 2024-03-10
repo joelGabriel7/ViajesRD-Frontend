@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 
 const heightCategory = 50.0;
@@ -14,8 +15,11 @@ class CategoryItem extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? TColors.dark : TColors.white;
     return Container(
-      color: Colors.white,
+      color: backgroundColor,
       height: heightCategory,
       alignment: Alignment.centerLeft,
       child: Text(
@@ -34,11 +38,14 @@ class TouristPlacesItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? TColors.dark : TColors.white;
 
     return SizedBox(
       height: heightProduct,
       child: Card(
-        color: Colors.white,
+        color: backgroundColor,
         margin: const EdgeInsets.symmetric(vertical: 2),
         elevation: 0,
         shadowColor: Colors.black26,
@@ -57,11 +64,13 @@ class TouristPlacesItems extends StatelessWidget {
                           fit: BoxFit.cover,
                           loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress != null) {
-                          return const Padding(
-                            padding: EdgeInsets.all(8.0),
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
                             child: Center(
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2)),
+                                child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: backgroundColor,
+                            )),
                           );
                         }
 

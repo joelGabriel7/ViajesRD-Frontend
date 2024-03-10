@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:viajes/config/router/app_router.dart';
 import 'package:viajes/config/theme/app_theme.dart';
-import 'package:viajes/utils/theme/theme.dart';
 
 void main() {
   runApp(const ProviderScope(child: MainApp()));
@@ -13,11 +12,16 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Asegúrate de que AppTheme tiene configuraciones para el tema oscuro
+    final appTheme = AppTheme();
+
     return MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme().getTheme(selectedColor: 0, isDarkMode: false),
-      darkTheme: TAppTheme.darkTheme,
+      theme:
+          appTheme.getTheme(selectedColor: 0, isDarkMode: false), // Tema claro
+      // darkTheme:appTheme.getTheme(selectedColor: 0, isDarkMode: true), // Tema oscuro
+      // Usar el tema basado en la configuración del dispositivo
     );
   }
 }

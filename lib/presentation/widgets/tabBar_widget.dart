@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viajes/config/constants/colors.dart';
 
 class TabBarWidget extends StatelessWidget {
   final String category;
@@ -14,13 +15,16 @@ class TabBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? TColors.dark : TColors.white;
     bool isSelected = tabController.index == index;
     return Opacity(
       opacity: isSelected ? 1 : 0.5,
       child: Card(
         margin: const EdgeInsets.symmetric(vertical: 4),
         elevation: isSelected ? 1 : 0,
-        // color: _backgroundColor,
+        color: backgroundColor,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(

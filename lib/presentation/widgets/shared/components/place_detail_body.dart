@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/theme/app_theme.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/widgets/shared/components/places_images.dart';
@@ -16,7 +17,9 @@ class PlaceDetailBody extends StatelessWidget {
     // Create an instance of AppTheme to access your text themes
     final appTheme = AppTheme();
 
-    // Use the text theme directly
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? TColors.dark : TColors.white;
     final textStyles = appTheme.textTheme();
     const String base = 'https://apiviajesrd.info/';
 
@@ -28,7 +31,7 @@ class PlaceDetailBody extends StatelessWidget {
               children: [
                 PlaceImages(base: base, places: places),
                 TopRoundedContainer(
-                  color: Colors.white,
+                  color: backgroundColor,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: PlacesDescriptions(
@@ -36,7 +39,7 @@ class PlaceDetailBody extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  color: Colors.white,
+                  color: backgroundColor,
                   child: Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: DefaultButton(

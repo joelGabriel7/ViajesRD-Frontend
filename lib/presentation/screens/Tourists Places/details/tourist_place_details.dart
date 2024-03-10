@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_place_provider.dart';
 
@@ -27,6 +28,9 @@ class TouristPlaceDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? TColors.dark : TColors.white;
     final TouristPlaces? place = ref.watch(placeInfoProvider)[widget.placeId];
     if (place == null) {
       return const Center(
@@ -37,7 +41,7 @@ class TouristPlaceDetailsScreenState
     }
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6F9),
+      backgroundColor: backgroundColor,
       appBar: CustomAppBar(
           customAppBar: RoundendIconBtn(
         iconData: Icons.arrow_back,

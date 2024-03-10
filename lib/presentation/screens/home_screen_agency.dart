@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/menu/menu_item.dart';
 import 'package:viajes/presentation/widgets/bottom_navigations.dart';
 import 'package:viajes/presentation/widgets/side_menu.dart';
@@ -14,14 +15,17 @@ class HomeScreenAgency extends StatelessWidget {
   HomeScreenAgency({super.key});
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    final colorScheme = theme.colorScheme;
+    final backgroundColor = isDarkMode ? TColors.dark : colorScheme.primary;
     height = MediaQuery.of(context).size.height;
     widht = MediaQuery.of(context).size.width;
-    final colors = Theme.of(context).colorScheme;
     final scaffolKey = GlobalKey<ScaffoldState>();
     return Scaffold(
         key: scaffolKey,
         appBar: AppBar(
-          backgroundColor: colors.primary,
+          backgroundColor: backgroundColor,
           iconTheme: const IconThemeData(color: Colors.white),
         ),
         bottomNavigationBar: const BottomNavigations(),

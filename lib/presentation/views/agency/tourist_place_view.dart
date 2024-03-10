@@ -73,9 +73,13 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
+    final backgroundColor = isDarkMode ? TColors.dark : TColors.white;
+
     final touristPlacesProvider = ref.watch(getTouristPlacesProvider);
     final categories = ref.watch(getAllCategoryProvider);
-
+    //* Show de categories and places */
     List<Widget> categoryPlaces = [];
 
     for (final category in categories) {
@@ -94,8 +98,7 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
                   context.push('/new/touristplaces');
                 },
                 backgroundColor: TColors.success,
-                // backgroundColor: const Color(0xFF21CA70),
-                foregroundColor: Colors.white,
+                foregroundColor: TColors.white,
                 icon: Icons.edit,
                 label: 'Editar',
               ),
@@ -122,7 +125,7 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
                 },
                 backgroundColor: TColors.error,
                 // backgroundColor: const Color(0xFFFE4A49),
-                foregroundColor: Colors.white,
+                foregroundColor: TColors.white,
                 icon: Icons.delete,
                 label: 'Eliminar',
               ),
@@ -165,9 +168,9 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
     }
 
     return Scaffold(
-      backgroundColor: TColors.white,
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundColor,
         title: const Text('Zonas turisticas'),
       ),
       body: SafeArea(
@@ -177,26 +180,25 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
-                color: Colors.white,
+                color: backgroundColor,
                 height: 60,
                 child: TabBar(
-                  onTap: (value) {
-                    ref
-                        .watch(getAllCategoryProvider.notifier)
-                        .setSelectCategory(value);
-                    scrollToCategory(value);
-                  },
-                  controller: _tabController,
-                  tabs: List.generate(
-                      categories.length,
-                      (index) => TabBarWidget(
-                          category: categories[index].name,
-                          index: index,
-                          tabController: _tabController)),
-                  isScrollable: true,
-                  indicatorWeight: 0.1,
-                  indicatorColor: _backgroundColor,
-                ),
+                    onTap: (value) {
+                      ref
+                          .watch(getAllCategoryProvider.notifier)
+                          .setSelectCategory(value);
+                      scrollToCategory(value);
+                    },
+                    controller: _tabController,
+                    tabs: List.generate(
+                        categories.length,
+                        (index) => TabBarWidget(
+                            category: categories[index].name,
+                            index: index,
+                            tabController: _tabController)),
+                    isScrollable: true,
+                    indicatorWeight: 0.1,
+                    indicatorColor: backgroundColor),
               ),
               Expanded(
                   child: RefreshIndicator(
@@ -220,7 +222,7 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
         onPressed: () {
           context.push('/new/touristplaces');
         },
-        backgroundColor: _backgroundColor,
+        backgroundColor: backgroundColor,
         child: const Icon(
           Icons.add,
           color: Colors.blue,
