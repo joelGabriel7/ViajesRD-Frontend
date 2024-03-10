@@ -10,8 +10,6 @@ import 'package:viajes/presentation/provider/tourist_places/tourist_places_provi
 import '../../widgets/items_tabbar_listview.dart';
 import '../../widgets/tabbar_widget.dart';
 
-const _backgroundColor = Color(0xFFF6F7FA);
-
 class TouristPlacesView extends ConsumerStatefulWidget {
   const TouristPlacesView({super.key});
 
