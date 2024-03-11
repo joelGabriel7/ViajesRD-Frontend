@@ -28,4 +28,11 @@ class TouristPlacesRepositoryImpl extends TouristPlacesRepository {
   Future<List<String>> uploadImages(int touristPlaceId, List<File> images) {
     return datasource.uploadImages(touristPlaceId, images);
   }
+
+  @override
+  Future<TouristPlaces> updateTouristPlaces(int id, String name,
+      String description, String location, int categoryId) {
+    return datasource.updateTouristPlaces(
+        id, name, description, location, categoryId);
+  }
 }

@@ -94,4 +94,11 @@ class TouristPlacesApiDatasources extends TouristPlacesDatasources {
       rethrow;
     }
   }
+
+  @override
+  Future<TouristPlaces> updateTouristPlaces(int id, String name,
+      String description, String location, int categoryId) {
+    // TODO: implement updateTouristPlaces
+    throw UnimplementedError();
+  }
 }
