@@ -6,7 +6,6 @@ final placeInfoProvider =
     StateNotifierProvider<TouristPlaceMapNotifier, Map<int, TouristPlaces>>(
         (ref) {
   final placeRepository = ref.watch(touristPlaceProvider);
-
   return TouristPlaceMapNotifier(
       getPlace: placeRepository.getTouristPlacesById);
 });

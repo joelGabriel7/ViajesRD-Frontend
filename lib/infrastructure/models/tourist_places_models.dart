@@ -19,14 +19,17 @@ class TouristPlacesResponses {
 
   factory TouristPlacesResponses.fromJson(Map<String, dynamic> json) =>
       TouristPlacesResponses(
-        name: json["name"],
-        description: json["description"],
-        location: json["location"],
-        categoryId: json["category_id"],
-        id: json["id"],
-        category: Categories.fromJson(json["category"]),
-        images:
-            List<Images>.from(json["images"].map((x) => Images.fromJson(x))),
+        name: json["name"] ?? '',
+        description: json["description"] ?? '',
+        location: json["location"] ?? '',
+        categoryId: json["category_id"] ?? 0,
+        id: json["id"] ?? 0,
+        category: json["category"] != null
+            ? Categories.fromJson(json["category"])
+            : Categories(name: '', codeCategory: ''),
+        images: json["images"] != null
+            ? List<Images>.from(json["images"].map((x) => Images.fromJson(x)))
+            : [],
       );
 
   Map<String, dynamic> toJson() => {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:viajes/domain/datasource/tourist_places_datasources.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/domain/repository/tourist_places_repository.dart';
@@ -14,5 +16,16 @@ class TouristPlacesRepositoryImpl extends TouristPlacesRepository {
   @override
   Future<TouristPlaces> getTouristPlacesById(int id) {
     return datasource.getTouristPlacesById(id);
+  }
+
+  @override
+  Future<TouristPlaces> addTouristPlaces(
+      String name, String description, String location, int categoryId) {
+    return datasource.addTouristPlaces(name, description, location, categoryId);
+  }
+
+  @override
+  Future<List<String>> uploadImages(int touristPlaceId, List<File> images) {
+    return datasource.uploadImages(touristPlaceId, images);
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:viajes/domain/datasource/tourist_places_datasources.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
@@ -34,5 +36,62 @@ class TouristPlacesApiDatasources extends TouristPlacesDatasources {
         TouristPlacesMapper.touristPlacesToEntityDetail(touristPlacesDetails);
 
     return places;
+  }
+
+  @override
+  Future<TouristPlaces> addTouristPlaces(
+      String name, String description, String location, int categoryId) async {
+    try {
+      final response = await dio.post('/tourist_place/create', data: {
+        'name': name,
+        'description': description,
+        'location': location,
+        'category_id': categoryId,
+      });
+      if (response.data != null && response.data is Map<String, dynamic>) {
+        final responses = TouristPlacesResponses.fromJson(response.data);
+        final entity = TouristPlacesMapper.touristPlacesToEntity(responses);
+        return entity;
+      } else {
+        throw Exception('Failed to load tourist places');
+      }
+    } on DioException {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<String>> uploadImages(
+      int touristPlaceId, List<File> images) async {
+    var formData = FormData();
+
+    for (var image in images) {
+      String fileName = image.path.split('/').last;
+      formData.files.add(MapEntry(
+        "files",
+        await MultipartFile.fromFile(image.path, filename: fileName),
+      ));
+    }
+
+    try {
+      Options options = Options(
+        contentType: Headers.formUrlEncodedContentType,
+      );
+
+      final response = await dio.post(
+          '/tourist_place/${touristPlaceId}/images/',
+          data: formData,
+          options: options);
+
+      if (response.statusCode == 200 && response.data is Map) {
+        List<String> imageUrls = List<String>.from(response.data['images']
+            .map((image) => image['image_url'].toString()));
+        return imageUrls;
+      } else {
+        throw Exception('Unexpected server response');
+      }
+    } on DioException {
+      rethrow;
+    }
   }
 }
