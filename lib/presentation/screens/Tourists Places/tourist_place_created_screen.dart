@@ -1,14 +1,18 @@
 import 'dart:io';
-
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/text_strings.dart';
 import 'package:viajes/presentation/provider/categories/categories_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_place_add_provider.dart';
 import 'package:viajes/presentation/widgets/custom_dropdown.dart';
+import 'package:viajes/presentation/widgets/shared/custom_bottom.dart';
 import 'package:viajes/presentation/widgets/shared/images_container.dart';
 import 'package:viajes/utils/constants/sizes.dart';
+import '../../widgets/shared/custom_field_form.dart';
 
 class TouristPlacesCreateScreen extends StatelessWidget {
   const TouristPlacesCreateScreen({super.key});
@@ -143,7 +147,6 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
                   const SizedBox(
                     height: TSizes.spaceBtwInputFields,
                   ),
-
                   //* Images
                   ImagesContainer(
                     press: pickImages,
@@ -155,52 +158,57 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
                     height: TSizes.spaceBtwInputFields,
                   ),
                   //* Button
+                  DefaultButton(
+                    text: state.status == AddTouristPlaceStatus.loading
+                        ? 'Cargando...'
+                        : 'Crea un lugar turístico',
+                    press: () async {
+                      if (state.status != AddTouristPlaceStatus.loading) {
+                        // Llamar al método addTouristPlaceAndUploadImages con los datos del formulario
+                        await notifier.addTouristPlaceAndUploadImages(
+                          name: nameController.text,
+                          description: descriptionController.text,
+                          location: locationController.text,
+                          categoryId:
+                              selectedCategoryId, // Asegúrate de tener esta variable correctamente actualizada
+                          images: images,
+                        );
 
-                  SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          // Llamar al método addTouristPlaceAndUploadImages con los datos del formulario
-                          await notifier.addTouristPlaceAndUploadImages(
-                            name: nameController.text,
-                            description: descriptionController.text,
-                            location: locationController.text,
-                            categoryId:
-                                selectedCategoryId, // Asegúrate de tener esta variable correctamente actualizada
-                            images: images,
-                          );
-                        },
-                        child: state.status == AddTouristPlaceStatus.loading
-                            ? const CircularProgressIndicator()
-                            : const Text('Crea un lugar turístico'),
-                      ))
+                        if (mounted) {
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.info,
+                            animType: AnimType.bottomSlide,
+                            borderSide: const BorderSide(
+                                color: TColors.borderPrimary, width: 2),
+                            title: 'Lugar turístico creado',
+                            desc:
+                                'El lugar turístico se ha creado correctamente y se han subido las imagen.',
+                            autoHide: const Duration(seconds: 3),
+                            onDismissCallback: (_) {
+                              context.pop();
+                            },
+                            btnOkOnPress: () {
+                              context.pop();
+                            },
+                            btnOkIcon: Icons.check_circle,
+                            customHeader: const Icon(
+                              Icons.place, // Elige el ícono adecuado
+                              size: 30, // Ajusta el tamaño según necesites
+                              color: Colors
+                                  .blue, // O cualquier color que prefieras
+                            ),
+                            showCloseIcon: true,
+                            width: 500,
+                          ).show();
+                        }
+                      }
+                    },
+                  ),
                 ],
               ))
             ]),
           ),
         ));
-  }
-}
-
-class CustomFieldForm extends StatelessWidget {
-  const CustomFieldForm({
-    super.key,
-    required this.textController,
-    required this.labelText,
-    required this.icons,
-  });
-
-  final TextEditingController textController;
-  final String labelText;
-  final IconData icons;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: textController,
-      expands: false,
-      decoration:
-          InputDecoration(labelText: labelText, prefixIcon: Icon(icons)),
-    );
   }
 }

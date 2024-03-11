@@ -39,12 +39,18 @@ class _PlaceImagesState extends State<PlaceImages> {
         const SizedBox(
           height: 10,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ...List.generate(widget.places.images.length,
-                (index) => buildSmallPreview(index, widget.base))
-          ],
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ...List.generate(widget.places.images.length,
+                    (index) => buildSmallPreview(index, widget.base))
+              ],
+            ),
+          ),
         )
       ],
     );
