@@ -93,7 +93,7 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
                 ActionPane(motion: const StretchMotion(), children: [
               SlidableAction(
                 onPressed: (context) {
-                  context.push('/new/touristplaces');
+                  context.push('/edit/touristplaces/${place.id}');
                 },
                 backgroundColor: TColors.success,
                 foregroundColor: TColors.white,

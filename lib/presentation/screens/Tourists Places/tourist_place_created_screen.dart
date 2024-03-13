@@ -8,6 +8,7 @@ import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/text_strings.dart';
 import 'package:viajes/presentation/provider/categories/categories_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_place_add_provider.dart';
+import 'package:viajes/presentation/provider/tourist_places/tourist_place_provider.dart';
 import 'package:viajes/presentation/widgets/custom_dropdown.dart';
 import 'package:viajes/presentation/widgets/shared/custom_bottom.dart';
 import 'package:viajes/presentation/widgets/shared/images_container.dart';
@@ -15,18 +16,20 @@ import 'package:viajes/utils/constants/sizes.dart';
 import '../../widgets/shared/custom_field_form.dart';
 
 class TouristPlacesCreateScreen extends StatelessWidget {
-  const TouristPlacesCreateScreen({super.key});
+  final int? touristPlace;
+  const TouristPlacesCreateScreen({super.key, this.touristPlace});
 
   @override
   Widget build(BuildContext context) {
-    return const PlaceCreateForm();
+    return PlaceCreateForm(
+      placeId: touristPlace,
+    );
   }
 }
 
 class PlaceCreateForm extends ConsumerStatefulWidget {
-  const PlaceCreateForm({
-    super.key,
-  });
+  final int? placeId;
+  const PlaceCreateForm({super.key, this.placeId});
 
   @override
   PlaceCreateFormState createState() => PlaceCreateFormState();
@@ -36,13 +39,18 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
-  late final int selectedCategoryId;
+  int selectedCategoryId = 1;
   List<File> images = [];
 
   @override
   void initState() {
     super.initState();
+
     ref.read(getAllCategoryProvider.notifier).loadNextPage();
+    if (widget.placeId != null) {
+      Future.microtask(() =>
+          ref.read(placeInfoProvider.notifier).loadPlace(widget.placeId!));
+    }
   }
 
   @override
@@ -64,12 +72,8 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
         setState(() {
           images.addAll(pickedFiles.map((pickedFile) => File(pickedFile.path)));
         });
-      } else {
-        // Mostrar un mensaje o manejar la ausencia de selección de imagen
-      }
-    } catch (e) {
-      // Si se presenta algún error
-    }
+      } else {}
+    } catch (e) {}
   }
 
   void removeImage(int index) {
@@ -83,6 +87,16 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
     final state = ref.watch(touristPlaceAddProvider);
     final notifier = ref.read(touristPlaceAddProvider.notifier);
     final categories = ref.watch(getAllCategoryProvider);
+    final placeDetails = ref.watch(placeInfoProvider);
+
+    if (widget.placeId != null && placeDetails.containsKey(widget.placeId)) {
+      final details = placeDetails[widget.placeId];
+      nameController.text = details?.name ?? '';
+      descriptionController.text = details?.description ?? '';
+      locationController.text = details?.location ?? '';
+      selectedCategoryId = details?.categoryId ?? 0;
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -132,7 +146,9 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
                     height: TSizes.spaceBtwInputFields,
                   ),
                   CustomDropdownFormField(
+                    key: ValueKey(selectedCategoryId),
                     categories: categories,
+                    initialValue: selectedCategoryId.toString(),
                     onSelected: (String? value) {
                       setState(() {
                         if (value != null) {
@@ -164,13 +180,11 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
                         : 'Crea un lugar turístico',
                     press: () async {
                       if (state.status != AddTouristPlaceStatus.loading) {
-                        // Llamar al método addTouristPlaceAndUploadImages con los datos del formulario
                         await notifier.addTouristPlaceAndUploadImages(
                           name: nameController.text,
                           description: descriptionController.text,
                           location: locationController.text,
-                          categoryId:
-                              selectedCategoryId, // Asegúrate de tener esta variable correctamente actualizada
+                          categoryId: selectedCategoryId,
                           images: images,
                         );
 
@@ -185,18 +199,14 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
                             desc:
                                 'El lugar turístico se ha creado correctamente y se han subido las imagen.',
                             autoHide: const Duration(seconds: 3),
-                            onDismissCallback: (_) {
-                              context.pop();
-                            },
                             btnOkOnPress: () {
                               context.pop();
                             },
                             btnOkIcon: Icons.check_circle,
                             customHeader: const Icon(
-                              Icons.place, // Elige el ícono adecuado
-                              size: 30, // Ajusta el tamaño según necesites
-                              color: Colors
-                                  .blue, // O cualquier color que prefieras
+                              Icons.place,
+                              size: 30,
+                              color: Colors.blue,
                             ),
                             showCloseIcon: true,
                             width: 500,

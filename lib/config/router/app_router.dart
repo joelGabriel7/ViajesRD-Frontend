@@ -42,6 +42,16 @@ final appRouter = GoRouter(routes: [
     builder: (context, state) => const TouristPlacesCreateScreen(),
   ),
   GoRoute(
+    path: '/edit/touristplaces/:id',
+    builder: (context, state) {
+      final String isId = state.pathParameters['id']!;
+      final int id = int.parse(isId);
+      return TouristPlacesCreateScreen(
+        touristPlace: id,
+      );
+    },
+  ),
+  GoRoute(
     path: '/categories',
     builder: (context, state) => const CategoryScreen(),
   ),

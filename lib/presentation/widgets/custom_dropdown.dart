@@ -5,9 +5,13 @@ import 'package:viajes/domain/entity/category.dart';
 class CustomDropdownFormField extends StatefulWidget {
   final List<Category> categories;
   final void Function(String?) onSelected;
+  final String? initialValue;
 
   const CustomDropdownFormField(
-      {super.key, required this.categories, required this.onSelected});
+      {super.key,
+      required this.categories,
+      required this.onSelected,
+      this.initialValue});
 
   @override
   State<CustomDropdownFormField> createState() =>
@@ -15,6 +19,12 @@ class CustomDropdownFormField extends StatefulWidget {
 }
 
 class _CustomDropdownFormFieldState extends State<CustomDropdownFormField> {
+  @override
+  void initState() {
+    super.initState();
+    selectedCategory = widget.initialValue;
+  }
+
   String? selectedCategory;
 
   @override
