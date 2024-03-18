@@ -97,8 +97,20 @@ class TouristPlacesApiDatasources extends TouristPlacesDatasources {
 
   @override
   Future<TouristPlaces> updateTouristPlaces(int id, String name,
-      String description, String location, int categoryId) {
-    // TODO: implement updateTouristPlaces
-    throw UnimplementedError();
+      String description, String location, int categoryId) async {
+    final response = await dio.put('/tourist_place/update/${id}', data: {
+      'id': id,
+      'name': name,
+      'description': description,
+      'location': location,
+      'category_id': categoryId,
+    });
+    if (response.data != null && response.data is Map<String, dynamic>) {
+      final responses = TouristPlacesResponses.fromJson(response.data);
+      final entity = TouristPlacesMapper.touristPlacesToEntity(responses);
+      return entity;
+    } else {
+      throw Exception('Failed to load tourist places');
+    }
   }
 }

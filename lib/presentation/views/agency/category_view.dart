@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:viajes/domain/entity/category.dart';
 import 'package:viajes/presentation/provider/providers.dart';
-
-import '../../provider/loader.dart';
 
 class CategoryView extends ConsumerStatefulWidget {
   const CategoryView({super.key});
@@ -32,13 +29,6 @@ class CategoryViewState extends ConsumerState<CategoryView> {
 
   @override
   Widget build(BuildContext context) {
-    final initialLoading = ref.watch(initlLoadingProvider);
-    if (initialLoading) {
-      return const Center(
-          child: CircularProgressIndicator(
-        strokeWidth: 5,
-      ));
-    }
     final categories = ref.watch(getAllCategoryProvider);
     return CustomList(item: categories);
   }

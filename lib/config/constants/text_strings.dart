@@ -23,6 +23,7 @@ class TTexts {
   // -- Places zones
 
   static const String touristPlaceTitle = 'Crea una zona turistica';
+  static const String touristPlaceUpdateTitle = 'Actualiza una zona turistica';
   static const String touristPlaceName = 'Nombre';
   static const String touristPlaceDescription = 'Descripcion ';
   static const String touristPlaceLocation = 'Locacion';

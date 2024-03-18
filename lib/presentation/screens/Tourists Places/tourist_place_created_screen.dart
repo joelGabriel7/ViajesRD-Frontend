@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/text_strings.dart';
+import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/provider/categories/categories_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_place_add_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_place_provider.dart';
+import 'package:viajes/presentation/provider/tourist_places/tourist_place_update_provider.dart';
 import 'package:viajes/presentation/widgets/custom_dropdown.dart';
 import 'package:viajes/presentation/widgets/shared/custom_bottom.dart';
 import 'package:viajes/presentation/widgets/shared/images_container.dart';
@@ -73,7 +74,9 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
           images.addAll(pickedFiles.map((pickedFile) => File(pickedFile.path)));
         });
       } else {}
-    } catch (e) {}
+    } catch (e) {
+      return ('Error al seleccionar imágenes: $e');
+    }
   }
 
   void removeImage(int index) {
@@ -88,13 +91,19 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
     final notifier = ref.read(touristPlaceAddProvider.notifier);
     final categories = ref.watch(getAllCategoryProvider);
     final placeDetails = ref.watch(placeInfoProvider);
+    final placeUpdate = ref.read(touristPlaceUpdateProvider.notifier);
+
+    String buttonText = widget.placeId == null
+        ? 'Crear Lugar Turístico'
+        : 'Actualizar Lugar Turístico';
+    final isUpdating = widget.placeId != null;
 
     if (widget.placeId != null && placeDetails.containsKey(widget.placeId)) {
-      final details = placeDetails[widget.placeId];
-      nameController.text = details?.name ?? '';
-      descriptionController.text = details?.description ?? '';
-      locationController.text = details?.location ?? '';
-      selectedCategoryId = details?.categoryId ?? 0;
+      final details = placeDetails[widget.placeId] as TouristPlaces;
+      nameController.text = details.name;
+      descriptionController.text = details.description;
+      locationController.text = details.location;
+      selectedCategoryId = details.categoryId;
     }
 
     return Scaffold(
@@ -110,13 +119,15 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               //*TItle
-              Text(TTexts.touristPlaceTitle,
+              Text(
+                  isUpdating
+                      ? TTexts.touristPlaceUpdateTitle
+                      : TTexts.touristPlaceTitle,
                   style: Theme.of(context).textTheme.headlineSmall),
               const SizedBox(
                 height: TSizes.spaceBtwSections,
               ),
               //* Form
-
               Form(
                   child: Column(
                 children: [
@@ -175,43 +186,48 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
                   ),
                   //* Button
                   DefaultButton(
-                    text: state.status == AddTouristPlaceStatus.loading
-                        ? 'Cargando...'
-                        : 'Crea un lugar turístico',
-                    press: () async {
+                    text: buttonText,
+                    press: () {
                       if (state.status != AddTouristPlaceStatus.loading) {
-                        await notifier.addTouristPlaceAndUploadImages(
-                          name: nameController.text,
-                          description: descriptionController.text,
-                          location: locationController.text,
-                          categoryId: selectedCategoryId,
-                          images: images,
-                        );
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.info,
+                          animType: AnimType.bottomSlide,
+                          title: 'Confirmación',
+                          desc:
+                              '¿Estás seguro de que quieres crear esta zona turística?',
+                          btnCancelOnPress: () {},
+                          btnOkOnPress: () async {
+                            if (isUpdating) {
+                              await placeUpdate.updateTouristPlace(
+                                id: widget.placeId!,
+                                name: nameController.text,
+                                description: descriptionController.text,
+                                location: locationController.text,
+                                categoryId: selectedCategoryId,
+                              );
+                            } else {
+                              await notifier.addTouristPlaceAndUploadImages(
+                                name: nameController.text,
+                                description: descriptionController.text,
+                                location: locationController.text,
+                                categoryId: selectedCategoryId,
+                                images: images,
+                              );
+                            }
 
-                        if (mounted) {
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.info,
-                            animType: AnimType.bottomSlide,
-                            borderSide: const BorderSide(
-                                color: TColors.borderPrimary, width: 2),
-                            title: 'Lugar turístico creado',
-                            desc:
-                                'El lugar turístico se ha creado correctamente y se han subido las imagen.',
-                            autoHide: const Duration(seconds: 3),
-                            btnOkOnPress: () {
+                            if (mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'El lugar turístico se ha creado correctamente y se han subido las imagen.'),
+                                  duration: Duration(seconds: 3),
+                                ),
+                              );
                               context.pop();
-                            },
-                            btnOkIcon: Icons.check_circle,
-                            customHeader: const Icon(
-                              Icons.place,
-                              size: 30,
-                              color: Colors.blue,
-                            ),
-                            showCloseIcon: true,
-                            width: 500,
-                          ).show();
-                        }
+                            }
+                          },
+                        ).show();
                       }
                     },
                   ),

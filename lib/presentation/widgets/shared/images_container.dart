@@ -7,6 +7,7 @@ class ImagesContainer extends StatelessWidget {
   final VoidCallback press;
   final List<File> images;
   final Function(int) onRemove;
+
   const ImagesContainer(
       {super.key,
       required this.press,

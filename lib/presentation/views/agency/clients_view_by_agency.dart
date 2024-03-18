@@ -4,8 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/presentation/provider/providers.dart';
 
-import '../../provider/loader.dart';
-
 class ClientsView extends ConsumerStatefulWidget {
   const ClientsView({super.key});
 
@@ -28,13 +26,7 @@ class ClientsViewState extends ConsumerState<ClientsView> {
 
     // Establece los colores basados en si es modo claro u oscuro.
     final backgroundColor = isDarkMode ? TColors.dark : TColors.white;
-    final initialLoading = ref.watch(initlLoadingProvider);
-    if (initialLoading) {
-      return const Center(
-          child: CircularProgressIndicator(
-        strokeWidth: 5,
-      ));
-    }
+
     final clients = ref.watch(getClientsProvider);
 
     return RefreshIndicator(
