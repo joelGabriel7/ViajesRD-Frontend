@@ -4,10 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_place_provider.dart';
-
-import '../../../widgets/rounded_icon_buttom.dart';
 import '../../../widgets/shared/components/place_detail_body.dart';
-import '../../../widgets/shared/components/custom_app_bar.dart';
 
 class TouristPlaceDetailsScreen extends ConsumerStatefulWidget {
   final int placeId;
@@ -42,12 +39,17 @@ class TouristPlaceDetailsScreenState
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: CustomAppBar(
-          customAppBar: RoundendIconBtn(
-        iconData: Icons.arrow_back,
-        press: () => context.pop(),
-      )),
-      body: PlaceDetailBody(places: place),
+      body: Stack(children: [
+        PlaceDetailBody(places: place),
+        SafeArea(
+            child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: IconButton(
+            onPressed: () => context.pop(),
+            icon: const Icon(Icons.arrow_back),
+          ),
+        ))
+      ]),
     );
   }
 }

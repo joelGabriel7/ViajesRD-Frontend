@@ -24,7 +24,7 @@ class _PlaceImagesState extends State<PlaceImages> {
       children: [
         SizedBox(
           width: double.infinity,
-          height: 300,
+          height: 400,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: AspectRatio(

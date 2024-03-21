@@ -27,32 +27,23 @@ class PlacesDescriptions extends StatelessWidget {
           'Localidad - ${places.location}',
           style: textStyles.bodyLarge,
         ),
-        Align(
+        const SizedBox(
+          height: 10,
+        ),
+        const Align(
           alignment: Alignment.centerRight,
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            width: 55,
-            decoration: const BoxDecoration(
-                color: Color(0XFFFFE6E6),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                )),
-            child: const Icon(
-              Icons.favorite,
-              color: Color(0XFFFF4848),
+        ),
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10, right: 14),
+            child: Text(
+              places.description,
+              style: textStyles.bodyMedium,
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(left: 10, right: 14),
-          child: Text(
-            places.description,
-            style: textStyles.bodyMedium,
-          ),
-        ),
         const SizedBox(
-          height: 15,
+          height: 10,
         ),
         Text(
           'Categoria - ${places.category.name}',
