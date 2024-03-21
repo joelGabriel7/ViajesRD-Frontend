@@ -56,12 +56,12 @@ class ImagesContainer extends StatelessWidget {
     return Container(
       height: 200,
       width: double.infinity,
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(10.0),
       child: const Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Icon(
-            Icons.cloud_upload, // El icono que prefieras
+            Icons.upload, // El icono que prefieras
             size: 48.0, // El tamaño que prefieras
           ),
           Text(

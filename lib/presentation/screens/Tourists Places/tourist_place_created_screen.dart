@@ -42,6 +42,7 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
   final TextEditingController locationController = TextEditingController();
   int selectedCategoryId = 1;
   List<File> images = [];
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -113,132 +114,150 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
             'Zonas Turisticas',
           ),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(TSizes.defaultSpace),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              //*TItle
-              Text(
-                  isUpdating
-                      ? TTexts.touristPlaceUpdateTitle
-                      : TTexts.touristPlaceTitle,
-                  style: Theme.of(context).textTheme.headlineSmall),
-              const SizedBox(
-                height: TSizes.spaceBtwSections,
+        body: Stack(children: [
+          if (isLoading)
+            Positioned.fill(
+              child: Container(
+                color: Colors.grey.withOpacity(0.4),
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
-              //* Form
-              Form(
-                  child: Column(
-                children: [
-                  CustomFieldForm(
-                    textController: nameController,
-                    labelText: TTexts.touristPlaceName,
-                    icons: Icons.place,
-                  ),
-                  const SizedBox(
-                    width: TSizes.spaceBtwInputFields,
-                  ),
-                  CustomFieldForm(
-                    textController: descriptionController,
-                    labelText: TTexts.touristPlaceDescription,
-                    icons: Icons.description,
-                  ),
-                  // Location
-                  const SizedBox(
-                    height: TSizes.spaceBtwInputFields,
-                  ),
-                  CustomFieldForm(
-                    textController: locationController,
-                    labelText: TTexts.touristPlaceLocation,
-                    icons: Icons.add_location_alt,
-                  ),
-                  const SizedBox(
-                    height: TSizes.spaceBtwInputFields,
-                  ),
-                  CustomDropdownFormField(
-                    key: ValueKey(selectedCategoryId),
-                    categories: categories,
-                    initialValue: selectedCategoryId.toString(),
-                    onSelected: (String? value) {
-                      setState(() {
-                        if (value != null) {
-                          selectedCategoryId = int.tryParse(value)!;
+            ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(TSizes.defaultSpace),
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                //*TItle
+                Text(
+                    isUpdating
+                        ? TTexts.touristPlaceUpdateTitle
+                        : TTexts.touristPlaceTitle,
+                    style: Theme.of(context).textTheme.headlineSmall),
+                const SizedBox(
+                  height: TSizes.spaceBtwSections,
+                ),
+
+                //* Form
+                Form(
+                    child: Column(
+                  children: [
+                    CustomFieldForm(
+                      textController: nameController,
+                      labelText: TTexts.touristPlaceName,
+                      icons: Icons.place,
+                    ),
+                    const SizedBox(
+                      width: TSizes.spaceBtwInputFields,
+                    ),
+                    CustomFieldForm(
+                      textController: descriptionController,
+                      labelText: TTexts.touristPlaceDescription,
+                      icons: Icons.description,
+                    ),
+                    // Location
+                    const SizedBox(
+                      height: TSizes.spaceBtwInputFields,
+                    ),
+                    CustomFieldForm(
+                      textController: locationController,
+                      labelText: TTexts.touristPlaceLocation,
+                      icons: Icons.add_location_alt,
+                    ),
+                    const SizedBox(
+                      height: TSizes.spaceBtwInputFields,
+                    ),
+                    CustomDropdownFormField(
+                      key: ValueKey(selectedCategoryId),
+                      categories: categories,
+                      initialValue: selectedCategoryId.toString(),
+                      onSelected: (String? value) {
+                        setState(() {
+                          if (value != null) {
+                            selectedCategoryId = int.tryParse(value)!;
+                          }
+                        });
+                      },
+                    ),
+                    const SizedBox(
+                      height: TSizes.spaceBtwInputFields,
+                    ),
+                    const SizedBox(
+                      height: TSizes.spaceBtwInputFields,
+                    ),
+                    //* Images
+                    ImagesContainer(
+                      press: pickImages,
+                      images: images,
+                      onRemove: removeImage,
+                    ),
+
+                    const SizedBox(
+                      height: TSizes.spaceBtwInputFields,
+                    ),
+                    //* Button
+                    DefaultButton(
+                      text: buttonText,
+                      press: () {
+                        if (state.status != AddTouristPlaceStatus.loading) {
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.info,
+                            animType: AnimType.bottomSlide,
+                            title: 'Confirmación',
+                            desc: '¿Estás seguro de realizar esta acción?',
+                            btnCancelOnPress: () {},
+                            btnOkOnPress: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              if (isUpdating) {
+                                await placeUpdate.updateTouristPlace(
+                                  id: widget.placeId!,
+                                  name: nameController.text,
+                                  description: descriptionController.text,
+                                  location: locationController.text,
+                                  categoryId: selectedCategoryId,
+                                  images: images,
+                                );
+
+                                ref
+                                    .read(placeInfoProvider.notifier)
+                                    .reloadPlace(widget.placeId!);
+                              } else {
+                                await notifier.addTouristPlaceAndUploadImages(
+                                  name: nameController.text,
+                                  description: descriptionController.text,
+                                  location: locationController.text,
+                                  categoryId: selectedCategoryId,
+                                  images: images,
+                                );
+                              }
+                              setState(() {
+                                isLoading = false;
+                              });
+
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'El lugar turístico se ha creado correctamente y se han subido las imagen.'),
+                                    duration: Duration(seconds: 3),
+                                  ),
+                                );
+                                context.pop();
+                              }
+                            },
+                          ).show();
                         }
-                      });
-                    },
-                  ),
-                  const SizedBox(
-                    height: TSizes.spaceBtwInputFields,
-                  ),
-                  const SizedBox(
-                    height: TSizes.spaceBtwInputFields,
-                  ),
-                  //* Images
-                  ImagesContainer(
-                    press: pickImages,
-                    images: images,
-                    onRemove: removeImage,
-                  ),
-
-                  const SizedBox(
-                    height: TSizes.spaceBtwInputFields,
-                  ),
-                  //* Button
-                  DefaultButton(
-                    text: buttonText,
-                    press: () {
-                      if (state.status != AddTouristPlaceStatus.loading) {
-                        AwesomeDialog(
-                          context: context,
-                          dialogType: DialogType.info,
-                          animType: AnimType.bottomSlide,
-                          title: 'Confirmación',
-                          desc: '¿Estás seguro de realizar esta acción?',
-                          btnCancelOnPress: () {},
-                          btnOkOnPress: () async {
-                            if (isUpdating) {
-                              await placeUpdate.updateTouristPlace(
-                                id: widget.placeId!,
-                                name: nameController.text,
-                                description: descriptionController.text,
-                                location: locationController.text,
-                                categoryId: selectedCategoryId,
-                                images: images,
-                              );
-
-                              ref
-                                  .read(placeInfoProvider.notifier)
-                                  .reloadPlace(widget.placeId!);
-                            } else {
-                              await notifier.addTouristPlaceAndUploadImages(
-                                name: nameController.text,
-                                description: descriptionController.text,
-                                location: locationController.text,
-                                categoryId: selectedCategoryId,
-                                images: images,
-                              );
-                            }
-
-                            if (mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      'El lugar turístico se ha creado correctamente y se han subido las imagen.'),
-                                  duration: Duration(seconds: 3),
-                                ),
-                              );
-                              context.pop();
-                            }
-                          },
-                        ).show();
-                      }
-                    },
-                  ),
-                ],
-              ))
-            ]),
+                      },
+                    ),
+                  ],
+                ))
+              ]),
+            ),
           ),
-        ));
+        ]));
   }
 }
