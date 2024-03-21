@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/provider/categories/categories_provider.dart';
+import 'package:viajes/presentation/provider/tourist_places/tourist_place_delete_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_places_provider.dart';
 
 import '../../widgets/items_tabbar_listview.dart';
@@ -103,8 +104,8 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
             ]),
             endActionPane: ActionPane(motion: const StretchMotion(), children: [
               SlidableAction(
-                onPressed: (context) {
-                  showDialog(
+                onPressed: (context) async {
+                  final confirmation = await showDialog(
                     barrierDismissible: false,
                     context: context,
                     builder: (context) => AlertDialog(
@@ -112,21 +113,30 @@ class TouristPlacesViewState extends ConsumerState<TouristPlacesView>
                           'Estas seguro de eliminar esta lugar turistico?'),
                       actions: [
                         TextButton(
-                            onPressed: () => context.pop(),
+                            onPressed: () => context.pop(false),
                             child: const Text('Cancelar')),
                         FilledButton(
-                            onPressed: () => context.pop(),
+                            onPressed: () => context.pop(true),
                             child: const Text('Aceptar')),
                       ],
                     ),
                   );
+                  if (confirmation == true) {
+                    setState(() {
+                      ref
+                          .read(placeDeleteProvider.notifier)
+                          .deletePlace(place.id)
+                          .then((_) => ref
+                              .read(getTouristPlacesProvider.notifier)
+                              .loadTouristPlaces());
+                    });
+                  }
                 },
                 backgroundColor: TColors.error,
-                // backgroundColor: const Color(0xFFFE4A49),
                 foregroundColor: TColors.white,
                 icon: Icons.delete,
                 label: 'Eliminar',
-              ),
+              )
             ]),
             child: TouristPlacesItems(touristPlaces: place));
       }).toList());

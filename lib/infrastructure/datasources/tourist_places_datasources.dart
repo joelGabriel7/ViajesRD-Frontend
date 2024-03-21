@@ -98,7 +98,7 @@ class TouristPlacesApiDatasources extends TouristPlacesDatasources {
   @override
   Future<TouristPlaces> updateTouristPlaces(int id, String name,
       String description, String location, int categoryId) async {
-    final response = await dio.put('/tourist_place/update/${id}', data: {
+    final response = await dio.put('/tourist_place/update/$id', data: {
       'id': id,
       'name': name,
       'description': description,
@@ -112,5 +112,18 @@ class TouristPlacesApiDatasources extends TouristPlacesDatasources {
     } else {
       throw Exception('Failed to load tourist places');
     }
+  }
+
+  @override
+  Future<TouristPlaces> deleteTouristPlacesById(int id) async {
+    final response = await dio.delete('/tourist_place/delete/$id');
+
+    if (response.statusCode != 200) {
+      throw Exception('Lugar turistico con el  id:$id no encontrado');
+    }
+
+    final touristPlaces = TouristPlacesResponses.fromJson(response.data);
+    final entity = TouristPlacesMapper.touristPlacesToEntity(touristPlaces);
+    return entity;
   }
 }

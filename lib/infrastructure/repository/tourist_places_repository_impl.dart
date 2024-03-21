@@ -35,4 +35,9 @@ class TouristPlacesRepositoryImpl extends TouristPlacesRepository {
     return datasource.updateTouristPlaces(
         id, name, description, location, categoryId);
   }
+
+  @override
+  Future<TouristPlaces> deleteTouristPlacesById(int id) {
+    return datasource.deleteTouristPlacesById(id);
+  }
 }

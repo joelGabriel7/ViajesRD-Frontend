@@ -5,6 +5,7 @@ import 'package:viajes/domain/entity/tourist_places.dart';
 abstract class TouristPlacesDatasources {
   Future<List<TouristPlaces>> getTouristPlaces({int page = 1});
   Future<TouristPlaces> getTouristPlacesById(int id);
+  Future<TouristPlaces> deleteTouristPlacesById(int id);
   Future<TouristPlaces> addTouristPlaces(
       String name, String description, String location, int categoryId);
   Future<TouristPlaces> updateTouristPlaces(
