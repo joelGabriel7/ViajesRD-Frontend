@@ -30,7 +30,9 @@ class _PlaceImagesState extends State<PlaceImages> {
             child: AspectRatio(
               aspectRatio: 1,
               child: Image.network(
-                widget.base + widget.places.images[selectedImage].imageUrl,
+                widget.places.images.isNotEmpty
+                    ? widget.base + widget.places.images[selectedImage].imageUrl
+                    : 'https://th.bing.com/th/id/OIP.NtlX1xnmpCVssKBag3XPNAHaFj?rs=1&pid=ImgDetMain',
                 fit: BoxFit.cover,
               ),
             ),
