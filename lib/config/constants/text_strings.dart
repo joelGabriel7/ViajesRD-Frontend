@@ -9,17 +9,18 @@ class TTexts {
   static const String tContinue = "Continue";
 
   // -- OnBoarding Texts
-  static const String onBoardingTitle1 = "Choose your product";
-  static const String onBoardingTitle2 = "Select Payment Method";
-  static const String onBoardingTitle3 = "Deliver at your door step";
+  static const String onBoardingTitle1 =
+      "Explora los Destinos hermosos de Republica Dominicana";
+  static const String onBoardingTitle2 = "Reserva Tu Aventura";
+  static const String onBoardingTitle3 =
+      "Disfruta Tu Viaje en Republica Dominicana";
 
   static const String onBoardingSubTitle1 =
-      "Welcome to a World of Limitless Choices - Your Perfect Product Awaits!";
+      "Descubre Lugares Impresionantes y Experiencias Inolvidables - ¡Comienza Tu Aventura de Viaje!";
   static const String onBoardingSubTitle2 =
-      "For Seamless Transactions, Choose Your Payment Path - Your Convenience, Our Priority!";
+      "Reservas Sencillas y Opciones Flexibles - ¡Tu Viaje de Ensueño Está a Solo Unos Toques de Distancia!";
   static const String onBoardingSubTitle3 =
-      "From Our Doorstep to Yours - Swift, Secure, and Contactless Delivery!";
-
+      "Emprende Tu Aventura con Tranquilidad - ¡Estamos Aquí para Asegurar un Viaje Memorables!";
   // -- Places zones
 
   static const String touristPlaceTitle = 'Crea una zona turistica';

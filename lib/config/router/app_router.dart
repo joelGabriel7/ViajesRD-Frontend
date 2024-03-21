@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:viajes/presentation/screens/Tourists%20Places/tourist_place_created_screen.dart';
+import 'package:viajes/presentation/screens/auth/onboarding_screen.dart';
 import 'package:viajes/presentation/screens/category_screen.dart';
 import 'package:viajes/presentation/screens/clientes_screen.dart';
 import 'package:viajes/presentation/screens/excursions_screen.dart';
@@ -8,9 +9,13 @@ import 'package:viajes/presentation/screens/reservations_screen.dart';
 import 'package:viajes/presentation/screens/Tourists%20Places/details/tourist_place_details.dart';
 import 'package:viajes/presentation/screens/Tourists%20Places/tourist_place_screen.dart';
 
-final appRouter = GoRouter(routes: [
+final appRouter = GoRouter(initialLocation: '/', routes: [
   GoRoute(
     path: '/',
+    builder: (context, state) => const OnBoardingScreen(),
+  ),
+  GoRoute(
+    path: '/home',
     builder: (context, state) => HomeScreenAgency(),
   ),
   GoRoute(
