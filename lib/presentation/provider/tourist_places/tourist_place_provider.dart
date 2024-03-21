@@ -22,4 +22,11 @@ class TouristPlaceMapNotifier extends StateNotifier<Map<int, TouristPlaces>> {
     final place = await getPlace(placeId);
     state = {placeId: place};
   }
+
+  Future<void> reloadPlace(int placeId) async {
+    // Llama al método del repositorio para obtener los datos frescos del servidor
+    final place = await getPlace(placeId);
+    // Actualiza el estado con los datos recién cargados
+    state = {...state, placeId: place};
+  }
 }

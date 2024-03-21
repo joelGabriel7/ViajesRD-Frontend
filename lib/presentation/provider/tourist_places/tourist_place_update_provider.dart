@@ -6,7 +6,7 @@ import 'package:viajes/infrastructure/repository/tourist_places_repository_impl.
 import 'package:viajes/presentation/provider/tourist_places/tourist_places_repository.dart';
 
 final touristPlaceUpdateProvider =
-    StateNotifierProvider<TouristPlaceUpdateNotifier, Map>((ref) {
+    StateNotifierProvider.autoDispose<TouristPlaceUpdateNotifier, Map>((ref) {
   final placeUpdate = ref.watch(touristPlaceProvider);
   return TouristPlaceUpdateNotifier(placeUpdate);
 });
@@ -17,24 +17,28 @@ class TouristPlaceUpdateNotifier
 
   TouristPlaceUpdateNotifier(this.respository) : super({});
 
-  Future<TouristPlaces> updateTouristPlace(
-      {required int id,
-      required String name,
-      required String description,
-      required String location,
-      required int categoryId,
-      final List<File>? images}) async {
+  Future<void> updateTouristPlace({
+    required int id,
+    required String name,
+    required String description,
+    required String location,
+    required int categoryId,
+    List<File>? images,
+  }) async {
     try {
-      TouristPlaces placeUpdate = await respository.updateTouristPlaces(
+      final placeUpdate = await respository.updateTouristPlaces(
           id, name, description, location, categoryId);
-
+      List<String> imageUrls = [];
       if (images != null && images.isNotEmpty) {
-        // Lógica para subir imágenes
-        final imageUrls = await respository.uploadImages(id, images);
-        List<dynamic> updatedImages = [...placeUpdate.images, ...imageUrls];
-        placeUpdate = placeUpdate.copyWith(images: updatedImages);
+        imageUrls = await respository.uploadImages(id, images);
       }
-      return placeUpdate;
+      // Suponiendo que copyWith actualiza la lista de imágenes correctamente
+      final updatedPlace = placeUpdate.copyWith(images: imageUrls);
+
+      // Actualizar el estado para reflejar el lugar turístico actualizado
+      state = {...state, id.toString(): updatedPlace};
+      // Notificar a la UI que hay un cambio
+      state = state;
     } catch (e) {
       rethrow;
     }

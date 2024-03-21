@@ -46,7 +46,6 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
   @override
   void initState() {
     super.initState();
-
     ref.read(getAllCategoryProvider.notifier).loadNextPage();
     if (widget.placeId != null) {
       Future.microtask(() =>
@@ -88,15 +87,17 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(touristPlaceAddProvider);
-    final notifier = ref.read(touristPlaceAddProvider.notifier);
+    final notifier = ref.watch(touristPlaceAddProvider.notifier);
     final categories = ref.watch(getAllCategoryProvider);
     final placeDetails = ref.watch(placeInfoProvider);
-    final placeUpdate = ref.read(touristPlaceUpdateProvider.notifier);
+    final placeUpdate = ref.watch(touristPlaceUpdateProvider.notifier);
 
     String buttonText = widget.placeId == null
         ? 'Crear Lugar Turístico'
         : 'Actualizar Lugar Turístico';
     final isUpdating = widget.placeId != null;
+
+    debugPrint('isUpdating: $isUpdating');
 
     if (widget.placeId != null && placeDetails.containsKey(widget.placeId)) {
       final details = placeDetails[widget.placeId] as TouristPlaces;
@@ -113,7 +114,6 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
           ),
         ),
         body: SingleChildScrollView(
-          // physics: const NeverScrollableScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(TSizes.defaultSpace),
             child:
@@ -194,8 +194,7 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
                           dialogType: DialogType.info,
                           animType: AnimType.bottomSlide,
                           title: 'Confirmación',
-                          desc:
-                              '¿Estás seguro de que quieres crear esta zona turística?',
+                          desc: '¿Estás seguro de realizar esta acción?',
                           btnCancelOnPress: () {},
                           btnOkOnPress: () async {
                             if (isUpdating) {
@@ -205,7 +204,12 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
                                 description: descriptionController.text,
                                 location: locationController.text,
                                 categoryId: selectedCategoryId,
+                                images: images,
                               );
+
+                              ref
+                                  .read(placeInfoProvider.notifier)
+                                  .reloadPlace(widget.placeId!);
                             } else {
                               await notifier.addTouristPlaceAndUploadImages(
                                 name: nameController.text,
