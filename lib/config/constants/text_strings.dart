@@ -30,52 +30,53 @@ class TTexts {
   static const String touristPlaceLocation = 'Locacion';
   static const String touristPlaceCategoria = 'Selecciona una categoria';
 
-  // -- Authentication Forms
-  static const String firstName = "First Name";
-  static const String lastName = "Last Name";
-  static const String email = "E-Mail";
-  static const String password = "Password";
-  static const String newPassword = "New Password";
-  static const String username = "Username";
-  static const String phoneNo = "Phone Number";
-  static const String rememberMe = "Remember Me";
-  static const String forgetPassword = "Forget Password?";
-  static const String signIn = "Sign In";
-  static const String createAccount = "Create Account";
-  static const String orSignInWith = "or sign in with";
-  static const String orSignUpWith = "or sign up with";
-  static const String iAgreeTo = "I agree to";
-  static const String privacyPolicy = "Privacy Policy";
-  static const String termsOfUse = "Terms of use";
-  static const String verificationCode = "verificationCode";
-  static const String resendEmail = "Resend Email";
-  static const String resendEmailIn = "Resend email in";
+  // -- Formularios de Autenticación
+  static const String firstName = "Nombre";
+  static const String lastName = "Apellido";
+  static const String email = "Correo Electrónico";
+  static const String password = "Contraseña";
+  static const String newPassword = "Nueva Contraseña";
+  static const String username = "Nombre de Usuario";
+  static const String phoneNo = "Número de Teléfono";
+  static const String rememberMe = "Recuérdame";
+  static const String forgetPassword = "Forget password?";
+  static const String signIn = "Iniciar Sesión";
+  static const String createAccount = "Crear Cuenta";
+  static const String orSignInWith = "o inicia sesión con";
+  static const String orSignUpWith = "o regístrate con";
+  static const String iAgreeTo = "Estoy de acuerdo con";
+  static const String privacyPolicy = "la Política de Privacidad";
+  static const String termsOfUse = "los Términos de Uso";
+  static const String verificationCode = "Código de Verificación";
+  static const String resendEmail = "Reenviar Correo Electrónico";
+  static const String resendEmailIn = "Reenviar correo en";
 
-  // -- Authentication Headings
-  static const String loginTitle = "Welcome back,";
+  // -- Títulos de Autenticación
+  static const String loginTitle = "Bienvenido,";
   static const String loginSubTitle =
-      "Discover Limitless Choices and Unmatched Convenience.";
-  static const String signupTitle = "Let’s create your account";
-  static const String forgetPasswordTitle = "Forget password";
+      "Descubre los lugares turisticos de Republica Dominicana y Conveniencia Sin Igual.";
+  static const String signupTitle = "Vamos a crear tu cuenta";
+  static const String forgetPasswordTitle = "Olvidaste la contraseña";
   static const String forgetPasswordSubTitle =
-      "Don’t worry sometimes people can forget too, enter your email and we will send you a password reset link.";
-  static const String changeYourPasswordTitle = "Password Reset Email Sent";
+      "No te preocupes, a veces las personas pueden olvidar, ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.";
+  static const String changeYourPasswordTitle =
+      "Correo Electrónico de Restablecimiento de Contraseña Enviado";
   static const String changeYourPasswordSubTitle =
-      "Your Account Security is Our Priority! We've Sent You a Secure Link to Safely Change Your Password and Keep Your Account Protected.";
-  static const String confirmEmail = "Verify your email address!";
+      "¡La Seguridad de Tu Cuenta es Nuestra Prioridad! Te Hemos Enviado un Enlace Seguro para Cambiar Tu Contraseña de Forma Segura y Mantener Protegida Tu Cuenta.";
+  static const String confirmEmail =
+      "¡Verifica tu dirección de correo electrónico!";
   static const String confirmEmailSubTitle =
-      "Congratulations! Your Account Awaits: Verify Your Email to Start Shopping and Experience a World of Unrivaled Deals and Personalized Offers.";
+      "¡Felicidades! Tu Cuenta Te Espera: Verifica Tu Correo Electrónico para Comenzar a Comprar y Experimentar un Mundo de Ofertas Inigualables y Personalizadas.";
   static const String emailNotReceivedMessage =
-      "Didn’t get the email? Check your junk/spam or resend it.";
-  static const String yourAccountCreatedTitle =
-      "Your account successfully created!";
+      "¿No recibiste el correo? Revisa tu carpeta de spam/junk o reenvíalo.";
+  static const String yourAccountCreatedTitle = "¡Tu cuenta se creó con éxito!";
   static const String yourAccountCreatedSubTitle =
-      "Welcome to Your Ultimate Shopping Destination: Your Account is Created, Unleash the Joy of Seamless Online Shopping!";
+      "Bienvenido a Tu Destino de Compras Definitivo: Tu Cuenta Está Creada, ¡Desata la Alegría de Comprar en Línea Sin Problemas!";
 
-  // -- Product
-  static const String popularProducts = "Popular Products";
+  // -- Producto
+  static const String popularProducts = "Productos Populares";
 
-  // -- Home
-  static const String homeAppbarTitle = "Good day for shopping";
+  // -- Inicio
+  static const String homeAppbarTitle = "Buen día para comprar";
   static const String homeAppbarSubTitle = "Taimoor Sikander";
 }

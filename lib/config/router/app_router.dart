@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:viajes/presentation/screens/Tourists%20Places/tourist_place_created_screen.dart';
+import 'package:viajes/presentation/screens/auth/login.dart';
 import 'package:viajes/presentation/screens/auth/onboarding_screen.dart';
 import 'package:viajes/presentation/screens/category_screen.dart';
 import 'package:viajes/presentation/screens/clientes_screen.dart';
@@ -13,6 +14,10 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
   GoRoute(
     path: '/',
     builder: (context, state) => const OnBoardingScreen(),
+  ),
+  GoRoute(
+    path: '/login',
+    builder: (context, state) => const LoginScreen(),
   ),
   GoRoute(
     path: '/home',

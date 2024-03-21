@@ -48,7 +48,7 @@ class OnBoardingScreen extends StatelessWidget {
           //* Dot navigation SmoothPageIndicator
           const OnBoardingDotNavigations(),
           //* Buttom
-          OnBoardingNextButton()
+          const OnBoardingNextButton()
         ],
       ),
     );

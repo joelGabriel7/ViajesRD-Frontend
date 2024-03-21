@@ -20,7 +20,7 @@ class OnboardingView extends GetxController {
   //* update current index & jump to next page
   void nextPage(BuildContext context) {
     if (currentPageIndex == 2) {
-      context.push('/home');
+      context.push('/login');
     } else {
       int page = currentPageIndex.value + 1;
       pageController.jumpToPage(page);
