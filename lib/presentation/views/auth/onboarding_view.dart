@@ -19,6 +19,7 @@ class OnboardingView extends GetxController {
 
   //* update current index & jump to next page
   void nextPage(BuildContext context) {
+    // ignore: unrelated_type_equality_checks
     if (currentPageIndex == 2) {
       context.push('/login');
     } else {

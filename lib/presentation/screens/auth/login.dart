@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
             //* Logo, Title & Subtitle
             VLoginHeader(dark: dark),
             //* Form
-            VLoginForm(),
+            const VLoginForm(),
           ]),
         ),
       ),
