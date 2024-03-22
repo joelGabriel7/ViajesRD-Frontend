@@ -149,7 +149,7 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
                       icons: Icons.place,
                     ),
                     const SizedBox(
-                      width: TSizes.spaceBtwInputFields,
+                      height: TSizes.spaceBtwInputFields,
                     ),
                     CustomFieldForm(
                       textController: descriptionController,

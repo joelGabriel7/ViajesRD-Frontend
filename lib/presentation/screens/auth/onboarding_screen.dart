@@ -10,7 +10,6 @@ import 'package:viajes/presentation/widgets/auth/onboarding_page.dart';
 import 'package:viajes/presentation/widgets/auth/onboarding_skip.dart';
 import 'package:viajes/utils/constants/sizes.dart';
 import 'package:viajes/utils/device/device_utility.dart';
-import 'package:viajes/utils/helpers/helper_functions.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
@@ -62,7 +61,6 @@ class OnBoardingNextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dark = THelperFunctions.isDarkMode(context);
     return Positioned(
       bottom: TDeviceUtils.getBottomNavigationBarHeight(),
       right: TSizes.defaultSpace,
@@ -72,7 +70,7 @@ class OnBoardingNextButton extends StatelessWidget {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             shape: const CircleBorder(),
-            backgroundColor: dark ? TColors.primary : TColors.dark,
+            backgroundColor: TColors.primary,
             padding:
                 const EdgeInsets.all(0), // Asegúrate de que el padding sea 0
           ),

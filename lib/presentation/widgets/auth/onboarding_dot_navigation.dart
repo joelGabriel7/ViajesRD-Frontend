@@ -21,7 +21,7 @@ class OnBoardingDotNavigations extends StatelessWidget {
         count: 3,
         onDotClicked: controller.dotNavigationClick,
         effect: const ExpandingDotsEffect(
-            activeDotColor: TColors.dark, dotHeight: 6),
+            activeDotColor: TColors.primary, dotHeight: 6),
       ),
     );
   }

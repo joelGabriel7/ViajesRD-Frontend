@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
 
@@ -25,6 +24,7 @@ class VLoginForm extends StatelessWidget {
             ),
             const SizedBox(height: TSizes.spaceBtwInputFields),
             TextFormField(
+              obscureText: true,
               decoration: const InputDecoration(
                   prefixIcon: Icon(Iconsax.password_check),
                   labelText: TTexts.password,
@@ -59,23 +59,6 @@ class VLoginForm extends StatelessWidget {
                   onPressed: () {
                     context.push('/home');
                   },
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    foregroundColor: TColors.light,
-                    backgroundColor: TColors.primary,
-                    disabledForegroundColor: TColors.darkGrey,
-                    disabledBackgroundColor: TColors.buttonDisabled,
-                    side: const BorderSide(color: TColors.primary),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: TSizes.buttonHeight),
-                    textStyle: const TextStyle(
-                        fontSize: 16,
-                        color: TColors.textWhite,
-                        fontWeight: FontWeight.w600),
-                    shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(TSizes.buttonRadius)),
-                  ),
                   child: const Text(TTexts.signIn),
                 )),
             const SizedBox(height: TSizes.spaceBtwItems),
@@ -83,21 +66,9 @@ class VLoginForm extends StatelessWidget {
             SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    elevation: 0,
-                    foregroundColor: TColors.dark,
-                    side: const BorderSide(color: TColors.borderPrimary),
-                    textStyle: const TextStyle(
-                        fontSize: 16,
-                        color: TColors.black,
-                        fontWeight: FontWeight.w600),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: TSizes.buttonHeight, horizontal: 20),
-                    shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(TSizes.buttonRadius)),
-                  ),
+                  onPressed: () {
+                    context.push('/signup');
+                  },
                   child: const Text(TTexts.createAccount),
                 )),
             const SizedBox(height: TSizes.spaceBtwItems),

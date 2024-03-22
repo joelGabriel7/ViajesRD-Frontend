@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:viajes/utils/theme/widget_themes/checkbox_theme.dart';
+import 'package:viajes/utils/theme/widget_themes/elevated_button_theme.dart';
+import 'package:viajes/utils/theme/widget_themes/outlined_button_theme.dart';
+import 'package:viajes/utils/theme/widget_themes/text_field_theme.dart';
+import 'package:viajes/utils/theme/widget_themes/text_theme.dart';
 
 import '../constants/constants.dart';
 
@@ -22,7 +27,12 @@ class AppTheme {
           cardTheme: const CardTheme(color: Colors.white),
           colorSchemeSeed: colorList[selectedColor],
           appBarTheme: appBarTheme(selectedColor),
-          visualDensity: VisualDensity.adaptivePlatformDensity);
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: TTextTheme.lightTextTheme,
+          outlinedButtonTheme: TOutlinedButtonTheme.lightOutlinedButtonTheme,
+          inputDecorationTheme: TTextFormFieldTheme.lightInputDecorationTheme,
+          checkboxTheme: TCheckboxTheme.lightCheckboxTheme,
+          elevatedButtonTheme: TElevatedButtonTheme.lightElevatedButtonTheme);
 
   TextTheme textTheme() {
     return const TextTheme(
