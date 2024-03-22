@@ -20,7 +20,7 @@ class SignUpScreen extends StatelessWidget {
               //* Title
               Text(
                 TTexts.signupTitle,
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(
                 height: TSizes.spaceBtwSections,

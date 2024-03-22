@@ -52,7 +52,7 @@ class TTexts {
   static const String resendEmailIn = "Reenviar correo en";
 
   // -- Títulos de Autenticación
-  static const String loginTitle = "Bienvenido,";
+  static const String loginTitle = "Bienvenido";
   static const String loginSubTitle =
       "Descubre los lugares turisticos de Republica Dominicana y Conveniencia Sin Igual.";
   static const String signupTitle = "Vamos a crear tu cuenta";

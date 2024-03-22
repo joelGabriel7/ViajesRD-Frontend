@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
@@ -33,7 +34,7 @@ class _SignupFormState extends State<SignupForm> {
           TextFormField(
             decoration: const InputDecoration(
               labelText: TTexts.email,
-              prefixIcon: Icon(Iconsax.direct),
+              prefixIcon: Icon(Iconsax.direct_right),
             ),
           ),
           const SizedBox(
@@ -89,7 +90,7 @@ class _SignupFormState extends State<SignupForm> {
             height: TSizes.spaceBtwSections / 2,
           ),
           //* Terms and conditions
-          TermsConditionsScreen(),
+          const TermsConditionsScreen(),
 
           //* signup Button
           const SizedBox(
@@ -98,7 +99,7 @@ class _SignupFormState extends State<SignupForm> {
           SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () => context.push('/succes/account'),
                 child: const Text(TTexts.createAccount),
               ))
         ],
