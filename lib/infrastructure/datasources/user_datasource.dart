@@ -10,19 +10,29 @@ class UserApiDatasources extends UserDatasource {
   @override
   Future<UserEntity> createUser(
       String username, String email, String password, String role) async {
-    final response = await dio.post('/users/create', data: {
-      'username': username,
-      'email': email,
-      'password': password,
-      'role': role
-    });
-    if (response.data != null && response.data is Map<String, dynamic>) {
-      print(response.data);
-      final reponses = UserResponses.fromJson(response.data);
-      final entity = UserMapper.userToEntity(reponses);
-      return entity;
-    } else {
-      throw Exception('Failed to load user');
+    try {
+      final response = await dio.post('/users/create', data: {
+        'username': username,
+        'email': email,
+        'password': password,
+        'role': role
+      });
+      if (response.data != null && response.data is Map<String, dynamic>) {
+        print(response.data);
+        final reponses = UserResponses.fromJson(response.data);
+        final entity = UserMapper.userToEntity(reponses);
+        return entity;
+      } else {
+        throw Exception('Failed to load user');
+      }
+    } on DioException catch (e) {
+      String errorMessage = "Error desconocido";
+      if (e.response != null && e.response!.data != null) {
+        final responseData = e.response!.data;
+        errorMessage =
+            responseData['detail'] ?? "Error al procesar la solicitud";
+      }
+      throw Exception(errorMessage);
     }
   }
 }

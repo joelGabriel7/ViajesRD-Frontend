@@ -123,9 +123,7 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
                   } catch (e) {
                     if (mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text(
-                                'Error al crear el usuario: ${e.toString()}')),
+                        SnackBar(content: Text(e.toString())),
                       );
                     }
                   }
