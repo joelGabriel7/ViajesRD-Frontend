@@ -5,6 +5,7 @@ import 'package:viajes/presentation/screens/auth/onboarding_screen.dart';
 import 'package:viajes/presentation/screens/auth/signup_screen.dart';
 import 'package:viajes/presentation/screens/auth/success_account_created.dart';
 import 'package:viajes/presentation/screens/category_screen.dart';
+import 'package:viajes/presentation/screens/client/home_screen_client.dart';
 import 'package:viajes/presentation/screens/clientes_screen.dart';
 import 'package:viajes/presentation/screens/excursions_screen.dart';
 import 'package:viajes/presentation/screens/home_screen_agency.dart';
@@ -28,6 +29,10 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
   GoRoute(
     path: '/succes/account',
     builder: (context, state) => const SuccessAccountCreated(),
+  ),
+  GoRoute(
+    path: '/home/client',
+    builder: (context, state) => const HomeScreenClient(),
   ),
   GoRoute(
     path: '/home',
