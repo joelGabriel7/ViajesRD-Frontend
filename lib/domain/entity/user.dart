@@ -1,7 +1,7 @@
 import 'package:viajes/config/constants/enums.dart';
 
 class UserEntity {
-  final int id;
+  final int? id;
   final String username;
   final String email;
   final String password;

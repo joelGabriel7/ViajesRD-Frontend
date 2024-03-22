@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
-import 'package:viajes/presentation/widgets/auth/signup/signup_form.dart';
+import 'package:viajes/presentation/views/auth/signup_form_view.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -26,7 +26,7 @@ class SignUpScreen extends StatelessWidget {
                 height: TSizes.spaceBtwSections,
               ),
               //*Form
-              SignupForm(selectedRole: selectedRole),
+              SignupFormView(selectedRole: selectedRole),
             ],
           ),
         ),

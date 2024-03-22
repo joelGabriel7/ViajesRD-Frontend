@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
+import 'package:viajes/presentation/views/auth/user_created_view.dart';
 import 'package:viajes/presentation/widgets/auth/signup/terms_conditions.dart';
 
-class SignupForm extends StatefulWidget {
+class SignupFormView extends ConsumerStatefulWidget {
   final String selectedRole;
 
-  const SignupForm({
+  const SignupFormView({
     super.key,
     required this.selectedRole,
   });
 
   @override
-  State<SignupForm> createState() => _SignupFormState();
+  SignupFormViewState createState() => SignupFormViewState();
 }
 
-class _SignupFormState extends State<SignupForm> {
-  late String _selectedRole; // Correctamente movida fuera de build
+class SignupFormViewState extends ConsumerState<SignupFormView> {
+  late String _selectedRole;
+  late final TextEditingController _emailController = TextEditingController();
+  late final TextEditingController _usernameController =
+      TextEditingController();
+  late final TextEditingController _passwordController =
+      TextEditingController(); // Correctamente movida fuera de build
 
   @override
   void initState() {
@@ -32,6 +39,7 @@ class _SignupFormState extends State<SignupForm> {
       child: Column(
         children: [
           TextFormField(
+            controller: _emailController,
             decoration: const InputDecoration(
               labelText: TTexts.email,
               prefixIcon: Icon(Iconsax.direct_right),
@@ -42,6 +50,7 @@ class _SignupFormState extends State<SignupForm> {
           ),
           //* User
           TextFormField(
+            controller: _usernameController,
             decoration: const InputDecoration(
               labelText: TTexts.username,
               prefixIcon: Icon(Iconsax.user_edit),
@@ -52,6 +61,7 @@ class _SignupFormState extends State<SignupForm> {
           ),
           //* password
           TextFormField(
+            controller: _passwordController,
             obscureText: true,
             decoration: const InputDecoration(
               labelText: TTexts.password,
@@ -99,7 +109,27 @@ class _SignupFormState extends State<SignupForm> {
           SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () => context.push('/succes/account'),
+                onPressed: () async {
+                  try {
+                    final userCreate = UserCreateView(ref: ref);
+                    await userCreate.createUser(
+                        username: _usernameController.text,
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                        role: _selectedRole);
+                    if (mounted) {
+                      context.push('/succes/account');
+                    }
+                  } catch (e) {
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text(
+                                'Error al crear el usuario: ${e.toString()}')),
+                      );
+                    }
+                  }
+                },
                 child: const Text(TTexts.createAccount),
               ))
         ],

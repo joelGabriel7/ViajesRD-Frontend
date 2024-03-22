@@ -2,16 +2,7 @@
 //
 //     final userResponses = userResponsesFromJson(jsonString);
 
-import 'dart:convert';
-
 import 'package:viajes/config/constants/enums.dart';
-
-List<UserResponses> userResponsesFromJson(String str) =>
-    List<UserResponses>.from(
-        json.decode(str).map((x) => UserResponses.fromJson(x)));
-
-String userResponsesToJson(List<UserResponses> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class UserResponses {
   final String username;
@@ -35,14 +26,18 @@ class UserResponses {
   });
 
   factory UserResponses.fromJson(Map<String, dynamic> json) => UserResponses(
-        username: json["username"],
-        email: json["email"],
+        username: json["username"] ?? '',
+        email: json["email"] ?? '',
         status: statusValues.map[json["status"]]!,
         role: roleValues.map[json["role"]]!,
-        id: json["id"],
-        hashedPassword: json["hashed_password"],
-        created: DateTime.parse(json["created"]),
-        updated: DateTime.parse(json["updated"]),
+        id: json["id"] ?? 0,
+        hashedPassword: json["hashed_password"] ?? '',
+        created: json["created"] != null
+            ? DateTime.parse(json["created"])
+            : DateTime.now(),
+        updated: json["updated"] != null
+            ? DateTime.parse(json["updated"])
+            : DateTime.now(),
       );
 
   Map<String, dynamic> toJson() => {

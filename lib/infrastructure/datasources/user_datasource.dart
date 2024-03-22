@@ -17,6 +17,7 @@ class UserApiDatasources extends UserDatasource {
       'role': role
     });
     if (response.data != null && response.data is Map<String, dynamic>) {
+      print(response.data);
       final reponses = UserResponses.fromJson(response.data);
       final entity = UserMapper.userToEntity(reponses);
       return entity;
