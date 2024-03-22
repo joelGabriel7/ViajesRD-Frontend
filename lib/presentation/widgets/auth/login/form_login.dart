@@ -15,12 +15,11 @@ class VLoginForm extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: TSizes.spaceBtwSections),
         child: Column(
-          //* Email
+          //* Username
           children: [
             TextFormField(
               decoration: const InputDecoration(
-                  prefixIcon: Icon(Iconsax.direct_right),
-                  labelText: TTexts.email),
+                  prefixIcon: Icon(Iconsax.user), labelText: TTexts.username),
             ),
             const SizedBox(height: TSizes.spaceBtwInputFields),
             TextFormField(
