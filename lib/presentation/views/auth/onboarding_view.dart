@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingView extends GetxController {
   static OnboardingView get instance => Get.find();
@@ -18,9 +19,10 @@ class OnboardingView extends GetxController {
   }
 
   //* update current index & jump to next page
-  void nextPage(BuildContext context) {
+  void nextPage(BuildContext context) async {
     // ignore: unrelated_type_equality_checks
     if (currentPageIndex == 2) {
+      await completeOnboarding();
       context.push('/login');
     } else {
       int page = currentPageIndex.value + 1;
@@ -32,5 +34,10 @@ class OnboardingView extends GetxController {
   void skipPage() {
     currentPageIndex.value = 2;
     pageController.jumpToPage(2);
+  }
+
+  Future<void> completeOnboarding() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboardingCompleted', true);
   }
 }

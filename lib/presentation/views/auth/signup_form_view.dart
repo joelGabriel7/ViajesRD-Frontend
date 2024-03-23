@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:viajes/config/constants/constants.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
 import 'package:viajes/presentation/views/auth/user_created_view.dart';
@@ -22,10 +23,14 @@ class SignupFormView extends ConsumerStatefulWidget {
 class SignupFormViewState extends ConsumerState<SignupFormView> {
   late String _selectedRole;
   late final TextEditingController _emailController = TextEditingController();
+  late final TextEditingController _confirmPasswordController =
+      TextEditingController();
   late final TextEditingController _usernameController =
       TextEditingController();
   late final TextEditingController _passwordController =
       TextEditingController(); // Correctamente movida fuera de build
+  bool _isPassowrdoVisible = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -33,9 +38,17 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
     _selectedRole = widget.selectedRole; // Inicializa aquí, fuera de build
   }
 
+  bool validateForm() {
+    if (_formKey.currentState!.validate()) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Column(
         children: [
           TextFormField(
@@ -44,6 +57,17 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
               labelText: TTexts.email,
               prefixIcon: Icon(Iconsax.direct_right),
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return kEmailNullError;
+              } else if (!emailValidatorRegExp.hasMatch(value)) {
+                return kInvalidEmailError;
+              }
+              return null;
+            },
+            onChanged: (value) {
+              _formKey.currentState?.validate();
+            },
           ),
           const SizedBox(
             height: TSizes.spaceBtwSections,
@@ -55,6 +79,15 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
               labelText: TTexts.username,
               prefixIcon: Icon(Iconsax.user_edit),
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return kUsernamelNullError; // Mensaje de validación
+              }
+              return null;
+            },
+            onChanged: (value) {
+              _formKey.currentState?.validate();
+            },
           ),
           const SizedBox(
             height: TSizes.spaceBtwSections,
@@ -62,16 +95,57 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
           //* password
           TextFormField(
             controller: _passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(
-              labelText: TTexts.password,
-              prefixIcon: Icon(Iconsax.password_check),
-              suffixIcon: Icon(Iconsax.eye_slash),
-            ),
+            obscureText: !_isPassowrdoVisible,
+            decoration: InputDecoration(
+                prefixIcon: Icon(Iconsax.password_check),
+                labelText: TTexts.password,
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _isPassowrdoVisible = !_isPassowrdoVisible;
+                    });
+                  },
+                  icon: Icon(
+                      _isPassowrdoVisible ? Iconsax.eye : Iconsax.eye_slash),
+                )),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return kPassNullError; // Mensaje de validación
+              } else if (value.length < 6) {
+                return kShortPassError;
+              }
+              return null;
+            },
+            onChanged: (value) {
+              _formKey.currentState?.validate();
+            },
           ),
           const SizedBox(
             height: TSizes.spaceBtwSections,
           ),
+
+          //* confirmed password
+          TextFormField(
+            controller: _confirmPasswordController,
+            obscureText: true,
+            decoration: const InputDecoration(
+              labelText: "Confirm Password",
+              prefixIcon: Icon(Icons.lock_outline),
+            ),
+            validator: (value) {
+              if (value != _passwordController.text) {
+                return kMatchPassError;
+              }
+              return null;
+            },
+            onChanged: (value) {
+              _formKey.currentState?.validate();
+            },
+          ),
+          const SizedBox(
+            height: TSizes.spaceBtwSections,
+          ),
+
           Text(
             'Selecciona que tipo de usuario quieres ser:',
             style: Theme.of(context)
@@ -110,24 +184,26 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  try {
-                    final userCreate = UserCreateView(ref: ref);
-                    await userCreate.createUser(
-                        username: _usernameController.text,
-                        email: _emailController.text,
-                        password: _passwordController.text,
-                        role: _selectedRole);
-                    if (mounted) {
-                      context.push('/succes/account');
-                      _usernameController.clear();
-                      _emailController.clear();
-                      _passwordController.clear();
-                    }
-                  } catch (e) {
-                    if (mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(e.toString())),
-                      );
+                  if (validateForm()) {
+                    try {
+                      final userCreate = UserCreateView(ref: ref);
+                      await userCreate.createUser(
+                          username: _usernameController.text,
+                          email: _emailController.text,
+                          password: _passwordController.text,
+                          role: _selectedRole);
+                      if (mounted) {
+                        context.push('/succes/account');
+                        _usernameController.clear();
+                        _emailController.clear();
+                        _passwordController.clear();
+                      }
+                    } catch (e) {
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(e.toString())),
+                        );
+                      }
                     }
                   }
                 },

@@ -32,7 +32,7 @@ class HomeScreenAgency extends StatelessWidget {
                   final SecureStorage secureStorage = SecureStorage();
                   await secureStorage.deleteToken();
                   // ignore: use_build_context_synchronously
-                  context.go('/onboarding');
+                  context.go('/login');
                 },
                 icon: const Icon(Icons.logout_outlined))
           ],
