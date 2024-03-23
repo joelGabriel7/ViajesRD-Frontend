@@ -133,8 +133,8 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
                     if (validateForm()) {
                       final authServices = LoginView(ref: ref);
                       final isSuccess = await authServices.login(
-                          username: _usernameController.text,
-                          password: _passwordController.text);
+                          username: _usernameController.text.trim(),
+                          password: _passwordController.text.trim());
 
                       if (!isSuccess && mounted) {
                         final errorMessage =

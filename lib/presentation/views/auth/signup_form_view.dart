@@ -97,7 +97,7 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
             controller: _passwordController,
             obscureText: !_isPassowrdoVisible,
             decoration: InputDecoration(
-                prefixIcon: Icon(Iconsax.password_check),
+                prefixIcon: const Icon(Icons.lock_outline),
                 labelText: TTexts.password,
                 suffixIcon: IconButton(
                   onPressed: () {
@@ -127,10 +127,19 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
           //* confirmed password
           TextFormField(
             controller: _confirmPasswordController,
-            obscureText: true,
-            decoration: const InputDecoration(
+            obscureText: _isPassowrdoVisible,
+            decoration: InputDecoration(
               labelText: "Confirm Password",
-              prefixIcon: Icon(Icons.lock_outline),
+              prefixIcon: const Icon(Icons.lock_outline),
+              suffixIcon: IconButton(
+                onPressed: () {
+                  setState(() {
+                    _isPassowrdoVisible = !_isPassowrdoVisible;
+                  });
+                },
+                icon:
+                    Icon(_isPassowrdoVisible ? Iconsax.eye : Iconsax.eye_slash),
+              ),
             ),
             validator: (value) {
               if (value != _passwordController.text) {
@@ -188,9 +197,9 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
                     try {
                       final userCreate = UserCreateView(ref: ref);
                       await userCreate.createUser(
-                          username: _usernameController.text,
-                          email: _emailController.text,
-                          password: _passwordController.text,
+                          username: _usernameController.text.trim(),
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text.trim(),
                           role: _selectedRole);
                       if (mounted) {
                         context.push('/succes/account');
