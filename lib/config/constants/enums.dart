@@ -23,3 +23,5 @@ enum PaymentMethods {
 enum UserRole { agency, client }
 
 enum UserStatus { active, deactive }
+
+enum AuthStatus { authenticated, unauthenticated, isLoading }
