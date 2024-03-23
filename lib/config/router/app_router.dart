@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:viajes/config/helpers/auth/redirect_widget.dart';
+import 'package:viajes/config/helpers/auth/common_widget.dart';
 import 'package:viajes/presentation/screens/Tourists%20Places/tourist_place_created_screen.dart';
 import 'package:viajes/presentation/screens/auth/login.dart';
 import 'package:viajes/presentation/screens/auth/onboarding_screen.dart';

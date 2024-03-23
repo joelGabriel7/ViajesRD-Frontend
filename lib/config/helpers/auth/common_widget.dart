@@ -16,15 +16,12 @@ class RedirectWidget extends ConsumerWidget {
     Future.microtask(() async {
       final token = await secureStorage.getToken();
       if (token != null && token.isNotEmpty) {
-        // Navega a la pantalla principal si el token existe
         context.go('/home');
       } else {
-        // Navega a la pantalla de login si el token no existe
-        context.go('/login');
+        context.go('/onboarding');
       }
     });
 
-    // Mientras se decide la ruta, muestra un indicador de carga o una pantalla vacía
     return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(),
