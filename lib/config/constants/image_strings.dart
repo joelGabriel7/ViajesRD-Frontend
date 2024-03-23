@@ -51,6 +51,7 @@ class TImages {
       "assets/images/animations/sammy-line-sale.png";
   static const String staticSuccessIllustration =
       "assets/images/animations/sammy-line-success.png";
+
   static const String deliveredInPlaneIllustration =
       "assets/images/animations/sammy-line-come-back-later.png";
   static const String deliveredEmailIllustration =
@@ -65,6 +66,9 @@ class TImages {
       "assets/images/on_boarding_images/mountaineer-with-travel-backpack.png";
   static const String onBoardingImage3 =
       "assets/images/on_boarding_images/girl-finding-way-during-trekking.png";
+  static const String staticSuccessILogin =
+      "assets/images/on_boarding_images/check_login.png";
+  // "assets/images/on_boarding_images/check_login.jpg";
 
   // -- Products
   // -- Product Reviews

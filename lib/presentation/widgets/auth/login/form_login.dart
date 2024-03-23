@@ -82,7 +82,7 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
                           .showSnackBar(SnackBar(content: Text(errorMessage)));
                     } else {
                       // ignore: use_build_context_synchronously
-                      context.push('/succes/account');
+                      context.push('/succes/login');
                     }
                   },
                   child: const Text(TTexts.signIn),

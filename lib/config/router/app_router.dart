@@ -1,9 +1,11 @@
 import 'package:go_router/go_router.dart';
+import 'package:viajes/config/helpers/auth/redirect_widget.dart';
 import 'package:viajes/presentation/screens/Tourists%20Places/tourist_place_created_screen.dart';
 import 'package:viajes/presentation/screens/auth/login.dart';
 import 'package:viajes/presentation/screens/auth/onboarding_screen.dart';
 import 'package:viajes/presentation/screens/auth/signup_screen.dart';
 import 'package:viajes/presentation/screens/auth/success_account_created.dart';
+import 'package:viajes/presentation/screens/auth/success_login.dart';
 import 'package:viajes/presentation/screens/category_screen.dart';
 import 'package:viajes/presentation/screens/client/home_screen_client.dart';
 import 'package:viajes/presentation/screens/clientes_screen.dart';
@@ -16,6 +18,10 @@ import 'package:viajes/presentation/screens/Tourists%20Places/tourist_place_scre
 final appRouter = GoRouter(initialLocation: '/', routes: [
   GoRoute(
     path: '/',
+    builder: (context, state) => const RedirectWidget(),
+  ),
+  GoRoute(
+    path: '/onboarding',
     builder: (context, state) => const OnBoardingScreen(),
   ),
   GoRoute(
@@ -29,6 +35,10 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
   GoRoute(
     path: '/succes/account',
     builder: (context, state) => const SuccessAccountCreated(),
+  ),
+  GoRoute(
+    path: '/succes/login',
+    builder: (context, state) => const SuccessLoginScreen(),
   ),
   GoRoute(
     path: '/home/client',
