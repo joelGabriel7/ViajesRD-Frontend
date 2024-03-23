@@ -24,4 +24,4 @@ enum UserRole { agency, client }
 
 enum UserStatus { active, deactive }
 
-enum AuthStatus { authenticated, unauthenticated, isLoading }
+enum AuthStatus { authenticated, unauthenticated, isLoading, error }
