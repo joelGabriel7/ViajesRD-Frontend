@@ -246,7 +246,7 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
                             if (!isUpdating && images.isEmpty) {
                               shouldProceed = false;
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                   content: Text(
                                       'Por favor, seleccione al menos una imagen.'),
                                   backgroundColor: TColors.error,

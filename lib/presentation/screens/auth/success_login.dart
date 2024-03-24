@@ -24,7 +24,8 @@ class SuccessLoginScreen extends StatelessWidget {
           context.push(
               '/home/client'); // Suponiendo que esta es la ruta para clientes
         } else if (role == 'agency') {
-          context.push('/home'); // Suponiendo que esta es la ruta para agencias
+          context
+              .push('/home/0'); // Suponiendo que esta es la ruta para agencias
         } else {
           // En caso de no reconocer el rol, puedes redirigir a una pantalla de error o a login
           context.push('/login');

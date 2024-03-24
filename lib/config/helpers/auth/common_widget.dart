@@ -44,7 +44,7 @@ class RedirectWidget extends StatelessWidget {
     }
 
     // Redirigir al usuario según su rol
-    final route = role == 'agency' ? '/home' : '/home/client';
+    final route = role == 'agency' ? '/home/0' : '/home/client';
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.push(route);
     });

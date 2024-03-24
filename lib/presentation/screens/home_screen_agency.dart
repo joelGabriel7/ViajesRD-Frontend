@@ -12,8 +12,9 @@ import '../views/agency/home_view.dart';
 
 class HomeScreenAgency extends StatelessWidget {
   var height = 0.0, widht = 0.0;
+  final int pageIndex;
 
-  HomeScreenAgency({super.key});
+  HomeScreenAgency({super.key, required this.pageIndex});
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -23,28 +24,33 @@ class HomeScreenAgency extends StatelessWidget {
     height = MediaQuery.of(context).size.height;
     widht = MediaQuery.of(context).size.width;
     final scaffolKey = GlobalKey<ScaffoldState>();
+    final viewRouter = <Widget>[
+      HomeView(height: height, widht: widht, titles: appMenuItem)
+    ];
+
     return Scaffold(
-        key: scaffolKey,
-        appBar: AppBar(
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  final SecureStorage secureStorage = SecureStorage();
-                  await secureStorage.deleteToken();
-                  // ignore: use_build_context_synchronously
-                  context.go('/login');
-                },
-                icon: const Icon(Icons.logout_outlined))
-          ],
-          backgroundColor: backgroundColor,
-          iconTheme: const IconThemeData(color: Colors.white),
-        ),
-        bottomNavigationBar: const BottomNavigations(),
-        drawer: SideMenu(scaffolKey: scaffolKey),
-        body: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          child: HomeView(height: height, widht: widht, titles: appMenuItem),
-        ));
+      key: scaffolKey,
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () async {
+                final SecureStorage secureStorage = SecureStorage();
+                await secureStorage.deleteToken();
+                // ignore: use_build_context_synchronously
+                context.go('/login');
+              },
+              icon: const Icon(Icons.logout_outlined))
+        ],
+        backgroundColor: backgroundColor,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      bottomNavigationBar: BottomNavigations(currentPage: pageIndex),
+      drawer: SideMenu(scaffolKey: scaffolKey),
+      body: IndexedStack(
+        index: pageIndex,
+        children: viewRouter,
+      ),
+    );
   }
 
 //

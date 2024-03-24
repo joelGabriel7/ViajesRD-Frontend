@@ -6,8 +6,6 @@ class TouristPlaceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: const TouristPlacesView(),
-    );
+    return const TouristPlacesView();
   }
 }

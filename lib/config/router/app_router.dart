@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:viajes/config/helpers/auth/common_widget.dart';
 import 'package:viajes/presentation/screens/Tourists%20Places/tourist_place_created_screen.dart';
+import 'package:viajes/presentation/screens/agency_profile.dart';
 import 'package:viajes/presentation/screens/auth/login.dart';
 import 'package:viajes/presentation/screens/auth/onboarding_screen.dart';
 import 'package:viajes/presentation/screens/auth/signup_screen.dart';
@@ -45,8 +46,14 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
     builder: (context, state) => const HomeScreenClient(),
   ),
   GoRoute(
-    path: '/home',
-    builder: (context, state) => HomeScreenAgency(),
+      path: '/home/:page',
+      builder: (context, state) {
+        final pageIndex = int.parse(state.pathParameters['page'] ?? '0');
+        return HomeScreenAgency(pageIndex: pageIndex);
+      }),
+  GoRoute(
+    path: '/agency/profile',
+    builder: (context, state) => const AgencyProfile(),
   ),
   GoRoute(
     path: '/excursions',
