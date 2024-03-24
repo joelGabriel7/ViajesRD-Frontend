@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 
 class CustomFieldForm extends StatelessWidget {
+  final TextEditingController controller;
+  final String labelText;
+  final IconData icon;
+  final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
+
   const CustomFieldForm({
     super.key,
-    required this.textController,
+    required this.controller,
     required this.labelText,
-    required this.icons,
+    required this.icon,
+    this.validator,
+    this.onChanged,
   });
-
-  final TextEditingController textController;
-  final String labelText;
-  final IconData icons;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: textController,
-      expands: false,
-      decoration:
-          InputDecoration(labelText: labelText, prefixIcon: Icon(icons)),
+      controller: controller,
+      decoration: InputDecoration(
+        prefixIcon: Icon(icon),
+        labelText: labelText,
+      ),
+      validator: validator,
+      onChanged: onChanged,
     );
   }
 }

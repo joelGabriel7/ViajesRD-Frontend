@@ -7,12 +7,17 @@ class ImagesContainer extends StatelessWidget {
   final VoidCallback press;
   final List<File> images;
   final Function(int) onRemove;
+  final String? Function(List<File>)? validator;
+  final bool isUpdating; // Nuevo parámetro
 
   const ImagesContainer(
       {super.key,
       required this.press,
       required this.images,
-      required this.onRemove});
+      required this.onRemove,
+      this.validator,
+      this.isUpdating = false // Por defecto es true
+      });
 
   @override
   Widget build(BuildContext context) {

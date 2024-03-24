@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:viajes/config/constants/dio_const.dart';
 import 'package:viajes/config/helpers/auth/storage_token.dart';
 import 'package:viajes/domain/datasource/auth_services_datasources.dart';
 import 'package:viajes/infrastructure/models/user_models.dart';
 
 class AuthServicesApiDatasources extends AuthServicesDatasource {
-  final dio = Dio(BaseOptions(baseUrl: 'https://apiviajesrd.info'));
+  final Dio dio = createDioInstance();
   final SecureStorage _secureStorage = SecureStorage();
   @override
   Future<bool> login(String username, String password) async {

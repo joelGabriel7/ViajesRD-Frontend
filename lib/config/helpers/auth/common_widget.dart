@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:go_router/go_router.dart';
-import 'package:viajes/config/helpers/auth/storage_token.dart';
+import 'package:viajes/config/helpers/auth/decode_token.dart';
 
 class RedirectWidget extends StatelessWidget {
   const RedirectWidget({Key? key}) : super(key: key);
@@ -17,24 +17,36 @@ class RedirectWidget extends StatelessWidget {
   Future<void> checkInitialRoute(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     final onboardingCompleted = prefs.getBool('onboardingCompleted') ?? false;
-    final SecureStorage secureStorage = SecureStorage();
-    final token = await secureStorage.getToken();
+    final tokenService = TokenService();
 
     if (!onboardingCompleted) {
-      // Si el onboarding no se ha completado, redirige a la pantalla de onboarding
       WidgetsBinding.instance.addPostFrameCallback((_) {
         context.go('/onboarding');
       });
-    } else if (token != null && token.isNotEmpty) {
-      // Si el onboarding está completado y hay un token, redirige a la pantalla de inicio
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.push('/home');
-      });
-    } else {
-      // Si el onboarding está completado pero no hay un token, redirige a la pantalla de login
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.push('/login');
-      });
+      return;
     }
+
+    final isTokenExpired = await tokenService.isTokenExpired();
+    if (isTokenExpired) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go('/login');
+      });
+      return;
+    }
+
+    // Obtén el rol del usuario a partir del token decodificado
+    final role = await TokenService.getRole();
+    if (role == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        context.go('/login');
+      });
+      return;
+    }
+
+    // Redirigir al usuario según su rol
+    final route = role == 'agency' ? '/home' : '/home/client';
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.push(route);
+    });
   }
 }

@@ -8,6 +8,7 @@ import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
 import 'package:viajes/presentation/provider/users/auth/auth_login_provider.dart';
 import 'package:viajes/presentation/views/auth/login_view.dart';
+import 'package:viajes/presentation/widgets/shared/custom_snackbar.dart';
 
 class VLoginForm extends ConsumerStatefulWidget {
   const VLoginForm({
@@ -140,37 +141,15 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
                         final errorMessage =
                             ref.read(authLoginNotifierProvider).errorMessage;
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Row(
-                              children: [
-                                const Icon(Icons.error,
-                                    color: Colors.white), // Añade un icono
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  // Hace que el texto sea flexible
-                                  child: Text(
-                                    errorMessage,
-                                    overflow: TextOverflow
-                                        .ellipsis, // Añade elipsis si el texto es demasiado largo
-                                  ),
-                                ),
-                              ],
-                            ),
-                            backgroundColor: TColors.error,
-                            action: SnackBarAction(
-                              label: 'Reintentar',
-                              textColor: Colors.white,
-                              onPressed: () {},
-                            ),
-                            behavior: SnackBarBehavior
-                                .floating, // Hace que el SnackBar sea flotante
-                            margin: const EdgeInsets.all(
-                                8), // Añade márgenes alrededor del SnackBar para más espacio
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  20), // Añade bordes redondeados al SnackBar
-                            ),
+                        showCustomSnackBar(
+                          context: context,
+                          message: errorMessage,
+                          actionLabel: "Reintentar",
+                          onActionPressed: () {},
+                          backgroundColor: TColors.error,
+                          icon: const Icon(
+                            Icons.error,
+                            color: TColors.white,
                           ),
                         );
                       } else {

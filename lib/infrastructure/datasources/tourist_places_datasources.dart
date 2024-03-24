@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:viajes/config/constants/dio_const.dart';
 import 'package:viajes/domain/datasource/tourist_places_datasources.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/infrastructure/mappers/tourist_places_mapper.dart';
@@ -7,7 +8,7 @@ import 'package:viajes/infrastructure/models/tourist_place_details_models.dart';
 import 'package:viajes/infrastructure/models/tourist_places_models.dart';
 
 class TouristPlacesApiDatasources extends TouristPlacesDatasources {
-  final dio = Dio(BaseOptions(baseUrl: 'https://apiviajesrd.info'));
+  final Dio dio = createDioInstance();
 
   @override
   Future<List<TouristPlaces>> getTouristPlaces({int page = 1}) async {

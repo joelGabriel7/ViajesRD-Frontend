@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/text_strings.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/provider/categories/categories_provider.dart';
@@ -12,6 +13,7 @@ import 'package:viajes/presentation/provider/tourist_places/tourist_place_provid
 import 'package:viajes/presentation/provider/tourist_places/tourist_place_update_provider.dart';
 import 'package:viajes/presentation/widgets/custom_dropdown.dart';
 import 'package:viajes/presentation/widgets/shared/custom_bottom.dart';
+import 'package:viajes/presentation/widgets/shared/custom_snackbar.dart';
 import 'package:viajes/presentation/widgets/shared/images_container.dart';
 import 'package:viajes/utils/constants/sizes.dart';
 import '../../widgets/shared/custom_field_form.dart';
@@ -40,9 +42,11 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController locationController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   int selectedCategoryId = 1;
   List<File> images = [];
   bool isLoading = false;
+  bool hasImagesSelected = false;
 
   @override
   void initState() {
@@ -87,7 +91,7 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(touristPlaceAddProvider);
+    // final state = ref.watch(touristPlaceAddProvider);
     final notifier = ref.watch(touristPlaceAddProvider.notifier);
     final categories = ref.watch(getAllCategoryProvider);
     final placeDetails = ref.watch(placeInfoProvider);
@@ -141,30 +145,60 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
 
                 //* Form
                 Form(
-                    child: Column(
-                  children: [
+                  key: _formKey,
+                  child: Column(children: [
                     CustomFieldForm(
-                      textController: nameController,
+                      controller: nameController,
                       labelText: TTexts.touristPlaceName,
-                      icons: Icons.place,
+                      icon: Icons.description,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingrese un nombre'; // Mensaje de validación
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _formKey.currentState?.validate();
+                      },
                     ),
+
                     const SizedBox(
                       height: TSizes.spaceBtwInputFields,
                     ),
                     CustomFieldForm(
-                      textController: descriptionController,
+                      controller: descriptionController,
                       labelText: TTexts.touristPlaceDescription,
-                      icons: Icons.description,
+                      icon: Icons.place,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingrese una descripcion'; // Mensaje de validación
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _formKey.currentState?.validate();
+                      },
                     ),
+
                     // Location
                     const SizedBox(
                       height: TSizes.spaceBtwInputFields,
                     ),
                     CustomFieldForm(
-                      textController: locationController,
+                      controller: locationController,
                       labelText: TTexts.touristPlaceLocation,
-                      icons: Icons.add_location_alt,
+                      icon: Icons.place,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor ingrese una Locacion'; // Mensaje de validación
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _formKey.currentState?.validate();
+                      },
                     ),
+
                     const SizedBox(
                       height: TSizes.spaceBtwInputFields,
                     ),
@@ -183,14 +217,19 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
                     const SizedBox(
                       height: TSizes.spaceBtwInputFields,
                     ),
-                    const SizedBox(
-                      height: TSizes.spaceBtwInputFields,
-                    ),
-                    //* Images
                     ImagesContainer(
                       press: pickImages,
                       images: images,
                       onRemove: removeImage,
+                      validator: isUpdating
+                          ? null
+                          : (images) {
+                              // Usar 'isUpdating' para decidir
+                              if (images.isEmpty) {
+                                return 'Por favor seleccione al menos una imagen'; // Mensaje de validación
+                              }
+                              return null;
+                            },
                     ),
 
                     const SizedBox(
@@ -198,63 +237,99 @@ class PlaceCreateFormState extends ConsumerState<PlaceCreateForm> {
                     ),
                     //* Button
                     DefaultButton(
-                      text: buttonText,
-                      press: () {
-                        if (state.status != AddTouristPlaceStatus.loading) {
-                          AwesomeDialog(
-                            context: context,
-                            dialogType: DialogType.info,
-                            animType: AnimType.bottomSlide,
-                            title: 'Confirmación',
-                            desc: '¿Estás seguro de realizar esta acción?',
-                            btnCancelOnPress: () {},
-                            btnOkOnPress: () async {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              if (isUpdating) {
-                                await placeUpdate.updateTouristPlace(
-                                  id: widget.placeId!,
-                                  name: nameController.text,
-                                  description: descriptionController.text,
-                                  location: locationController.text,
-                                  categoryId: selectedCategoryId,
-                                  images: images,
-                                );
+                        text: buttonText,
+                        press: () {
+                          if (_formKey.currentState!.validate()) {
+                            bool shouldProceed = true;
 
-                                ref
-                                    .read(placeInfoProvider.notifier)
-                                    .reloadPlace(widget.placeId!);
-                              } else {
-                                await notifier.addTouristPlaceAndUploadImages(
-                                  name: nameController.text,
-                                  description: descriptionController.text,
-                                  location: locationController.text,
-                                  categoryId: selectedCategoryId,
-                                  images: images,
-                                );
-                              }
-                              setState(() {
-                                isLoading = false;
-                              });
+                            // Si estamos creando una nueva zona, verificar también las imágenes.
+                            if (!isUpdating && images.isEmpty) {
+                              shouldProceed = false;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Por favor, seleccione al menos una imagen.'),
+                                  backgroundColor: TColors.error,
+                                ),
+                              );
+                            }
+                            if (shouldProceed) {
+                              AwesomeDialog(
+                                  context: context,
+                                  dialogType: DialogType.info,
+                                  animType: AnimType.bottomSlide,
+                                  title: 'Confirmación',
+                                  desc:
+                                      '¿Estás seguro de realizar esta acción?',
+                                  btnCancelOnPress: () {},
+                                  btnOkOnPress: () async {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    try {
+                                      if (isUpdating) {
+                                        await placeUpdate.updateTouristPlace(
+                                          id: widget.placeId!,
+                                          name: nameController.text,
+                                          description:
+                                              descriptionController.text,
+                                          location: locationController.text,
+                                          categoryId: selectedCategoryId,
+                                          images: images,
+                                        );
 
-                              if (mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                        'El lugar turístico se ha creado correctamente y se han subido las imagen.'),
-                                    duration: Duration(seconds: 3),
-                                  ),
-                                );
-                                context.pop();
-                              }
-                            },
-                          ).show();
-                        }
-                      },
-                    ),
-                  ],
-                ))
+                                        ref
+                                            .read(placeInfoProvider.notifier)
+                                            .reloadPlace(widget.placeId!);
+                                      } else {
+                                        await notifier
+                                            .addTouristPlaceAndUploadImages(
+                                          name: nameController.text,
+                                          description:
+                                              descriptionController.text,
+                                          location: locationController.text,
+                                          categoryId: selectedCategoryId,
+                                          images: images,
+                                        );
+                                      }
+                                    } catch (e) {
+                                      debugPrint('Error: $e');
+                                    } finally {
+                                      isLoading = true;
+                                    }
+
+                                    if (mounted) {
+                                      showCustomSnackBar(
+                                          context: context,
+                                          message: isUpdating
+                                              ? 'Lugar turístico actualizado correctamente'
+                                              : 'Lugar turístico creado correctamente',
+                                          backgroundColor: TColors.success,
+                                          icon: const Icon(
+                                              Icons.check_circle_outline,
+                                              color: TColors.white),
+                                          onActionPressed: () =>
+                                              ScaffoldMessenger.of(context)
+                                                  .hideCurrentSnackBar());
+                                      context.pop();
+                                    }
+                                  }).show();
+                            }
+                          } else if (images.isEmpty) {
+                            showCustomSnackBar(
+                                context: context,
+                                message:
+                                    'Por favor, seleccione al menos una imagen.',
+                                backgroundColor: TColors.error,
+                                icon: const Icon(Icons.error_outline,
+                                    color: TColors.white),
+                                onActionPressed: () =>
+                                    ScaffoldMessenger.of(context)
+                                        .hideCurrentSnackBar());
+                          }
+                        })
+                  ]),
+                )
               ]),
             ),
           ),

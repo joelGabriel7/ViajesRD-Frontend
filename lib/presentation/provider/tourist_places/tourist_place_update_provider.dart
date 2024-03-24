@@ -32,12 +32,9 @@ class TouristPlaceUpdateNotifier
       if (images != null && images.isNotEmpty) {
         imageUrls = await respository.uploadImages(id, images);
       }
-      // Suponiendo que copyWith actualiza la lista de imágenes correctamente
       final updatedPlace = placeUpdate.copyWith(images: imageUrls);
 
-      // Actualizar el estado para reflejar el lugar turístico actualizado
       state = {...state, id.toString(): updatedPlace};
-      // Notificar a la UI que hay un cambio
       state = state;
     } catch (e) {
       rethrow;
