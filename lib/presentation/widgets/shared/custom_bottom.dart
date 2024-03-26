@@ -6,11 +6,11 @@ class DefaultButton extends StatelessWidget {
   final Widget? child;
 
   const DefaultButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.press,
     this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

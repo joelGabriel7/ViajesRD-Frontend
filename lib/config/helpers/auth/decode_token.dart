@@ -47,8 +47,8 @@ class TokenService {
     return null; // Return null to indicate that the token couldn't be decoded
   }
 
-  static Future<String?> getRole() async {
+  static Future<String> getRole() async {
     final payload = await TokenService().decodeToken();
-    return payload?['role'];
+    return payload!['role'];
   }
 }

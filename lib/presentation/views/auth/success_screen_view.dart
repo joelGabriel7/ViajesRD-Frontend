@@ -11,10 +11,12 @@ class SuccessScreenView extends StatelessWidget {
       required this.images,
       required this.title,
       required this.subtitle,
-      required this.onPressed});
+      required this.onPressed,
+      this.icon});
 
   final String images, title, subtitle;
   final VoidCallback onPressed;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +25,7 @@ class SuccessScreenView extends StatelessWidget {
           automaticallyImplyLeading: false,
           actions: [
             IconButton(
-                onPressed: () => context.push('/login'),
-                icon: const Icon(Icons.close_rounded))
+                onPressed: () => context.push('/login'), icon: Icon(icon))
           ],
         ),
         body: SingleChildScrollView(

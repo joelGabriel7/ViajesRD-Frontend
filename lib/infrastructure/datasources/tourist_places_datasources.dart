@@ -79,10 +79,8 @@ class TouristPlacesApiDatasources extends TouristPlacesDatasources {
         contentType: Headers.formUrlEncodedContentType,
       );
 
-      final response = await dio.post(
-          '/tourist_place/${touristPlaceId}/images/',
-          data: formData,
-          options: options);
+      final response = await dio.post('/tourist_place/$touristPlaceId/images/',
+          data: formData, options: options);
 
       if (response.statusCode == 200 && response.data is Map) {
         List<String> imageUrls = List<String>.from(response.data['images']

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lottie/lottie.dart';
 import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/constants.dart';
 import 'package:viajes/config/constants/sizes.dart';
@@ -9,6 +10,7 @@ import 'package:viajes/config/constants/text_strings.dart';
 import 'package:viajes/presentation/provider/users/auth/auth_login_provider.dart';
 import 'package:viajes/presentation/views/auth/login_view.dart';
 import 'package:viajes/presentation/widgets/shared/custom_snackbar.dart';
+import 'package:viajes/utils/helpers/helper_functions.dart';
 
 class VLoginForm extends ConsumerStatefulWidget {
   const VLoginForm({
@@ -27,6 +29,8 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
       TextEditingController();
   bool _isPassowrdoVisible = false;
 
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -42,138 +46,166 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
     super.dispose();
   }
 
+  Future<void> _attemptLogin() async {
+    if (validateForm()) {
+      setState(() => _isLoading = true); // Inicia la animación
+
+      final isSuccess = await LoginView(ref: ref).login(
+        username: _usernameController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      if (!isSuccess && mounted) {
+        final errorMessage = ref.read(authLoginNotifierProvider).errorMessage;
+
+        showCustomSnackBar(
+          context: context,
+          message: errorMessage,
+          actionLabel: "Reintentar",
+          onActionPressed: () {},
+          backgroundColor: TColors.error,
+          icon: const Icon(
+            Icons.error,
+            color: TColors.white,
+          ),
+        );
+      } else {
+        // ignore: use_build_context_synchronously
+        context.go('/succes/login');
+      }
+
+      if (mounted) {
+        setState(() => _isLoading = false); // Detiene la animación
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: TSizes.spaceBtwSections),
-        child: Column(
-          //* Username
-          children: [
-            TextFormField(
-              controller: _usernameController,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Iconsax.user),
-                labelText: TTexts.username,
-                suffixIcon: _usernameController.text.isNotEmpty
-                    ? GestureDetector(
-                        onTap: () {
-                          _usernameController.clear();
-                          setState(() {});
-                        },
-                        child: const Icon(Icons.close),
-                      )
-                    : null,
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return kUsernamelNullError; // Mensaje de validación
-                }
-                return null;
-              },
-              onChanged: (value) {
-                setState(() {});
-                _formKey.currentState?.validate();
-              },
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        // Tus widgets aquí
+        if (_isLoading)
+          Container(
+            margin: EdgeInsets.symmetric(
+                vertical: 18, horizontal: 5), // Ajusta esto a tus necesidades
+            child: Lottie.asset(
+              'assets/images/animations/Animation_loader.json',
+              width: THelperFunctions.screenWidth(context) * 0.8,
+              height: THelperFunctions.screenHeight(context) * 0.30,
             ),
-            const SizedBox(height: TSizes.spaceBtwInputFields),
-            //* password
-            TextFormField(
-              controller: _passwordController,
-              obscureText: !_isPassowrdoVisible,
-              decoration: InputDecoration(
-                  prefixIcon: const Icon(Iconsax.password_check),
-                  labelText: TTexts.password,
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _isPassowrdoVisible = !_isPassowrdoVisible;
-                      });
-                    },
-                    icon: Icon(
-                        _isPassowrdoVisible ? Iconsax.eye : Iconsax.eye_slash),
-                  )),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return kPassNullError; // Mensaje de validación
-                }
-                return null;
-              },
-              onChanged: (value) {
-                _formKey.currentState?.validate();
-              },
-            ),
-            const SizedBox(height: TSizes.spaceBtwInputFields / 2),
+          ),
 
-            ///* Remember me & Forget password
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Form(
+          key: _formKey,
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: TSizes.spaceBtwSections),
+            child: Column(
+              //* Username
               children: [
+                TextFormField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Iconsax.user),
+                    labelText: TTexts.username,
+                    suffixIcon: _usernameController.text.isNotEmpty
+                        ? GestureDetector(
+                            onTap: () {
+                              _usernameController.clear();
+                              setState(() {});
+                            },
+                            child: const Icon(Icons.close),
+                          )
+                        : null,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return kUsernamelNullError; // Mensaje de validación
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {});
+                    _formKey.currentState?.validate();
+                  },
+                ),
+                const SizedBox(height: TSizes.spaceBtwInputFields),
+                //* password
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: !_isPassowrdoVisible,
+                  decoration: InputDecoration(
+                      prefixIcon: const Icon(Iconsax.password_check),
+                      labelText: TTexts.password,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _isPassowrdoVisible = !_isPassowrdoVisible;
+                          });
+                        },
+                        icon: Icon(_isPassowrdoVisible
+                            ? Iconsax.eye
+                            : Iconsax.eye_slash),
+                      )),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return kPassNullError; // Mensaje de validación
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    _formKey.currentState?.validate();
+                  },
+                ),
+                const SizedBox(height: TSizes.spaceBtwInputFields / 2),
+
+                ///* Remember me & Forget password
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Checkbox(
-                      value: true,
-                      onChanged: (value) {},
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: true,
+                          onChanged: (value) {},
+                        ),
+                        const Text(TTexts.rememberMe),
+                      ],
                     ),
-                    const Text(TTexts.rememberMe),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text(TTexts.forgetPassword),
+                    ),
                   ],
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(TTexts.forgetPassword),
-                ),
+
+                //* Sign in Button
+                SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await _attemptLogin();
+                      },
+                      child: const Text(TTexts.signIn),
+                    )),
+                const SizedBox(height: TSizes.spaceBtwItems),
+                // //* Create Account Button
+                SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        context.push('/signup');
+                      },
+                      child: const Text(TTexts.createAccount),
+                    )),
+                const SizedBox(height: TSizes.spaceBtwItems),
               ],
             ),
-
-            //* Sign in Button
-            SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    if (validateForm()) {
-                      final authServices = LoginView(ref: ref);
-                      final isSuccess = await authServices.login(
-                          username: _usernameController.text.trim(),
-                          password: _passwordController.text.trim());
-
-                      if (!isSuccess && mounted) {
-                        final errorMessage =
-                            ref.read(authLoginNotifierProvider).errorMessage;
-
-                        showCustomSnackBar(
-                          context: context,
-                          message: errorMessage,
-                          actionLabel: "Reintentar",
-                          onActionPressed: () {},
-                          backgroundColor: TColors.error,
-                          icon: const Icon(
-                            Icons.error,
-                            color: TColors.white,
-                          ),
-                        );
-                      } else {
-                        // ignore: use_build_context_synchronously
-                        context.push('/succes/login');
-                      }
-                    }
-                  },
-                  child: const Text(TTexts.signIn),
-                )),
-            const SizedBox(height: TSizes.spaceBtwItems),
-            // //* Create Account Button
-            SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {
-                    context.push('/signup');
-                  },
-                  child: const Text(TTexts.createAccount),
-                )),
-            const SizedBox(height: TSizes.spaceBtwItems),
-          ],
-        ),
-      ),
+          ),
+        )
+      ],
     );
   }
 
