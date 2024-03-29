@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
+import 'package:viajes/presentation/widgets/logo_picker.dart';
 import 'package:viajes/presentation/widgets/shared/custom_field_form.dart';
 
 class AgencyFormView extends StatelessWidget {
@@ -25,7 +26,7 @@ class AgencyFormView extends StatelessWidget {
                 const SizedBox(
                   height: TSizes.spaceBtwSections,
                 ),
-                FormAgency(),
+                const FormAgency(),
               ],
             ),
           ),
@@ -44,7 +45,6 @@ class FormAgency extends StatelessWidget {
     final TextEditingController addressController = TextEditingController();
     final TextEditingController phoneController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
-    final TextEditingController logoController = TextEditingController();
     final TextEditingController rncController = TextEditingController();
 
     return Form(
@@ -75,16 +75,12 @@ class FormAgency extends StatelessWidget {
         ),
         const SizedBox(height: TSizes.spaceBtwInputFields),
         CustomFieldForm(
-          controller: logoController,
-          labelText: 'Logo',
-          icon: Icons.image,
-        ),
-        const SizedBox(height: TSizes.spaceBtwInputFields),
-        CustomFieldForm(
           controller: rncController,
           labelText: 'RNC',
           icon: Icons.credit_score,
         ),
+        const SizedBox(height: TSizes.spaceBtwInputFields),
+        const LogoPicker(),
         const SizedBox(height: TSizes.spaceBtwSections),
         SizedBox(
           width: double.infinity,

@@ -88,7 +88,7 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
         // Tus widgets aquí
         if (_isLoading)
           Container(
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
                 vertical: 18, horizontal: 5), // Ajusta esto a tus necesidades
             child: Lottie.asset(
               'assets/images/animations/Animation_loader.json',
