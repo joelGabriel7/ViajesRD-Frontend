@@ -33,13 +33,13 @@ class TokenStateNotifier extends StateNotifier<bool> {
       final userRole = UserRole.values.byName(userRoleString);
       switch (userRole) {
         case UserRole.agency:
-          ref.read(goRouterProvider).push('/home/0');
+          ref.read(goRouterProvider).go('/home/0');
           break;
         case UserRole.client:
-          ref.read(goRouterProvider).push('/home/client');
+          ref.read(goRouterProvider).go('/home/client');
           break;
         default:
-          ref.read(goRouterProvider).push('/login');
+          ref.read(goRouterProvider).go('/login');
       }
     }
     return isExpired;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/presentation/widgets/shared/profile_menu.dart';
@@ -33,7 +34,7 @@ class ProfileAgencyView extends StatelessWidget {
                 const SizedBox(height: TSizes.spaceBtwItems),
                 const TSectionsHeadings(
                   title: 'Profile information',
-                  snowActionArrow: false,
+                  snowActionArrow: true,
                 ),
                 const SizedBox(height: TSizes.spaceBtwItems),
                 ProfileMenu(
@@ -51,9 +52,10 @@ class ProfileAgencyView extends StatelessWidget {
                 const Divider(),
                 const SizedBox(height: TSizes.spaceBtwItems),
                 //* Heading Agenct Info
-                const TSectionsHeadings(
+                TSectionsHeadings(
                   title: 'Agency information',
-                  snowActionArrow: false,
+                  snowActionArrow: true,
+                  onButtonPressed: () => context.push('/agency/new'),
                 ),
 
                 ProfileMenu(

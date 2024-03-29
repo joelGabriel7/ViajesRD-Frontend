@@ -16,6 +16,8 @@ import 'package:viajes/presentation/screens/reservations_screen.dart';
 import 'package:viajes/presentation/screens/Tourists%20Places/details/tourist_place_details.dart';
 import 'package:viajes/presentation/screens/Tourists%20Places/tourist_place_screen.dart';
 
+import '../../presentation/views/agency/form/agency_form_view.dart';
+
 final appRouter = GoRouter(initialLocation: '/', routes: [
   GoRoute(
     path: '/',
@@ -51,6 +53,10 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
         final pageIndex = int.parse(state.pathParameters['page'] ?? '0');
         return HomeScreenAgency(pageIndex: pageIndex);
       }),
+  GoRoute(
+    path: '/agency/new',
+    builder: (context, state) => const AgencyFormView(),
+  ),
   GoRoute(
     path: '/agency/profile',
     builder: (context, state) => const AgencyProfile(),

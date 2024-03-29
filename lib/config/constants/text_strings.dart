@@ -30,6 +30,10 @@ class TTexts {
   static const String touristPlaceLocation = 'Locacion';
   static const String touristPlaceCategoria = 'Selecciona una categoria';
 
+  // * Agency titles
+
+  static const String agencyTitle = 'Registra tu agencia';
+
   // -- Formularios de Autenticación
   static const String firstName = "Nombre";
   static const String lastName = "Apellido";
