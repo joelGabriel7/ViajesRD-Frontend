@@ -19,6 +19,5 @@ class UserCreateView {
     } catch (e) {
       rethrow;
     }
-    // Lógica para crear un usuario
   }
 }

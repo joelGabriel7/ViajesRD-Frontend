@@ -202,10 +202,15 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
                           password: _passwordController.text.trim(),
                           role: _selectedRole);
                       if (mounted) {
-                        context.push('/succes/account');
                         _usernameController.clear();
                         _emailController.clear();
                         _passwordController.clear();
+
+                        if (_selectedRole == 'agency') {
+                          context.push('/agency/new');
+                        } else {
+                          context.push('/client/new');
+                        }
                       }
                     } catch (e) {
                       if (mounted) {

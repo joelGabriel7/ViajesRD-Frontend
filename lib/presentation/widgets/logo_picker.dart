@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class LogoPicker extends StatefulWidget {
-  const LogoPicker({Key? key}) : super(key: key);
+  final Function(XFile?) onImagePicked;
+  const LogoPicker({super.key, required this.onImagePicked});
 
   @override
   LogoPickerState createState() => LogoPickerState();
@@ -18,9 +19,9 @@ class LogoPickerState extends State<LogoPicker> {
 
     if (image != null) {
       setState(() {
-        _controller.text = image
-            .name; // Puedes mostrar el nombre de la imagen seleccionada si lo deseas
+        _controller.text = image.name;
       });
+      widget.onImagePicked(image);
     }
   }
 
@@ -28,7 +29,7 @@ class LogoPickerState extends State<LogoPicker> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: _controller,
-      readOnly: true, // Evita que el teclado se muestre cuando tocan el campo
+      readOnly: true,
       decoration: InputDecoration(
         labelText: 'Toca para seleccionar un logo',
         suffixIcon: IconButton(

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
+import 'package:viajes/presentation/views/agency/form/agency_create_view.dart';
 import 'package:viajes/presentation/widgets/logo_picker.dart';
 import 'package:viajes/presentation/widgets/shared/custom_field_form.dart';
 
@@ -34,10 +38,23 @@ class AgencyFormView extends StatelessWidget {
   }
 }
 
-class FormAgency extends StatelessWidget {
+class FormAgency extends ConsumerStatefulWidget {
   const FormAgency({
     super.key,
   });
+
+  @override
+  FormAgencyState createState() => FormAgencyState();
+}
+
+class FormAgencyState extends ConsumerState<FormAgency> {
+  XFile? _logoImage; // Aquí guardaremos la imagen seleccionada
+
+  void _setLogoImage(XFile? image) {
+    setState(() {
+      _logoImage = image;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,12 +97,29 @@ class FormAgency extends StatelessWidget {
           icon: Icons.credit_score,
         ),
         const SizedBox(height: TSizes.spaceBtwInputFields),
-        const LogoPicker(),
+        LogoPicker(onImagePicked: (image) => _setLogoImage(image)),
         const SizedBox(height: TSizes.spaceBtwSections),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () async {
+              try {
+                final agencyCreate = AgencyCreateView(ref: ref);
+                await agencyCreate.createAgency(
+                    name: nameAgency.text,
+                    address: addressController.text,
+                    phone: phoneController.text,
+                    email: emailController.text,
+                    logo: _logoImage!.path,
+                    rnc: rncController.text);
+              } catch (e, stackTrace) {
+                // Captura tanto la excepción como el stack trace
+                debugPrint('Error al crear la agencia: $e');
+                debugPrint(
+                    'Stack Trace: $stackTrace'); // Imprime el stack trace
+              }
+              context.push('/succes/account');
+            },
             child: const Text('Guardar'),
           ),
         )

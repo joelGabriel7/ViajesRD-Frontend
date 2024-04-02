@@ -1,5 +1,5 @@
 class Agency {
-  final int id;
+  final int? id;
   final String name;
   final String address;
   final String phone;
@@ -8,7 +8,7 @@ class Agency {
   final String rnc;
 
   Agency({
-    required this.id,
+    this.id,
     required this.name,
     required this.address,
     required this.phone,
