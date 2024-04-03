@@ -17,4 +17,9 @@ class AgencyImplRepository extends AgencyRepository {
       String email, String logo, String rnc) {
     return dataSource.updateAgency(id, name, address, phone, email, logo, rnc);
   }
+
+  @override
+  Future<Agency> getAgency(int id) {
+    return dataSource.getAgency(id);
+  }
 }

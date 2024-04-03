@@ -43,4 +43,27 @@ class AgencyApiDatasource extends AgencyDataSource {
       String email, String logo, String rnc) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<Agency> getAgency(int id) async {
+    final Dio dio = createDioInstance();
+    try {
+      final response = await dio.get('/agencies/$id');
+      if (response.data != null && response.data is Map<String, dynamic>) {
+        final reponses = AgenciReponses.fromJson(response.data);
+        final entity = AgencyMapper.agencyToEntity(reponses);
+        return entity;
+      } else {
+        throw Exception('Failed to load user');
+      }
+    } on DioException catch (e) {
+      String errorMessage = "Error desconocido";
+      if (e.response != null && e.response!.data != null) {
+        final responseData = e.response!.data;
+        errorMessage =
+            responseData['detail'] ?? "Error al procesar la solicitud";
+      }
+      throw Exception(errorMessage);
+    }
+  }
 }
