@@ -113,12 +113,12 @@ class FormAgencyState extends ConsumerState<FormAgency> {
                     logo: _logoImage!.path,
                     rnc: rncController.text);
               } catch (e, stackTrace) {
-                // Captura tanto la excepción como el stack trace
                 debugPrint('Error al crear la agencia: $e');
-                debugPrint(
-                    'Stack Trace: $stackTrace'); // Imprime el stack trace
+                debugPrint('Stack Trace: $stackTrace');
               }
-              context.push('/succes/account');
+              if (mounted) {
+                context.push('/succes/account');
+              }
             },
             child: const Text('Guardar'),
           ),

@@ -80,7 +80,7 @@ class ProfileAgencyView extends StatelessWidget {
                   onButtonPressed: () {},
                 ),
                 ProfileMenu(
-                  title: 'Numero de lic.',
+                  title: 'RNC',
                   value: '003-2021-0001',
                   onButtonPressed: () {},
                 ),
