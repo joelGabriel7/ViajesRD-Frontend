@@ -45,7 +45,7 @@ class AgencyApiDatasource extends AgencyDataSource {
   }
 
   @override
-  Future<Agency> getAgency(int id) async {
+  Future<Agency> getAgency(String id) async {
     final Dio dio = createDioInstance();
     try {
       final response = await dio.get('/agencies/$id');

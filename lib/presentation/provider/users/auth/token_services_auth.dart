@@ -29,13 +29,6 @@ class TokenStateNotifier extends StateNotifier<bool> {
       ref.read(goRouterProvider).push('/login'); // Redirect to login page
       await SharedPreferences.getInstance().then((prefs) => prefs.clear());
     } else {
-      //* ID del usuario
-      final userId = await tokenService.getUserId();
-      if (userId != null) {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('userId', userId);
-      }
-
       //* Rol del usuario
 
       final userRoleString = await TokenService.getRole();

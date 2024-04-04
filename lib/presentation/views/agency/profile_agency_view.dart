@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:viajes/config/constants/sizes.dart';
@@ -7,10 +8,20 @@ import 'package:viajes/presentation/widgets/shared/profile_picture.dart';
 import 'package:viajes/presentation/widgets/shared/sections_headings.dart';
 import 'package:viajes/presentation/widgets/shared/t_app_bar.dart';
 
-class ProfileAgencyView extends StatelessWidget {
+class ProfileAgencyView extends ConsumerStatefulWidget {
   const ProfileAgencyView({
     super.key,
   });
+
+  @override
+  ProfileAgencyViewState createState() => ProfileAgencyViewState();
+}
+
+class ProfileAgencyViewState extends ConsumerState<ProfileAgencyView> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,23 +76,23 @@ class ProfileAgencyView extends StatelessWidget {
                 ),
                 ProfileMenu(
                   title: 'Numero telf.',
-                  value: '849-654-8531',
+                  value: '809-555-5555',
                   onButtonPressed: () {},
                   icon: Iconsax.copy,
                 ),
                 ProfileMenu(
                   title: 'Address',
-                  value: 'Santiago, Rep. Dom.',
+                  value: 'Calle 1, No. 1, Santiago',
                   onButtonPressed: () {},
                 ),
                 ProfileMenu(
                   title: 'Email',
-                  value: 'user@example.com',
+                  value: 'agency@agencyemail.com',
                   onButtonPressed: () {},
                 ),
                 ProfileMenu(
-                  title: 'RNC',
-                  value: '003-2021-0001',
+                  title: 'RNC.',
+                  value: '123456789',
                   onButtonPressed: () {},
                 ),
               ],

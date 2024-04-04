@@ -51,10 +51,4 @@ class TokenService {
     final payload = await TokenService().decodeToken();
     return payload!['role'];
   }
-
-  Future<String?> getUserId() async {
-    final payload = await TokenService().decodeToken();
-    debugPrint('User ID: ${payload!['id']}');
-    return payload['id'];
-  }
 }

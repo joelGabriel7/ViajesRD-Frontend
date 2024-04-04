@@ -19,7 +19,7 @@ class AgencyImplRepository extends AgencyRepository {
   }
 
   @override
-  Future<Agency> getAgency(int id) {
+  Future<Agency> getAgency(String id) {
     return dataSource.getAgency(id);
   }
 }
