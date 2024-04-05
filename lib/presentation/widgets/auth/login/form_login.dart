@@ -5,8 +5,10 @@ import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/constants.dart';
+import 'package:viajes/config/constants/enums.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
+import 'package:viajes/config/helpers/auth/decode_token.dart';
 import 'package:viajes/presentation/provider/users/auth/auth_login_provider.dart';
 import 'package:viajes/presentation/views/auth/login_view.dart';
 import 'package:viajes/presentation/widgets/shared/custom_snackbar.dart';
@@ -41,7 +43,6 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
 
   @override
   void dispose() {
-    // No olvides limpiar los controladores
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -56,17 +57,18 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
         password: _passwordController.text.trim(),
       );
 
-      setState(() => _isLoading =
-          false); // Detiene la animación antes de cualquier redirección para evitar estados inestables
+      setState(() => _isLoading == false);
 
       if (isSuccess) {
+        final userRole = await TokenService.getRole();
+
         final profileCompleted = await UserProfileService.isProfileCompleted();
-        if (!profileCompleted && mounted) {
-          // Redirige a la pantalla de completar perfil
+
+        if (userRole == 'agency' && !profileCompleted && mounted) {
           context.go('/agency/new');
+          await UserProfileService.markProfileAsCompleted();
         } else {
-          // Redirige al dashboard o la pantalla principal
-          context.go('/home');
+          navigateBasedOnUserRole(userRole);
         }
       } else if (mounted) {
         final errorMessage =
@@ -83,6 +85,20 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
           ),
         );
       }
+    }
+  }
+
+  void navigateBasedOnUserRole(String userRole) {
+    switch (userRole) {
+      case "agency":
+        context.go('/home/0');
+        break;
+      case "client":
+        context.go('/home/client');
+        break;
+      default:
+        context.go('/login');
+        break;
     }
   }
 

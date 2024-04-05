@@ -24,7 +24,7 @@ class OnboardingView extends GetxController {
   void nextPage(BuildContext context) async {
     if (currentPageIndex == 2) {
       await completeOnboarding();
-      context.push('/login');
+      context.go('/login');
     } else {
       int page = currentPageIndex.value + 1;
       pageController.jumpToPage(page);
