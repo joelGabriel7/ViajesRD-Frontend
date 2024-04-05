@@ -67,6 +67,8 @@ class FormAgencyState extends ConsumerState<FormAgency> {
     return Form(
         child: Column(
       children: [
+        LogoPicker(onImagePicked: (image) => _setLogoImage(image)),
+        const SizedBox(height: TSizes.spaceBtwSections),
         CustomFieldForm(
           controller: nameAgency,
           labelText: 'Nombre',
@@ -97,8 +99,6 @@ class FormAgencyState extends ConsumerState<FormAgency> {
           icon: Icons.credit_score,
         ),
         const SizedBox(height: TSizes.spaceBtwInputFields),
-        LogoPicker(onImagePicked: (image) => _setLogoImage(image)),
-        const SizedBox(height: TSizes.spaceBtwSections),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(

@@ -11,6 +11,7 @@ import 'package:viajes/presentation/provider/users/auth/auth_login_provider.dart
 import 'package:viajes/presentation/views/auth/login_view.dart';
 import 'package:viajes/presentation/widgets/shared/custom_snackbar.dart';
 import 'package:viajes/utils/helpers/helper_functions.dart';
+import 'package:viajes/config/helpers/user_services.dart';
 
 class VLoginForm extends ConsumerStatefulWidget {
   const VLoginForm({
@@ -55,9 +56,21 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
         password: _passwordController.text.trim(),
       );
 
-      if (!isSuccess && mounted) {
-        final errorMessage = ref.read(authLoginNotifierProvider).errorMessage;
+      setState(() => _isLoading =
+          false); // Detiene la animación antes de cualquier redirección para evitar estados inestables
 
+      if (isSuccess) {
+        final profileCompleted = await UserProfileService.isProfileCompleted();
+        if (!profileCompleted && mounted) {
+          // Redirige a la pantalla de completar perfil
+          context.go('/agency/new');
+        } else {
+          // Redirige al dashboard o la pantalla principal
+          context.go('/home');
+        }
+      } else if (mounted) {
+        final errorMessage =
+            ref.read(authLoginNotifierProvider.notifier).lastErrorMessage;
         showCustomSnackBar(
           context: context,
           message: errorMessage,
@@ -69,13 +82,6 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
             color: TColors.white,
           ),
         );
-      } else {
-        // ignore: use_build_context_synchronously
-        context.go('/succes/login');
-      }
-
-      if (mounted) {
-        setState(() => _isLoading = false); // Detiene la animación
       }
     }
   }
@@ -85,18 +91,15 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        // Tus widgets aquí
         if (_isLoading)
           Container(
-            margin: const EdgeInsets.symmetric(
-                vertical: 18, horizontal: 5), // Ajusta esto a tus necesidades
+            margin: const EdgeInsets.symmetric(vertical: 18, horizontal: 5),
             child: Lottie.asset(
               'assets/images/animations/Animation_loader.json',
               width: THelperFunctions.screenWidth(context) * 0.8,
               height: THelperFunctions.screenHeight(context) * 0.30,
             ),
           ),
-
         Form(
           key: _formKey,
           child: Padding(
