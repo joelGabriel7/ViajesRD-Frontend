@@ -117,7 +117,7 @@ class FormAgencyState extends ConsumerState<FormAgency> {
                 debugPrint('Stack Trace: $stackTrace');
               }
               if (mounted) {
-                context.push('/succes/account');
+                context.push('/agency/profile/success');
               }
             },
             child: const Text('Guardar'),

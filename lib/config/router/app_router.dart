@@ -15,6 +15,7 @@ import 'package:viajes/presentation/screens/home_screen_agency.dart';
 import 'package:viajes/presentation/screens/reservations_screen.dart';
 import 'package:viajes/presentation/screens/Tourists%20Places/details/tourist_place_details.dart';
 import 'package:viajes/presentation/screens/Tourists%20Places/tourist_place_screen.dart';
+import 'package:viajes/presentation/widgets/succes_agency_profile.dart';
 
 import '../../presentation/views/agency/form/agency_form_view.dart';
 
@@ -60,6 +61,10 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
   GoRoute(
     path: '/agency/profile',
     builder: (context, state) => const AgencyProfile(),
+  ),
+  GoRoute(
+    path: '/agency/profile/success',
+    builder: (context, state) => const SuccesAgencyProfile(),
   ),
   GoRoute(
     path: '/excursions',

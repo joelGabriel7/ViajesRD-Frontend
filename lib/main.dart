@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:viajes/config/router/app_router.dart';
 import 'package:viajes/config/theme/app_theme.dart';
-import 'package:viajes/presentation/provider/users/auth/token_services_auth.dart';
 
 void main() {
   runApp(const ProviderScope(child: MainApp()));
@@ -15,7 +14,6 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final appTheme = AppTheme();
-    ref.read(tokenStateProvider.notifier).init();
 
     return GetMaterialApp.router(
       routerDelegate: appRouter.routerDelegate,
