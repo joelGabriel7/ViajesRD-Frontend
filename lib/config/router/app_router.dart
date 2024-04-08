@@ -41,7 +41,7 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
     builder: (context, state) => const SuccessAccountCreated(),
   ),
   GoRoute(
-    path: '/succes/login',
+    path: '/success/login',
     builder: (context, state) => const SuccessLoginScreen(),
   ),
   GoRoute(

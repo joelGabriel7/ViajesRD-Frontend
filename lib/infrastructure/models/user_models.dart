@@ -10,11 +10,15 @@ class UserResponses {
   final UserStatus status;
   final UserRole role;
   final int id;
+  final int? agencyId;
+  final int? clientId;
   final String hashedPassword;
   final DateTime created;
   final DateTime updated;
 
   UserResponses({
+    required this.agencyId,
+    required this.clientId,
     required this.username,
     required this.email,
     required this.status,
@@ -31,6 +35,8 @@ class UserResponses {
         status: statusValues.map[json["status"]]!,
         role: roleValues.map[json["role"]]!,
         id: json["id"] ?? 0,
+        agencyId: json["agency_id"] ?? 0,
+        clientId: json["client_id"] ?? 0,
         hashedPassword: json["hashed_password"] ?? '',
         created: json["created"] != null
             ? DateTime.parse(json["created"])

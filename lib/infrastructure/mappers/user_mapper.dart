@@ -8,5 +8,7 @@ class UserMapper {
       email: user.email,
       password: user.hashedPassword,
       role: user.role,
-      status: user.status);
+      status: user.status,
+      agencyId: user.agencyId,
+      clientId: user.clientId);
 }
