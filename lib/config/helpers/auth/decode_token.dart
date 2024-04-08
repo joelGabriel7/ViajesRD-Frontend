@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:jwt_decode/jwt_decode.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:viajes/config/helpers/auth/storage_token.dart';
 
 class TokenService {
@@ -51,10 +50,5 @@ class TokenService {
   static Future<String> getRole() async {
     final payload = await TokenService().decodeToken();
     return payload!['role'];
-  }
-
-  Future<bool> isAgencyProfileCompleted() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('agencyProfileCompleted') ?? false;
   }
 }

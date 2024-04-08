@@ -5,15 +5,12 @@ import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/constants.dart';
-import 'package:viajes/config/constants/enums.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
-import 'package:viajes/config/helpers/auth/decode_token.dart';
 import 'package:viajes/presentation/provider/users/auth/auth_login_provider.dart';
 import 'package:viajes/presentation/views/auth/login_view.dart';
 import 'package:viajes/presentation/widgets/shared/custom_snackbar.dart';
 import 'package:viajes/utils/helpers/helper_functions.dart';
-import 'package:viajes/config/helpers/user_services.dart';
 
 class VLoginForm extends ConsumerStatefulWidget {
   const VLoginForm({
@@ -50,7 +47,7 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
 
   Future<void> _attemptLogin() async {
     if (validateForm()) {
-      setState(() => _isLoading = true); // Inicia la animación
+      setState(() => _isLoading = true);
 
       final isSuccess = await LoginView(ref: ref).login(
         username: _usernameController.text.trim(),
@@ -59,18 +56,7 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
 
       setState(() => _isLoading == false);
 
-      if (isSuccess) {
-        final userRole = await TokenService.getRole();
-
-        final profileCompleted = await UserProfileService.isProfileCompleted();
-
-        if (userRole == 'agency' && !profileCompleted && mounted) {
-          context.go('/agency/new');
-          await UserProfileService.markProfileAsCompleted();
-        } else {
-          navigateBasedOnUserRole(userRole);
-        }
-      } else if (mounted) {
+      if (!isSuccess && mounted) {
         final errorMessage =
             ref.read(authLoginNotifierProvider.notifier).lastErrorMessage;
         showCustomSnackBar(
@@ -84,21 +70,10 @@ class VLoginFormState extends ConsumerState<VLoginForm> {
             color: TColors.white,
           ),
         );
+      } else {
+        // ignore: use_build_context_synchronously
+        context.go('/success/login');
       }
-    }
-  }
-
-  void navigateBasedOnUserRole(String userRole) {
-    switch (userRole) {
-      case "agency":
-        context.go('/home/0');
-        break;
-      case "client":
-        context.go('/home/client');
-        break;
-      default:
-        context.go('/login');
-        break;
     }
   }
 
