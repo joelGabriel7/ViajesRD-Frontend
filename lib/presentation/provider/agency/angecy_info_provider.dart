@@ -5,10 +5,10 @@ import 'package:viajes/presentation/provider/agency/agency_provider.dart';
 final agencyInfoProvider =
     StateNotifierProvider<AgencyMapNotifier, Map<String, Agency>>((ref) {
   final agencyRepository = ref.watch(agencyProvider);
-  return AgencyMapNotifier(getAgencyCallback: agencyRepository.getAgency);
+  return AgencyMapNotifier(getAgencyCallback: agencyRepository.getAgencyByRnc);
 });
 
-typedef GetAgencyCallback = Future<Agency> Function(String id);
+typedef GetAgencyCallback = Future<Agency> Function(String rnc);
 
 class AgencyMapNotifier extends StateNotifier<Map<String, Agency>> {
   final GetAgencyCallback getAgencyCallback;
@@ -18,5 +18,10 @@ class AgencyMapNotifier extends StateNotifier<Map<String, Agency>> {
     if (state[id] != null) return;
     final agency = await getAgencyCallback(id);
     state = {...state, id: agency};
+  }
+
+  Future<void> getAgencyByRnc(String rnc) async {
+    final agency = await getAgencyCallback(rnc);
+    state = {...state, rnc: agency};
   }
 }

@@ -21,7 +21,8 @@ class UserApiDatasources extends UserDatasource {
         'username': username,
         'email': email,
         'password': password,
-        'role': role
+        'role': role,
+        'agency_id': agencyId,
       });
       if (response.data != null && response.data is Map<String, dynamic>) {
         final reponses = UserResponses.fromJson(response.data);

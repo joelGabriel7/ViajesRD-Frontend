@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
+import 'package:viajes/presentation/provider/agency/angecy_info_provider.dart';
 import 'package:viajes/presentation/views/agency/form/agency_create_view.dart';
 import 'package:viajes/presentation/views/auth/user_created_view.dart';
 import 'package:viajes/presentation/widgets/logo_picker.dart';
@@ -117,6 +118,20 @@ class FormAgencyState extends ConsumerState<FormAgency> {
                   email: emailController.text,
                   logo: _logoImage?.path ?? '',
                   rnc: rncController.text);
+
+              await agencyCreate.setAgencybyRnc(rncController.text);
+
+              final agencyState = ref.read(agencyInfoProvider);
+              final agency = agencyState[rncController.text];
+
+              if (agency == null) {
+                debugPrint(
+                    'No se pudo encontrar la agencia con RNC: ${rncController.text}');
+                // Manejar este caso adecuadamente
+                return;
+              }
+              final agencyId = agency.id;
+              debugPrint('Agencia creada con id: $agencyId');
               try {
                 final userCreate = UserCreateView(ref: ref);
                 await userCreate.createUser(
@@ -124,7 +139,7 @@ class FormAgencyState extends ConsumerState<FormAgency> {
                   email: widget.userData['email'],
                   password: widget.userData['password'],
                   role: widget.userData['role'],
-                  // agencyId: agencyCreate.state['id'],
+                  agencyId: agencyId,
                 );
               } catch (e, stackTrace) {
                 debugPrint('Error al crear la agencia: $e');

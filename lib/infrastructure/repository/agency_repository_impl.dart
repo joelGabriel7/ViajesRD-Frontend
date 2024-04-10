@@ -22,4 +22,9 @@ class AgencyImplRepository extends AgencyRepository {
   Future<Agency> getAgency(String id) {
     return dataSource.getAgency(id);
   }
+
+  @override
+  Future<Agency> getAgencyByRnc(String rnc) {
+    return dataSource.getAgencyByRnc(rnc);
+  }
 }
