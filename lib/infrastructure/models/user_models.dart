@@ -11,7 +11,7 @@ class UserResponses {
   final UserRole role;
   final int id;
   final int? agencyId;
-  final int? clientId;
+  final dynamic clientId;
   final String hashedPassword;
   final DateTime created;
   final DateTime updated;
@@ -52,6 +52,8 @@ class UserResponses {
         "status": statusValues.reverse[status],
         "role": roleValues.reverse[role],
         "id": id,
+        "agency_id": agencyId,
+        "client_id": clientId,
         "hashed_password": hashedPassword,
         "created": created.toIso8601String(),
         "updated": updated.toIso8601String(),

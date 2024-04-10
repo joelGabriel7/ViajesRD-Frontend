@@ -9,7 +9,13 @@ class UserApiDatasources extends UserDatasource {
 
   @override
   Future<UserEntity> createUser(
-      String username, String email, String password, String role) async {
+    String username,
+    String email,
+    String password,
+    String role,
+    int? agencyId,
+    int? clientId,
+  ) async {
     try {
       final response = await dio.post('/users/create', data: {
         'username': username,

@@ -5,11 +5,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
 import 'package:viajes/presentation/views/agency/form/agency_create_view.dart';
+import 'package:viajes/presentation/views/auth/user_created_view.dart';
 import 'package:viajes/presentation/widgets/logo_picker.dart';
 import 'package:viajes/presentation/widgets/shared/custom_field_form.dart';
 
 class AgencyFormView extends StatelessWidget {
-  const AgencyFormView({super.key});
+  final Map<String, dynamic>? userData;
+  const AgencyFormView({super.key, required this.userData});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,9 @@ class AgencyFormView extends StatelessWidget {
                 const SizedBox(
                   height: TSizes.spaceBtwSections,
                 ),
-                const FormAgency(),
+                FormAgency(
+                  userData: userData ?? {},
+                ),
               ],
             ),
           ),
@@ -39,8 +43,10 @@ class AgencyFormView extends StatelessWidget {
 }
 
 class FormAgency extends ConsumerStatefulWidget {
+  final Map<String, dynamic> userData;
   const FormAgency({
     super.key,
+    required this.userData,
   });
 
   @override
@@ -103,15 +109,23 @@ class FormAgencyState extends ConsumerState<FormAgency> {
           width: double.infinity,
           child: ElevatedButton(
             onPressed: () async {
+              final agencyCreate = AgencyCreateView(ref: ref);
+              await agencyCreate.createAgency(
+                  name: nameAgency.text,
+                  address: addressController.text,
+                  phone: phoneController.text,
+                  email: emailController.text,
+                  logo: _logoImage?.path ?? '',
+                  rnc: rncController.text);
               try {
-                final agencyCreate = AgencyCreateView(ref: ref);
-                await agencyCreate.createAgency(
-                    name: nameAgency.text,
-                    address: addressController.text,
-                    phone: phoneController.text,
-                    email: emailController.text,
-                    logo: _logoImage!.path,
-                    rnc: rncController.text);
+                final userCreate = UserCreateView(ref: ref);
+                await userCreate.createUser(
+                  username: widget.userData['username'],
+                  email: widget.userData['email'],
+                  password: widget.userData['password'],
+                  role: widget.userData['role'],
+                  // agencyId: agencyCreate.state['id'],
+                );
               } catch (e, stackTrace) {
                 debugPrint('Error al crear la agencia: $e');
                 debugPrint('Stack Trace: $stackTrace');

@@ -56,7 +56,12 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
       }),
   GoRoute(
     path: '/agency/new',
-    builder: (context, state) => const AgencyFormView(),
+    builder: (context, state) {
+      final userData =
+          state.extra as Map<String, dynamic>?; // Recupera los datos pasados
+      return AgencyFormView(
+          userData: userData); // Pasa los datos al constructor
+    },
   ),
   GoRoute(
     path: '/agency/profile',

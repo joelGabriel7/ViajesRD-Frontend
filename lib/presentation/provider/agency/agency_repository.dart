@@ -25,6 +25,8 @@ class AgencyStateNofier extends StateNotifier<Map<String, Agency>> {
       final agency =
           await repository.createAgency(name, address, phone, email, logo, rnc);
       state = {...state, name: agency};
+      agency.id;
+      agency.name;
     } catch (e) {
       rethrow;
     }

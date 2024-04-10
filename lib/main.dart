@@ -14,7 +14,6 @@ class MainApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final appTheme = AppTheme();
-
     return GetMaterialApp.router(
       routerDelegate: appRouter.routerDelegate,
       routeInformationParser: appRouter.routeInformationParser,

@@ -8,7 +8,14 @@ class UserRepositoryImpl extends UserRepository {
 
   @override
   Future<UserEntity> createUser(
-      String username, String email, String password, String role) {
-    return datasource.createUser(username, email, password, role);
+    String username,
+    String email,
+    String password,
+    String role,
+    int? agencyId,
+    int? clientId,
+  ) {
+    return datasource.createUser(
+        username, email, password, role, agencyId, clientId);
   }
 }

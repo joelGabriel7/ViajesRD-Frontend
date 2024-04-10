@@ -5,7 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:viajes/config/constants/constants.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
-import 'package:viajes/presentation/views/auth/user_created_view.dart';
+// import 'package:viajes/presentation/views/auth/user_created_view.dart';
 import 'package:viajes/presentation/widgets/auth/signup/terms_conditions.dart';
 
 class SignupFormView extends ConsumerStatefulWidget {
@@ -195,20 +195,22 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
                 onPressed: () async {
                   if (validateForm()) {
                     try {
-                      final userCreate = UserCreateView(ref: ref);
-                      await userCreate.createUser(
-                          username: _usernameController.text.trim(),
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text.trim(),
-                          role: _selectedRole);
-                      if (mounted) {
-                        _usernameController.clear();
-                        _emailController.clear();
-                        _passwordController.clear();
-
-                        context.push('/succes/account');
+                      final userData = {
+                        'username': _usernameController.text.trim(),
+                        'email': _emailController.text.trim(),
+                        'password': _passwordController.text.trim(),
+                        'role': _selectedRole
+                      };
+                      if (_selectedRole == 'agency') {
+                        context.push('/agency/new', extra: userData);
+                      } else {
+                        context.push(
+                          '/succes/account',
+                        );
                       }
+                      // Redirige al formulario de la agencia pasando los datos del registro
                     } catch (e) {
+                      debugPrint(e.toString());
                       if (mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(e.toString())),
@@ -224,3 +226,19 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
     );
   }
 }
+
+
+//  final userCreate = UserCreateView(ref: ref);
+//                       await userCreate.createUser(
+//                           username: _usernameController.text.trim(),
+//                           email: _emailController.text.trim(),
+//                           password: _passwordController.text.trim(),
+//                           role: _selectedRole);
+//                       if (mounted) {
+//                         _usernameController.clear();
+//                         _emailController.clear();
+//                         _passwordController.clear();
+
+//                         // context.push('/agency/new');
+//                         context.push('/succes/account');
+//                       }

@@ -3,6 +3,7 @@ import 'package:viajes/presentation/provider/users/user_provider.dart';
 
 class UserCreateView {
   final WidgetRef ref;
+
   UserCreateView({required this.ref});
 
   Future<void> createUser({
@@ -10,12 +11,20 @@ class UserCreateView {
     required String email,
     required String password,
     required String role,
+    int? agencyId,
+    int? clientId,
   }) async {
     final userCreate = ref.read(userCreateProvider.notifier);
 
     try {
       await userCreate.createUser(
-          username: username, email: email, password: password, role: role);
+        username: username,
+        email: email,
+        password: password,
+        role: role,
+        agencyId: agencyId,
+        clientId: clientId,
+      );
     } catch (e) {
       rethrow;
     }

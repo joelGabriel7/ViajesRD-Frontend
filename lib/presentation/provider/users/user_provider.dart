@@ -18,9 +18,12 @@ class UserCreatedNotifier extends StateNotifier<Map<String, UserEntity>> {
     required String email,
     required String password,
     required String role,
+    int? agencyId,
+    int? clientId,
   }) async {
     try {
-      final user = await repository.createUser(username, email, password, role);
+      final user = await repository.createUser(
+          username, email, password, role, agencyId, clientId);
       state = {...state, username: user};
     } catch (e) {
       rethrow;
