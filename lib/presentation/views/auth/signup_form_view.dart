@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:viajes/config/constants/constants.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/constants/text_strings.dart';
+import 'package:viajes/presentation/views/auth/user_created_view.dart';
 // import 'package:viajes/presentation/views/auth/user_created_view.dart';
 import 'package:viajes/presentation/widgets/auth/signup/terms_conditions.dart';
 
@@ -203,11 +204,24 @@ class SignupFormViewState extends ConsumerState<SignupFormView> {
                       };
                       if (_selectedRole == 'agency') {
                         context.push('/agency/new', extra: userData);
+                      } else if (_selectedRole == 'client') {
+                        final userCreate = UserCreateView(ref: ref);
+                        await userCreate.createUser(
+                            username: _usernameController.text.trim(),
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                            role: _selectedRole);
+                        if (mounted) {
+                          context.push(
+                            '/succes/account',
+                          );
+                        }
                       } else {
                         context.push(
                           '/succes/account',
                         );
                       }
+
                       // Redirige al formulario de la agencia pasando los datos del registro
                     } catch (e) {
                       debugPrint(e.toString());

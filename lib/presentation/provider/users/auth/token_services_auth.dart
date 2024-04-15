@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:viajes/config/constants/enums.dart';
 import 'package:viajes/config/helpers/auth/decode_token.dart';
 import 'package:viajes/config/router/provider/go_router_provider.dart';
+import 'package:viajes/presentation/provider/agency/angecy_info_provider.dart';
 
 final tokenStateProvider =
     StateNotifierProvider<TokenStateNotifier, bool>((ref) {
@@ -28,7 +29,7 @@ class TokenStateNotifier extends StateNotifier<bool> {
     if (isExpired) {
       ref.read(goRouterProvider).push('/login'); // Redirect to login page
       await SharedPreferences.getInstance().then((prefs) => prefs.clear());
-    } else {
+    } else if (!isExpired) {
       //* Rol del usuario
 
       final userRoleString = await TokenService.getRole();
@@ -36,9 +37,11 @@ class TokenStateNotifier extends StateNotifier<bool> {
       switch (userRole) {
         case UserRole.agency:
           ref.read(goRouterProvider).go('/home/0');
+          final agencyId = (await TokenService().getAgencyId()).toString();
+          ref.read(agencyInfoProvider.notifier).getAgency(agencyId);
           break;
         case UserRole.client:
-          ref.read(goRouterProvider).go('/home/client');
+          ref.read(goRouterProvider).go('/home/client/0');
           break;
         default:
           ref.read(goRouterProvider).go('/login');
@@ -50,7 +53,7 @@ class TokenStateNotifier extends StateNotifier<bool> {
   void startPeriodicCheck() {
     Timer.periodic(const Duration(minutes: 5), (timer) async {
       final isExpired = await checkTokenExpiration();
-      state = isExpired; // Update StateNotifier state
+      state = isExpired;
     });
   }
 }

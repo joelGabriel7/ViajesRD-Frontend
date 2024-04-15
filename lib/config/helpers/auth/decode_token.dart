@@ -39,16 +39,22 @@ class TokenService {
         final payload = Jwt.parseJwt(token);
         debugPrint('Username: ${payload['username']}');
         debugPrint('Role: ${payload['role']}');
+        debugPrint('Agency ID: ${payload['agency_id']}');
         return payload;
       }
     } catch (e) {
       debugPrint("Error decoding token: $e");
     }
-    return null; // Return null to indicate that the token couldn't be decoded
+    return null;
   }
 
   static Future<String> getRole() async {
     final payload = await TokenService().decodeToken();
     return payload!['role'];
+  }
+
+  Future<int?> getAgencyId() async {
+    final payload = await decodeToken();
+    return payload!['agency_id'];
   }
 }

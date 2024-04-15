@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:viajes/config/helpers/auth/storage_token.dart';
+import 'package:viajes/presentation/widgets/client/bottom_navigations.dart';
 
 class HomeScreenClient extends StatelessWidget {
-  const HomeScreenClient({super.key});
+  final int pageIndex;
+  const HomeScreenClient({super.key, required this.pageIndex});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomeScreenClient'),
         actions: [
           IconButton(
               onPressed: () async {
@@ -21,8 +22,26 @@ class HomeScreenClient extends StatelessWidget {
               icon: const Icon(Icons.logout_outlined))
         ],
       ),
-      body: const Center(
-        child: Text('HomeScreenClient is working'),
+      bottomNavigationBar: BottomNavigationsClient(currentPage: pageIndex),
+      body: IndexedStack(
+        index: pageIndex,
+        children: [
+          Container(
+            color: Colors.green,
+          ),
+          Container(
+            color: Colors.blue,
+          ),
+          Container(
+            color: Colors.red,
+          ),
+          Container(
+            color: Colors.yellow,
+          ),
+          Container(
+            color: Colors.deepOrange,
+          ),
+        ],
       ),
     );
   }

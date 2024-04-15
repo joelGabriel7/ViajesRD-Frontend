@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:viajes/config/constants/sizes.dart';
+import 'package:viajes/config/helpers/auth/decode_token.dart';
+import 'package:viajes/presentation/provider/agency/angecy_info_provider.dart';
+import 'package:viajes/presentation/provider/users/auth/token_services_auth.dart';
 import 'package:viajes/presentation/widgets/shared/profile_menu.dart';
 import 'package:viajes/presentation/widgets/shared/profile_picture.dart';
 import 'package:viajes/presentation/widgets/shared/sections_headings.dart';
@@ -18,13 +21,24 @@ class ProfileAgencyView extends ConsumerStatefulWidget {
 }
 
 class ProfileAgencyViewState extends ConsumerState<ProfileAgencyView> {
+  String? agencyId;
   @override
   void initState() {
     super.initState();
+    initAgencyInfo();
+  }
+
+  void initAgencyInfo() async {
+    agencyId = (await TokenService().getAgencyId()).toString();
+    debugPrint('Agency profile: $agencyId');
+    if (agencyId != null) {
+      ref.read(tokenStateProvider.notifier).init();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final agencyInfo = ref.watch(agencyInfoProvider)[agencyId];
     return Scaffold(
         appBar: const TAppBar(
           title: Text('Profile'),
@@ -71,28 +85,28 @@ class ProfileAgencyViewState extends ConsumerState<ProfileAgencyView> {
 
                 ProfileMenu(
                   title: 'Name',
-                  value: 'Aventuras RD',
+                  value: agencyInfo?.name ?? 'Aventuras RD',
                   onButtonPressed: () {},
                 ),
                 ProfileMenu(
                   title: 'Numero telf.',
-                  value: '809-555-5555',
+                  value: agencyInfo?.phone ?? '809-555-5555',
                   onButtonPressed: () {},
                   icon: Iconsax.copy,
                 ),
                 ProfileMenu(
                   title: 'Address',
-                  value: 'Calle 1, No. 1, Santiago',
+                  value: agencyInfo?.address ?? 'Calle 1, No. 1, Santiago',
                   onButtonPressed: () {},
                 ),
                 ProfileMenu(
                   title: 'Email',
-                  value: 'agency@agencyemail.com',
+                  value: agencyInfo?.email ?? 'agencyInfo@agencyemail.com',
                   onButtonPressed: () {},
                 ),
                 ProfileMenu(
                   title: 'RNC.',
-                  value: '123456789',
+                  value: agencyInfo?.rnc ?? '123456789',
                   onButtonPressed: () {},
                 ),
               ],

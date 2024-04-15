@@ -20,7 +20,7 @@ class SuccessLoginScreen extends StatelessWidget {
         // Aquí deberías obtener el rol del usuario
         final role = await TokenService.getRole();
         if (role == 'client') {
-          context.push('/home/client');
+          context.push('/home/client/0');
         } else if (role == 'agency') {
           context.push('/home/0');
         } else {

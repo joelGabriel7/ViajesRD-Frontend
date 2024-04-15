@@ -45,9 +45,11 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
     builder: (context, state) => const SuccessLoginScreen(),
   ),
   GoRoute(
-    path: '/home/client',
-    builder: (context, state) => const HomeScreenClient(),
-  ),
+      path: '/home/client/:page',
+      builder: (context, state) {
+        final pageIndex = int.parse(state.pathParameters['page'] ?? '0');
+        return HomeScreenClient(pageIndex: pageIndex);
+      }),
   GoRoute(
       path: '/home/:page',
       builder: (context, state) {
