@@ -40,13 +40,9 @@ class BottomNavigationsClient extends StatelessWidget {
                 Icons.home_outlined,
               ),
               label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.place), label: 'Lugares Turisticos'),
+          BottomNavigationBarItem(icon: Icon(Icons.place), label: 'Destinos'),
           BottomNavigationBarItem(
               icon: Icon(Icons.landscape_outlined), label: 'Excursiones'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.event_available_outlined),
-              label: 'Reservaciones'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Profile'),
         ]);
   }

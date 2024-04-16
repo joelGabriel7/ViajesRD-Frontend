@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:viajes/presentation/views/clients/home_view_client.dart';
+import 'package:viajes/presentation/views/clients/tourist_place_client_view.dart';
 import 'package:viajes/presentation/widgets/client/bottom_navigations.dart';
 
 class HomeScreenClient extends StatelessWidget {
@@ -26,9 +27,7 @@ class HomeScreenClient extends StatelessWidget {
         index: pageIndex,
         children: [
           const HomeViewClient(),
-          Container(
-            color: Colors.blue,
-          ),
+          const TouristPlaceClientView(),
           Container(
             color: Colors.red,
           ),
