@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/image_strings.dart';
+import 'package:viajes/presentation/provider/categories/categories_provider.dart';
 import 'package:viajes/presentation/widgets/client/Banner/banner_slider.dart';
 import 'package:viajes/presentation/widgets/client/containers/primary_header_container.dart';
 import 'package:viajes/presentation/widgets/client/containers/search_container.dart';
@@ -9,50 +11,64 @@ import 'package:viajes/presentation/widgets/shared/thomes_appbar.dart';
 import 'package:viajes/utils/constants/sizes.dart';
 import '../../widgets/texts/section_heading.dart';
 
-class HomeViewClient extends StatelessWidget {
+class HomeViewClient extends ConsumerStatefulWidget {
   const HomeViewClient({super.key});
 
   @override
+  HomeViewClientState createState() => HomeViewClientState();
+}
+
+class HomeViewClientState extends ConsumerState<HomeViewClient> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(getAllCategoryProvider.notifier).loadNextPage();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    final categories = ref.watch(getAllCategoryProvider);
+    return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
             TPrimaryHeaderContainer(
                 child: Column(children: [
               //* AppBar
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              ThomeAppBar(),
-              SizedBox(height: TSizes.spaceBtwSections / 2),
+              const ThomeAppBar(),
+              const SizedBox(height: TSizes.spaceBtwSections / 2),
               //*  SearchBar
-              TSearchContainer(
+              const TSearchContainer(
                 text: 'Encuentra lugares turisticos',
               ),
-              SizedBox(height: TSizes.spaceBtwSections),
+              const SizedBox(height: TSizes.spaceBtwSections),
               //* Categories
               Padding(
-                padding: EdgeInsets.only(left: TSizes.defaultSpace),
+                padding: const EdgeInsets.only(left: TSizes.defaultSpace),
                 child: Column(
                   children: [
                     //* Heading
 
-                    TSectionHeadings(
+                    const TSectionHeadings(
                       title: 'Categorias populares',
                       showActionButton: false,
                       textColor: TColors.white,
                     ),
-                    SizedBox(height: TSizes.spaceBtwItems),
+                    const SizedBox(height: TSizes.spaceBtwItems),
 
                     //* Categories
-                    THomeCategory()
+                    THomeCategory(
+                      item: categories,
+                    )
                   ],
                 ),
               ),
             ])),
             //*Body */
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(TSizes.defaultSpace),
               child: TBannerSlider(
                 banners: [

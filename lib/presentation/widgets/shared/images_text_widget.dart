@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:viajes/config/constants/colors.dart';
+import 'package:viajes/config/constants/image_strings.dart';
+import 'package:viajes/config/helpers/maps_categories.dart';
 import 'package:viajes/utils/constants/sizes.dart';
 
 class TVerticalImagenText extends StatelessWidget {
   const TVerticalImagenText({
     super.key,
-    required this.image,
+    required this.categoryName,
     required this.text,
     this.textColor = TColors.white,
     this.backgroundColor = TColors.white,
     this.onTap,
   });
 
-  final String image, text;
+  final String categoryName, text;
   final Color textColor;
   final Color? backgroundColor;
   final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
+    String image = categoryImages[categoryName] ?? TImages.beachIcon;
     return GestureDetector(
       onTap: onTap,
       child: Padding(
