@@ -81,6 +81,6 @@ class TTexts {
   static const String popularProducts = "Productos Populares";
 
   // -- Inicio
-  static const String homeAppbarTitle = "Buen día para comprar";
+  static const String homeAppbarTitle = "Buen día para reservar un viaje";
   static const String homeAppbarSubTitle = "Taimoor Sikander";
 }

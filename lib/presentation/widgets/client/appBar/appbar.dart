@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:viajes/config/constants/sizes.dart';
+import 'package:viajes/utils/constants/sizes.dart';
 import 'package:viajes/utils/device/device_utility.dart';
 
 class TAppBar extends StatelessWidget implements PreferredSizeWidget {
   const TAppBar(
       {super.key,
       this.title,
-      this.snowBackArrow = false,
+      this.showBackArrow = true,
       this.leadingIcon,
       this.actions,
       this.leadingOnPressed});
 
   final Widget? title;
-  final bool snowBackArrow;
+  final bool showBackArrow;
   final IconData? leadingIcon;
   final List<Widget>? actions;
   final VoidCallback? leadingOnPressed;
@@ -24,22 +23,17 @@ class TAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
       child: AppBar(
-        centerTitle: false,
         automaticallyImplyLeading: false,
-        title: title,
-        leading: snowBackArrow
+        leading: showBackArrow
             ? IconButton(
-                onPressed: () => context.push('/home/0'),
-                icon: const Icon(Iconsax.arrow_left))
-            : leadingIcon != null
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => context.pop())
+            : leadingOnPressed != null
                 ? IconButton(
-                    onPressed: leadingOnPressed,
-                    icon: Icon(leadingIcon),
-                  )
+                    icon: Icon(leadingIcon), onPressed: leadingOnPressed)
                 : null,
+        title: title,
         actions: actions,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
       ),
     );
   }
