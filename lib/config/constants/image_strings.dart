@@ -31,6 +31,11 @@ class TImages {
   static const String electronicsIcon =
       "assets/icons/categories/icons8-smartphone-64.png";
 
+  static const String beachIcon = "assets/icons/categories/puesta-de-sol.png";
+  static const String cultureIcon = "assets/icons/categories/culture.png";
+  static const String ecotoristIcon = "assets/icons/categories/ecoturismo.png";
+  static const String aventuraIcon = "assets/icons/categories/ubicacion.png";
+
   // -- Brand Icons
   static const String nikeLogo = "assets/icons/brands/nike.png";
   static const String adidasLogo = "assets/icons/brands/adidas-logo.png";
