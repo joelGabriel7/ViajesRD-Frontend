@@ -11,7 +11,7 @@ class TRoundedBanner extends StatelessWidget {
     this.applyImageRadius = true,
     this.border,
     this.backgroundColor = TColors.light,
-    this.fit = BoxFit.contain,
+    this.fit = BoxFit.cover,
     this.padding,
     this.isNetworkImage = false,
     this.onpressed,
@@ -34,23 +34,34 @@ class TRoundedBanner extends StatelessWidget {
     return GestureDetector(
       onTap: onpressed,
       child: Container(
-          width: width,
-          height: height,
-          padding: padding,
-          decoration: BoxDecoration(
-              border: border,
-              color: backgroundColor,
-              borderRadius: BorderRadius.circular(borderRadius)),
-          child: ClipRRect(
-              borderRadius: applyImageRadius
-                  ? BorderRadius.circular(borderRadius)
-                  : BorderRadius.zero,
-              child: Image(
-                image: isNetworkImage
-                    ? NetworkImage(imageUrl)
-                    : AssetImage(imageUrl) as ImageProvider,
-                fit: fit,
-              ))),
+        width: width,
+        height: height,
+        padding: padding,
+        decoration: BoxDecoration(
+            border: border,
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(borderRadius)),
+        child: ClipRRect(
+          borderRadius: applyImageRadius
+              ? BorderRadius.circular(borderRadius)
+              : BorderRadius.zero,
+          child: isNetworkImage
+              ? FadeInImage.assetNetwork(
+                  placeholder:
+                      'assets/images/loading.gif', // Imagen de carga local
+                  image: imageUrl, // URL de la imagen de red
+                  fit: fit,
+                  fadeInDuration: const Duration(
+                      milliseconds: 200), // Duración de la animación de fadeIn
+                  placeholderScale:
+                      0.5, // Si la imagen de carga necesita escalarse
+                )
+              : Image.asset(
+                  imageUrl, // Imagen local
+                  fit: fit,
+                ),
+        ),
+      ),
     );
   }
 }
