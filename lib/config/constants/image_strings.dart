@@ -85,6 +85,10 @@ class TImages {
       "assets/images/reviews/review_profile_image_3.jpeg";
 
   //Banners
+  static const String banner1 = "assets/images/banners/playas.png";
+  static const String banner2 = "assets/images/banners/ZC-SD.png";
+  static const String banner3 = "assets/images/banners/Monumentos.png";
+  static const String banner4 = "assets/images/banners/aventure.png";
 
   //Profile
   static const String user = "assets/images/content/user.png";

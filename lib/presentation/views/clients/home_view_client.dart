@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:viajes/config/constants/colors.dart';
+import 'package:viajes/config/constants/image_strings.dart';
+import 'package:viajes/presentation/widgets/client/Banner/banner_slider.dart';
 import 'package:viajes/presentation/widgets/client/containers/primary_header_container.dart';
 import 'package:viajes/presentation/widgets/client/containers/search_container.dart';
 import 'package:viajes/presentation/widgets/client/thome_category.dart';
 import 'package:viajes/presentation/widgets/shared/thomes_appbar.dart';
 import 'package:viajes/utils/constants/sizes.dart';
-
 import '../../widgets/texts/section_heading.dart';
 
 class HomeViewClient extends StatelessWidget {
@@ -49,7 +50,19 @@ class HomeViewClient extends StatelessWidget {
                   ],
                 ),
               ),
-            ]))
+            ])),
+            //*Body */
+            Padding(
+              padding: EdgeInsets.all(TSizes.defaultSpace),
+              child: TBannerSlider(
+                banners: [
+                  TImages.banner1,
+                  TImages.banner2,
+                  TImages.banner3,
+                  TImages.banner4
+                ],
+              ),
+            ),
           ],
         ),
       ),
