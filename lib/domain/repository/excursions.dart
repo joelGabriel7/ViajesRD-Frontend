@@ -1,7 +1,7 @@
 import 'package:viajes/domain/entity/excursions.dart';
 
 abstract class ExcursionRespository {
-  Future<List<Excursion>> getExcursions();
+  Future<List<Excursion>> getExcursions({int page = 1});
   Future<Excursion> getExcursion(String id);
   Future<void> createExcursion(Excursion excursion);
   Future<void> updateExcursion(Excursion excursion);

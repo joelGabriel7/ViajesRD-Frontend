@@ -8,8 +8,8 @@ class ExcursionsRepositoryImpl implements ExcursionRespository {
   ExcursionsRepositoryImpl(this.excursionsDataSource);
 
   @override
-  Future<List<Excursion>> getExcursions() async {
-    return excursionsDataSource.getExcursions();
+  Future<List<Excursion>> getExcursions({int page = 1}) async {
+    return excursionsDataSource.getExcursions(page: page);
   }
 
   @override

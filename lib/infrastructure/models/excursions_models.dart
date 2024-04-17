@@ -7,7 +7,7 @@ class ExcursionsResponses {
   final String description;
   final int availablePlaces;
   final int id;
-  final Agency agency;
+  final Agency agencyResponseE;
   final TouristPlace touristPlace;
 
   ExcursionsResponses({
@@ -19,7 +19,7 @@ class ExcursionsResponses {
     required this.description,
     required this.availablePlaces,
     required this.id,
-    required this.agency,
+    required this.agencyResponseE,
     required this.touristPlace,
   });
 
@@ -33,7 +33,7 @@ class ExcursionsResponses {
         description: json["description"],
         availablePlaces: json["available_places"],
         id: json["id"],
-        agency: Agency.fromJson(json["agency"]),
+        agencyResponseE: Agency.fromJson(json["agency"]),
         touristPlace: TouristPlace.fromJson(json["tourist_place"]),
       );
 
@@ -47,7 +47,7 @@ class ExcursionsResponses {
         "description": description,
         "available_places": availablePlaces,
         "id": id,
-        "agency": agency.toJson(),
+        "agency": agencyResponseE.toJson(),
         "tourist_place": touristPlace.toJson(),
       };
 }

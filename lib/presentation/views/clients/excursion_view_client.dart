@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/presentation/provider/excursions/excursions_provider.dart';
-import 'package:viajes/presentation/provider/tourist_places/tourist_places_provider.dart';
 import 'package:viajes/presentation/widgets/client/appBar/appbar.dart';
+import 'package:viajes/presentation/widgets/client/excursions/t_excursion_card.dart';
 import 'package:viajes/presentation/widgets/client/products/cart_menu_item.dart';
-import 'package:viajes/presentation/widgets/client/products/t_product_card_vertical.dart';
 import 'package:viajes/presentation/widgets/shared/gridview_layout.dart';
 
 class ExcursionViewClient extends ConsumerStatefulWidget {
@@ -19,14 +18,13 @@ class ExcursionViewClientState extends ConsumerState<ExcursionViewClient> {
   @override
   void initState() {
     super.initState();
-    ref.read(getTouristPlacesProvider.notifier).loadTouristPlaces();
-    ref.read(excursionsProvider.notifier).getExcursions();
+    ref.read(excursionsProvider.notifier).loadMoreExcursion();
   }
 
   @override
   Widget build(BuildContext context) {
-    final place = ref.watch(getTouristPlacesProvider);
-    ref.watch(excursionsProvider);
+    final excursion = ref.watch(excursionsProvider);
+
     return Scaffold(
       appBar: TAppBar(
         showBackArrow: false,
@@ -40,9 +38,9 @@ class ExcursionViewClientState extends ConsumerState<ExcursionViewClient> {
         padding: const EdgeInsets.only(right: 15, left: 15, bottom: 20),
         physics: const BouncingScrollPhysics(),
         child: TGridviewLayout(
-            itemCount: place.length,
+            itemCount: excursion.isNotEmpty ? excursion.length : 1,
             itemBuilder: (_, index) =>
-                TProductCardVertical(place: place[index])),
+                TExcursionCardVertical(excursion: excursion[index])),
       ),
     );
   }

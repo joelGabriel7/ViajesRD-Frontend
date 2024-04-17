@@ -22,7 +22,6 @@ class MainApp extends ConsumerWidget {
       theme:
           appTheme.getTheme(selectedColor: 0, isDarkMode: false), // Tema claro
       // darkTheme:appTheme.getTheme(selectedColor: 0, isDarkMode: true), // Tema oscuro
-      // Usar el tema basado en la configuración del dispositivo
     );
   }
 }

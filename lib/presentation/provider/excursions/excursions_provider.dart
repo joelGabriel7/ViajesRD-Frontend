@@ -5,25 +5,23 @@ import 'package:viajes/presentation/provider/excursions/excursions_repository_pr
 final excursionsProvider =
     StateNotifierProvider<ExcursionsNotifier, List<Excursion>>((ref) {
   final excursionsRepository = ref.read(excursionsRepositoryProvider);
-
   return ExcursionsNotifier(
-      getExcursions: excursionsRepository.getExcursions, ref: ref);
+      getExcursionsCustom: excursionsRepository.getExcursions);
 });
 
-typedef GetExcursionsCallBack = Future<List<Excursion>> Function();
+typedef GetExcursionsCallBack = Future<List<Excursion>> Function({int page});
 
 class ExcursionsNotifier extends StateNotifier<List<Excursion>> {
-  final GetExcursionsCallBack getExcursions;
-  final Ref ref;
-
+  final GetExcursionsCallBack getExcursionsCustom;
+  // final Ref ref;
+  int currentPage = 0;
   ExcursionsNotifier({
-    required this.getExcursions,
-    required this.ref,
+    required this.getExcursionsCustom,
   }) : super([]);
 
-  Future<List<Excursion>> getExcursionsByQuery() async {
-    final List<Excursion> excursions = await getExcursions();
-    state = excursions;
-    return excursions;
+  Future<void> loadMoreExcursion() async {
+    currentPage++;
+    final excursions = await getExcursionsCustom(page: currentPage);
+    state = [...state, ...excursions];
   }
 }
