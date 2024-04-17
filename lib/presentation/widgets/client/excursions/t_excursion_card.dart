@@ -20,9 +20,6 @@ class TExcursionCardVertical extends StatelessWidget {
         ? 'https://apiviajesrd.info/${excursion.touristPlaces.images[0].imageUrl}'
         : 'https://cdn.dribbble.com/users/760347/screenshots/7341673/loading_ps.gif';
 
-    debugPrint('URL: $urlbase');
-    debugPrint('images url backend: ${excursion.touristPlaces.images.isEmpty}');
-
     final size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {},

@@ -39,8 +39,9 @@ class ExcursionViewClientState extends ConsumerState<ExcursionViewClient> {
         physics: const BouncingScrollPhysics(),
         child: TGridviewLayout(
             itemCount: excursion.isNotEmpty ? excursion.length : 1,
-            itemBuilder: (_, index) =>
-                TExcursionCardVertical(excursion: excursion[index])),
+            itemBuilder: (_, index) => excursion.isNotEmpty
+                ? TExcursionCardVertical(excursion: excursion[index])
+                : const CircularProgressIndicator()),
       ),
     );
   }

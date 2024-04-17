@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:viajes/presentation/views/clients/excursion_view_client.dart';
 
 class ExcursionsScreen extends StatelessWidget {
   const ExcursionsScreen({super.key});
@@ -10,12 +11,7 @@ class ExcursionsScreen extends StatelessWidget {
         title: const Text('Excursion Screen'),
         centerTitle: true,
       ),
-      body: ListView.separated(
-          itemBuilder: (context, index) {
-            return const Text('data');
-          },
-          separatorBuilder: (context, index) => const Divider(),
-          itemCount: 9),
+      body: const ExcursionViewClient(),
       floatingActionButton:
           FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),
     );
