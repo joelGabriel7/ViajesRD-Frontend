@@ -16,12 +16,10 @@ class TProductCardVertical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
-    String urlbase = 'https://apiviajesrd.info/${place.images[0].imageUrl}';
+    String urlbase = place.images.isNotEmpty
+        ? 'https://apiviajesrd.info/${place.images[0].imageUrl}'
+        : 'https://cdn.dribbble.com/users/760347/screenshots/7341673/loading_ps.gif';
 
-    String imageUrl = place.images.isNotEmpty
-        ? place.images[0].imageUrl
-        : 'assets/images/loading.gif';
-    imageUrl = imageUrl.isNotEmpty ? imageUrl : 'assets/images/loading.gif';
     final size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {},

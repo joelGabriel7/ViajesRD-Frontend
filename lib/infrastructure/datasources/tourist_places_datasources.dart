@@ -132,12 +132,12 @@ class TouristPlacesApiDatasources extends TouristPlacesDatasources {
     final response = await dio
         .get('/tourist_place/search/', queryParameters: {'search': query});
 
-    final List<TouristPlaces> touristResponses = response.data;
-    final entity = touristResponses
-        .map(<TouristPlaces>(results) =>
-            TouristPlacesMapper.touristPlacesToEntity(
-                TouristPlacesResponses.fromJson(results)))
+    List<dynamic> touristResponses = response.data;
+    final List<TouristPlaces> touristPlace = touristResponses
+        .map((results) => TouristPlacesMapper.touristPlacesToEntity(
+            TouristPlacesResponses.fromJson(results)))
         .toList();
-    return entity;
+
+    return touristPlace;
   }
 }

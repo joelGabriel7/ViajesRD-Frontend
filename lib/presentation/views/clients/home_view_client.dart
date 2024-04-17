@@ -4,6 +4,7 @@ import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/image_strings.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/provider/categories/categories_provider.dart';
+import 'package:viajes/presentation/provider/search/search_movies_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_places_provider.dart';
 import 'package:viajes/presentation/widgets/client/Banner/banner_slider.dart';
 import 'package:viajes/presentation/widgets/client/containers/primary_header_container.dart';
@@ -30,13 +31,28 @@ class HomeViewClientState extends ConsumerState<HomeViewClient> {
     ref.read(getTouristPlacesProvider.notifier).loadTouristPlaces();
   }
 
+  void handleQuery(String query) {
+    ref.read(searchQueryProvider.notifier).state = query.trim();
+
+    if (query.isNotEmpty) {
+      ref.read(searchPlacesProviders.notifier).searchPlaceByQuery(query);
+    } else {
+      ref.read(getTouristPlacesProvider.notifier).loadTouristPlaces();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final categories = ref.watch(getAllCategoryProvider);
-    final touristPlaces = ref.watch(getTouristPlacesProvider);
+    final currentSearchQuery = ref.watch(searchQueryProvider);
+    final places = currentSearchQuery.isNotEmpty
+        ? ref.watch(searchPlacesProviders)
+        : ref.watch(getTouristPlacesProvider);
+
+    final search = currentSearchQuery.isNotEmpty;
 
     if (categories.isEmpty) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
         ),
@@ -44,7 +60,7 @@ class HomeViewClientState extends ConsumerState<HomeViewClient> {
     }
 
     List<TouristPlaces> displayTouristPlaces =
-        touristPlaces.length > 6 ? touristPlaces.sublist(0, 6) : touristPlaces;
+        places.length > 6 ? places.sublist(0, 6) : places;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -59,9 +75,7 @@ class HomeViewClientState extends ConsumerState<HomeViewClient> {
               const ThomeAppBar(),
               const SizedBox(height: TSizes.spaceBtwSections / 2),
               //*  SearchBar
-              const TSearchContainer(
-                text: 'Encuentra lugares turisticos',
-              ),
+              TSearchContainer(onSearch: handleQuery),
               const SizedBox(height: TSizes.spaceBtwSections),
               //* Categories
               Padding(
@@ -88,28 +102,33 @@ class HomeViewClientState extends ConsumerState<HomeViewClient> {
               padding: const EdgeInsets.all(TSizes.defaultSpace),
               child: Column(
                 children: [
-                  const TBannerSlider(
-                    banners: [
-                      TImages.banner1,
-                      TImages.banner2,
-                      TImages.banner3,
-                      TImages.banner4
-                    ],
-                  ),
+                  if (!search) ...[
+                    const TBannerSlider(
+                      banners: [
+                        TImages.banner1,
+                        TImages.banner2,
+                        TImages.banner3,
+                        TImages.banner4
+                      ],
+                    ),
+                    const SizedBox(height: TSizes.spaceBtwSections),
+                  ],
                   const SizedBox(height: TSizes.spaceBtwSections),
                   TGridviewLayout(
                     itemCount: displayTouristPlaces.length,
                     itemBuilder: (context, index) {
-                      final place = touristPlaces[index];
-                      if (touristPlaces.isNotEmpty) {
-                        return TProductCardVertical(
-                          place: place,
-                        );
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
+                      final place = places[index];
+                      return TProductCardVertical(
+                        place: place,
+                      );
                     },
-                  )
+                  ),
+                  if (places.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.all(TSizes.defaultSpace),
+                      child: Text("No se encontró lugar turístico",
+                          style: Theme.of(context).textTheme.titleLarge),
+                    ),
                 ],
               ),
             ),

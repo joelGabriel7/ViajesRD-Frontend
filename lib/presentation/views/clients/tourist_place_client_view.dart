@@ -6,10 +6,10 @@ import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/helpers/maps_categories.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/provider/categories/categories_provider.dart';
+import 'package:viajes/presentation/provider/search/search_movies_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_places_provider.dart';
 import 'package:viajes/presentation/widgets/client/appBar/appbar.dart';
 import 'package:viajes/presentation/widgets/client/appBar/tabbar.dart';
-import 'package:viajes/presentation/widgets/client/containers/search_container.dart';
 import 'package:viajes/presentation/widgets/client/products/cart_menu_item.dart';
 import 'package:viajes/presentation/widgets/client/products/t_product_card_vertical.dart';
 import 'package:viajes/presentation/widgets/shared/gridview_layout.dart';
@@ -25,7 +25,7 @@ class TouristPlaceClientView extends ConsumerStatefulWidget {
 }
 
 class TouristPlaceClientViewState extends ConsumerState<TouristPlaceClientView>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   TabController? _tabController;
   @override
   void initState() {
@@ -37,9 +37,26 @@ class TouristPlaceClientViewState extends ConsumerState<TouristPlaceClientView>
     await ref.read(getAllCategoryProvider.notifier).loadNextPage();
     await ref.read(getTouristPlacesProvider.notifier).loadTouristPlaces();
     if (mounted) {
-      _tabController = TabController(
-          vsync: this, length: ref.read(getAllCategoryProvider).length);
+      _setupTabController();
     }
+  }
+
+  void handleQuery(String query) {
+    ref.read(searchQueryProvider.notifier).state = query.trim();
+
+    if (query.isNotEmpty) {
+      ref.read(searchPlacesProviders.notifier).searchPlaceByQuery(query);
+    } else {
+      ref.read(getTouristPlacesProvider.notifier).loadTouristPlaces();
+    }
+  }
+
+  void _setupTabController() {
+    final categoriesCount = ref.read(getAllCategoryProvider).length;
+    _tabController?.dispose(); // Dispose the old controller if exists
+    _tabController = TabController(vsync: this, length: categoriesCount);
+    setState(
+        () {}); // Call setState to rebuild the widget with the updated controller
   }
 
   @override
@@ -51,13 +68,27 @@ class TouristPlaceClientViewState extends ConsumerState<TouristPlaceClientView>
   @override
   Widget build(BuildContext context) {
     final categories = ref.watch(getAllCategoryProvider);
-    final touristPlaces = ref.watch(getTouristPlacesProvider);
+    final searchQuery = ref.watch(searchQueryProvider);
+    final touristPlaces = searchQuery.isEmpty
+        ? ref.watch(getTouristPlacesProvider)
+        : ref.watch(searchPlacesProviders);
 
-    if (categories.isEmpty || _tabController == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+    if (categories.isEmpty ||
+        _tabController == null ||
+        _tabController!.length != categories.length) {
+      _setupTabController(); // Ensure controller matches the current category count
     }
+
+    List<Widget> tabsContent = categories.map((category) {
+      List<TouristPlaces> filteredPlaces = touristPlaces
+          .where((place) => place.categoryId == category.id)
+          .toList();
+      return TGridviewLayout(
+          itemCount: filteredPlaces.length,
+          itemBuilder: (_, index) =>
+              TProductCardVertical(place: filteredPlaces[index]));
+    }).toList();
+
     return DefaultTabController(
       length: categories.length,
       child: Scaffold(
@@ -81,22 +112,15 @@ class TouristPlaceClientViewState extends ConsumerState<TouristPlaceClientView>
                   backgroundColor: THelperFunctions.isDarkMode(context)
                       ? TColors.dark
                       : TColors.white,
-                  expandedHeight: 440,
+                  expandedHeight: 350,
                   flexibleSpace: Padding(
                     padding: const EdgeInsets.all(TSizes.defaultSpace / 2),
                     child: ListView(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       children: [
-                        ///* SearchBar
-                        const SizedBox(height: TSizes.spaceBtwItems),
-                        const TSearchContainer(
-                          text: 'Encuentra lugares turisticos',
-                          showBorder: true,
-                          showBackground: false,
-                          padding: EdgeInsets.zero,
-                        ),
-                        const SizedBox(height: TSizes.spaceBtwSections),
+                        // ///* SearchBar
+                        // const SizedBox(height: TSizes.spaceBtwItems),
 
                         ///* Categories brand
                         TSectionHeadings(
@@ -104,7 +128,7 @@ class TouristPlaceClientViewState extends ConsumerState<TouristPlaceClientView>
                           onPressed: () {},
                           showActionButton: true,
                         ),
-                        const SizedBox(height: TSizes.spaceBtwItems / 1.5),
+                        const SizedBox(height: TSizes.spaceBtwItems),
                         TGridviewLayout(
                             itemCount: categories.length,
                             mainAxisExtent: 80,
@@ -124,20 +148,12 @@ class TouristPlaceClientViewState extends ConsumerState<TouristPlaceClientView>
                 )
               ];
             },
-            body: TabBarView(
-              controller: _tabController,
-              children: categories.map((category) {
-                List<TouristPlaces> filteredPlaces = touristPlaces
-                    .where((place) => place.categoryId == category.id)
-                    .toList();
-                return TGridviewLayout(
-                    itemCount: filteredPlaces.length,
-                    itemBuilder: (_, index) {
-                      return TProductCardVertical(
-                        place: filteredPlaces[index],
-                      );
-                    });
-              }).toList(),
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TabBarView(
+                controller: _tabController,
+                children: tabsContent,
+              ),
             )),
       ),
     );
