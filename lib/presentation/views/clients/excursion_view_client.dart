@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:viajes/config/constants/colors.dart';
+import 'package:viajes/presentation/provider/excursions/excursions_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_places_provider.dart';
 import 'package:viajes/presentation/widgets/client/appBar/appbar.dart';
 import 'package:viajes/presentation/widgets/client/products/cart_menu_item.dart';
@@ -19,11 +20,13 @@ class ExcursionViewClientState extends ConsumerState<ExcursionViewClient> {
   void initState() {
     super.initState();
     ref.read(getTouristPlacesProvider.notifier).loadTouristPlaces();
+    ref.read(excursionsProvider.notifier).getExcursions();
   }
 
   @override
   Widget build(BuildContext context) {
     final place = ref.watch(getTouristPlacesProvider);
+    ref.watch(excursionsProvider);
     return Scaffold(
       appBar: TAppBar(
         showBackArrow: false,

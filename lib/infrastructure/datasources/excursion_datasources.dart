@@ -1,11 +1,21 @@
+import 'package:dio/dio.dart';
+import 'package:viajes/config/constants/dio_const.dart';
 import 'package:viajes/domain/datasource/excursions.dart';
 import 'package:viajes/domain/entity/excursions.dart';
+import 'package:viajes/infrastructure/mappers/excursions_mapper.dart';
+import 'package:viajes/infrastructure/models/excursions_models.dart';
 
 class ExcursionApiDatasources extends ExcursionDatasources {
+  final Dio dio = createDioInstance();
   @override
-  Future<List<Excursion>> getExcursions() {
-    // TODO: implement getExcursions
-    throw UnimplementedError();
+  Future<List<Excursion>> getExcursions() async {
+    final response = await dio.get('/excursions/list');
+    List<dynamic> excursionResponses = response.data;
+    final List<Excursion> excursion = excursionResponses
+        .map((results) => ExcursionMapper.excursionToEntity(
+            ExcursionsResponses.fromJson(results)))
+        .toList();
+    return excursion;
   }
 
   @override

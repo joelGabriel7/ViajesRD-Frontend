@@ -5,7 +5,7 @@ import 'package:viajes/domain/repository/excursions.dart';
 class ExcursionsRepositoryImpl implements ExcursionRespository {
   final ExcursionDatasources excursionsDataSource;
 
-  ExcursionsRepositoryImpl({required this.excursionsDataSource});
+  ExcursionsRepositoryImpl(this.excursionsDataSource);
 
   @override
   Future<List<Excursion>> getExcursions() async {

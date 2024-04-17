@@ -3,7 +3,7 @@ class ExcursionsResponses {
   final int touristPlaceId;
   final DateTime dateExcursion;
   final int durationExcursion;
-  final int price;
+  final double price;
   final String description;
   final int availablePlaces;
   final int id;
