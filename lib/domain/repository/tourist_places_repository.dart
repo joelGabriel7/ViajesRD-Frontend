@@ -11,4 +11,5 @@ abstract class TouristPlacesRepository {
   Future<TouristPlaces> updateTouristPlaces(
       int id, String name, String description, String location, int categoryId);
   Future<List<String>> uploadImages(int touristPlaceId, List<File> images);
+  Future<List<TouristPlaces>> searchTouristPlaces(String query);
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/image_strings.dart';
+import 'package:viajes/domain/entity/tourist_places.dart';
 import 'package:viajes/presentation/provider/categories/categories_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_places_provider.dart';
 import 'package:viajes/presentation/widgets/client/Banner/banner_slider.dart';
@@ -33,6 +34,18 @@ class HomeViewClientState extends ConsumerState<HomeViewClient> {
   Widget build(BuildContext context) {
     final categories = ref.watch(getAllCategoryProvider);
     final touristPlaces = ref.watch(getTouristPlacesProvider);
+
+    if (categories.isEmpty) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    List<TouristPlaces> displayTouristPlaces =
+        touristPlaces.length > 6 ? touristPlaces.sublist(0, 6) : touristPlaces;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -85,7 +98,7 @@ class HomeViewClientState extends ConsumerState<HomeViewClient> {
                   ),
                   const SizedBox(height: TSizes.spaceBtwSections),
                   TGridviewLayout(
-                    itemCount: touristPlaces.length,
+                    itemCount: displayTouristPlaces.length,
                     itemBuilder: (context, index) {
                       final place = touristPlaces[index];
                       if (touristPlaces.isNotEmpty) {
@@ -93,7 +106,7 @@ class HomeViewClientState extends ConsumerState<HomeViewClient> {
                           place: place,
                         );
                       } else {
-                        return CircularProgressIndicator();
+                        return const CircularProgressIndicator();
                       }
                     },
                   )

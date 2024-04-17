@@ -40,4 +40,9 @@ class TouristPlacesRepositoryImpl extends TouristPlacesRepository {
   Future<TouristPlaces> deleteTouristPlacesById(int id) {
     return datasource.deleteTouristPlacesById(id);
   }
+
+  @override
+  Future<List<TouristPlaces>> searchTouristPlaces(String query) {
+    return datasource.searchTouristPlaces(query);
+  }
 }

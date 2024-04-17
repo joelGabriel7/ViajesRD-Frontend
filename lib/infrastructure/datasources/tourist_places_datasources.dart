@@ -125,4 +125,19 @@ class TouristPlacesApiDatasources extends TouristPlacesDatasources {
     final entity = TouristPlacesMapper.touristPlacesToEntity(touristPlaces);
     return entity;
   }
+
+  @override
+  Future<List<TouristPlaces>> searchTouristPlaces(String query) async {
+    if (query.isEmpty) return [];
+    final response = await dio
+        .get('/tourist_place/search/', queryParameters: {'search': query});
+
+    final List<TouristPlaces> touristResponses = response.data;
+    final entity = touristResponses
+        .map(<TouristPlaces>(results) =>
+            TouristPlacesMapper.touristPlacesToEntity(
+                TouristPlacesResponses.fromJson(results)))
+        .toList();
+    return entity;
+  }
 }
