@@ -9,6 +9,7 @@ import 'package:viajes/presentation/screens/auth/success_account_created.dart';
 import 'package:viajes/presentation/screens/auth/success_login.dart';
 import 'package:viajes/presentation/screens/category_screen.dart';
 import 'package:viajes/presentation/screens/client/home_screen_client.dart';
+import 'package:viajes/presentation/screens/client/place_screen.dart';
 import 'package:viajes/presentation/screens/clientes_screen.dart';
 import 'package:viajes/presentation/screens/excursions_screen.dart';
 import 'package:viajes/presentation/screens/home_screen_agency.dart';
@@ -49,13 +50,23 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
       builder: (context, state) {
         final pageIndex = int.parse(state.pathParameters['page'] ?? '0');
         return HomeScreenClient(pageIndex: pageIndex);
-      }),
+      },
+      routes: [
+        GoRoute(
+            path: 'place/:id',
+            builder: (context, state) {
+              final String isId = state.pathParameters['id'] ?? 'no-id';
+              final int id = int.parse(isId);
+              return PlaceScreen(placeId: id);
+            })
+      ]),
   GoRoute(
-      path: '/home/:page',
-      builder: (context, state) {
-        final pageIndex = int.parse(state.pathParameters['page'] ?? '0');
-        return HomeScreenAgency(pageIndex: pageIndex);
-      }),
+    path: '/home/:page',
+    builder: (context, state) {
+      final pageIndex = int.parse(state.pathParameters['page'] ?? '0');
+      return HomeScreenAgency(pageIndex: pageIndex);
+    },
+  ),
   GoRoute(
     path: '/agency/new',
     builder: (context, state) {

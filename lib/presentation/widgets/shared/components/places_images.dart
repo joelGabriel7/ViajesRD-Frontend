@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
+import 'package:viajes/presentation/widgets/client/Banner/t_rounded_banner.dart';
+import 'package:viajes/presentation/widgets/client/curved%20edges/curved_edges_widget.dart';
 
 class PlaceImages extends StatefulWidget {
   const PlaceImages({
@@ -22,35 +24,41 @@ class _PlaceImagesState extends State<PlaceImages> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          width: double.infinity,
-          height: 400,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(5),
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: Image.network(
-                widget.places.images.isNotEmpty
-                    ? widget.base + widget.places.images[selectedImage].imageUrl
-                    : 'https://th.bing.com/th/id/OIP.NtlX1xnmpCVssKBag3XPNAHaFj?rs=1&pid=ImgDetMain',
-                fit: BoxFit.cover,
+        TCurvedEdgeWidget(
+          child: SizedBox(
+            width: double.infinity,
+            height: 400,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(5),
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: TRoundedBanner(
+                  isNetworkImage: true,
+                  imageUrl: widget.places.images.isNotEmpty
+                      ? widget.base +
+                          widget.places.images[selectedImage].imageUrl
+                      : 'https://th.bing.com/th/id/OIP.NtlX1xnmpCVssKBag3XPNAHaFj?rs=1&pid=ImgDetMain',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
         ),
-        const SizedBox(
-          height: 10,
-        ),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ...List.generate(widget.places.images.length,
-                    (index) => buildSmallPreview(index, widget.base))
-              ],
+        Positioned(
+          top: 10,
+          right: 0,
+          left: 0,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ...List.generate(widget.places.images.length,
+                      (index) => buildSmallPreview(index, widget.base))
+                ],
+              ),
             ),
           ),
         )
@@ -75,10 +83,15 @@ class _PlaceImagesState extends State<PlaceImages> {
             border: Border.all(
                 color:
                     selectedImage == index ? Colors.blue : Colors.transparent)),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.network(base + widget.places.images[index].imageUrl,
-              fit: BoxFit.cover),
+        child: TRoundedBanner(
+          isNetworkImage: true,
+          imageUrl: base + widget.places.images[index].imageUrl,
+          height: 48,
+          width: 48,
+          fit: BoxFit.cover,
+          applyImageRadius: true,
+          borderRadius:
+              12, // Para que coincida con el borderRadius del Container
         ),
       ),
     );

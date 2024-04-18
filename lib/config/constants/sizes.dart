@@ -44,7 +44,7 @@ class TSizes {
 
   // Product item dimensions
   static const double productImageSize = 120.0;
-  static const double productImageRadius = 16.0;
+  static const double productImageRadius = 5.0;
   static const double productItemHeight = 160.0;
 
   // Input field

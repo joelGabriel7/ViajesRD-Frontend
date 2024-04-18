@@ -15,11 +15,11 @@ class HomeScreenClient extends StatelessWidget {
       bottomNavigationBar: BottomNavigationsClient(currentPage: pageIndex),
       body: IndexedStack(
         index: pageIndex,
-        children: [
-          const HomeViewClient(),
-          const TouristPlaceClientView(),
-          const ExcursionViewClient(),
-          const SettingsViewClient(),
+        children: const [
+          HomeViewClient(),
+          TouristPlaceClientView(),
+          ExcursionViewClient(),
+          SettingsViewClient(),
         ],
       ),
     );
