@@ -8,6 +8,7 @@ import 'package:viajes/presentation/screens/auth/signup_screen.dart';
 import 'package:viajes/presentation/screens/auth/success_account_created.dart';
 import 'package:viajes/presentation/screens/auth/success_login.dart';
 import 'package:viajes/presentation/screens/category_screen.dart';
+import 'package:viajes/presentation/screens/client/cart_screen.dart';
 import 'package:viajes/presentation/screens/client/home_screen_client.dart';
 import 'package:viajes/presentation/screens/client/place_screen.dart';
 import 'package:viajes/presentation/screens/clientes_screen.dart';
@@ -58,7 +59,9 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
               final String isId = state.pathParameters['id'] ?? 'no-id';
               final int id = int.parse(isId);
               return PlaceScreen(placeId: id);
-            })
+            }),
+        GoRoute(
+            path: 'cart/item', builder: (context, state) => const CartScreen()),
       ]),
   GoRoute(
     path: '/home/:page',

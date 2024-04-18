@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:viajes/config/constants/colors.dart';
 
 class TCartCounterIcon extends StatelessWidget {
@@ -16,7 +17,7 @@ class TCartCounterIcon extends StatelessWidget {
     return Stack(
       children: [
         IconButton(
-            onPressed: () => onPressed,
+            onPressed: () => context.push('/home/client/0/cart/item'),
             icon: Icon(
               Icons.event_note_rounded,
               color: iconColor,

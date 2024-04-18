@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/sizes.dart';
+import 'package:viajes/domain/entity/excursions.dart';
 import 'package:viajes/domain/entity/tourist_places.dart';
+import 'package:viajes/presentation/provider/excursions/excursions_provider.dart';
 import 'package:viajes/presentation/provider/tourist_places/tourist_place_provider.dart';
 import 'package:viajes/presentation/widgets/shared/components/places_images.dart';
 import 'package:viajes/presentation/widgets/shared/t_product_title_text.dart';
@@ -41,6 +43,7 @@ class PlaceScreenState extends ConsumerState<PlaceScreen> {
             PlaceImages(base: 'https://apiviajesrd.info/', places: place),
             //* Places Body */
             TPlaceMetadata(
+                place: place,
                 location: place.location,
                 title: place.name,
                 description: place.description,
@@ -52,19 +55,21 @@ class PlaceScreenState extends ConsumerState<PlaceScreen> {
   }
 }
 
-class TPlaceMetadata extends StatelessWidget {
+class TPlaceMetadata extends ConsumerWidget {
   const TPlaceMetadata({
     super.key,
+    required this.place,
     required this.location,
     required this.title,
     required this.description,
     required this.categoryName,
   });
-
+  final TouristPlaces place;
   final String location, title, description, categoryName;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Note the addition of WidgetRef here
     return Padding(
       padding: const EdgeInsets.all(TSizes.defaultSpace),
       child: Column(
@@ -113,9 +118,29 @@ class TPlaceMetadata extends StatelessWidget {
           const Divider(color: TColors.accent, thickness: 1),
           const SizedBox(height: TSizes.spaceBtwSections / 1.5),
           SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: () {}, child: const Text('Agregar al carrito'))),
+            width: double.infinity,
+            child: ElevatedButton(
+                // En el onPressed del ElevatedButton
+                onPressed: () async {
+                  Excursion? excursion = await ref
+                      .read(excursionsProvider.notifier)
+                      .getExcursionByTouristPlaceId(place.id);
+                  if (excursion != null) {
+                    ref
+                        .read(cartProvider.notifier)
+                        .addToCart(CartItem(excursion: excursion));
+                    // ignore: use_build_context_synchronously
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Excursión agregada al carrito')));
+                  } else {
+                    // ignore: use_build_context_synchronously
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text(
+                            'No se encontró la excursión para este lugar')));
+                  }
+                },
+                child: const Text('Agregar al carrito')),
+          ),
         ],
       ),
     );

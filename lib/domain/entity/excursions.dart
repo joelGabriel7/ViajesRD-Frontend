@@ -25,3 +25,11 @@ class Excursion {
     required this.touristPlaces,
   });
 }
+
+class CartItem {
+  final Excursion excursion;
+  int quantity; // Cantidad a reservar
+
+  CartItem({required this.excursion, this.quantity = 1});
+  double get totalPrice => excursion.price * quantity;
+}
