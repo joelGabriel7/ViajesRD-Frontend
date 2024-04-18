@@ -49,6 +49,10 @@ class CartNotifier extends StateNotifier<List<CartItem>> {
         .toList();
   }
 
+  bool isExcursionInCart(int excursionId) {
+    return state.any((item) => item.excursion.id == excursionId);
+  }
+
   void updateQuantity(CartItem item, int newQuantity) {
     state = state.map((i) {
       if (i.excursion.id == item.excursion.id) {

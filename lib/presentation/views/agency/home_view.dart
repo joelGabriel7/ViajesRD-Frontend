@@ -5,8 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:viajes/config/constants/colors.dart';
+import 'package:viajes/config/helpers/auth/decode_token.dart';
 import 'package:viajes/config/helpers/auth/storage_token.dart';
 import 'package:viajes/config/menu/menu_item.dart';
+import 'package:viajes/presentation/provider/agency/angecy_info_provider.dart';
 import 'package:viajes/presentation/widgets/side_menu.dart';
 
 // import '../../shared/bottom_navigations.dart';
@@ -28,8 +30,25 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class HomeViewState extends ConsumerState<HomeView> {
+  String? agencyId;
+  @override
+  void initState() {
+    super.initState();
+    initAgencyInfo();
+  }
+
+  void initAgencyInfo() async {
+    agencyId = (await TokenService().getAgencyId()).toString();
+    ref.read(agencyInfoProvider.notifier).getAgency(agencyId!);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    final agencyInfo = ref.watch(agencyInfoProvider)[agencyId];
+    if (agencyId == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final isDarkMode = theme.brightness == Brightness.dark;
@@ -76,7 +95,7 @@ class HomeViewState extends ConsumerState<HomeView> {
                     child: Column(
                       children: [
                         Text(
-                          'Nombre de Agencia',
+                          agencyInfo?.name ?? 'Aventuras RD',
                           style: TextStyle(
                               color: textColor,
                               fontSize: 30,

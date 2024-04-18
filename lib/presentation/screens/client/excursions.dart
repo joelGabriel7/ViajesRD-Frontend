@@ -91,7 +91,15 @@ class TExcursionMetadata extends ConsumerWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-                onPressed: () {
+              onPressed: () {
+                if (ref
+                    .read(cartProvider.notifier)
+                    .isExcursionInCart(excursion.id ?? 0)) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                        content: Text('Esta excursión ya está en el carrito')),
+                  );
+                } else {
                   ref
                       .read(cartProvider.notifier)
                       .addToCart(CartItem(excursion: excursion));
@@ -100,8 +108,10 @@ class TExcursionMetadata extends ConsumerWidget {
                         content: Text(
                             'Excursión ${excursion.touristPlaces!.name} agregada al carrito')),
                   );
-                },
-                child: const Text('Agregar al carrito')),
+                }
+              },
+              child: const Text('Agregar al carrito'),
+            ),
           )
         ],
       ),

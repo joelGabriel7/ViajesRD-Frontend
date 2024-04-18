@@ -51,14 +51,17 @@ class CreateExcursionFormState extends ConsumerState<CreateExcursionForm> {
         await ref
             .read(excursionNotifierProvider.notifier)
             .createExcursion(newExcursion);
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Excursión creada con éxito!')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Excursión creada con éxito!')),
+          );
+        }
       } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al crear la excursión: $e')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error al crear la excursión: $e')),
+          );
+        }
       }
     } else {
       debugPrint("Form validation failed");

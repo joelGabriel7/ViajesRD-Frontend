@@ -5,7 +5,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/helpers/auth/decode_token.dart';
 import 'package:viajes/presentation/provider/agency/angecy_info_provider.dart';
-import 'package:viajes/presentation/provider/users/auth/token_services_auth.dart';
 import 'package:viajes/presentation/widgets/shared/profile_menu.dart';
 import 'package:viajes/presentation/widgets/shared/profile_picture.dart';
 import 'package:viajes/presentation/widgets/shared/sections_headings.dart';
@@ -30,15 +29,21 @@ class ProfileAgencyViewState extends ConsumerState<ProfileAgencyView> {
 
   void initAgencyInfo() async {
     agencyId = (await TokenService().getAgencyId()).toString();
-    debugPrint('Agency profile: $agencyId');
-    if (agencyId != null) {
-      ref.read(tokenStateProvider.notifier).init();
+    if (agencyId != null && agencyId!.isNotEmpty) {
+      ref.read(agencyInfoProvider.notifier).getAgency(agencyId!);
+      setState(() {
+        // Esto hará que el widget se reconstruya con el nuevo agencyId.
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final agencyInfo = ref.watch(agencyInfoProvider)[agencyId];
+    if (agencyId == null) {
+      // Mostrar algo mientras el ID de la agencia es null
+      return const Center(child: CircularProgressIndicator());
+    }
+    final agencyInfo = ref.watch(agencyInfoProvider)[agencyId!];
     return Scaffold(
         appBar: const TAppBar(
           title: Text('Profile'),

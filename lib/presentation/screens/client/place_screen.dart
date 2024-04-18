@@ -126,9 +126,20 @@ class TPlaceMetadata extends ConsumerWidget {
                       .read(excursionsProvider.notifier)
                       .getExcursionByTouristPlaceId(place.id);
                   if (excursion != null) {
-                    ref
+                    if (ref
                         .read(cartProvider.notifier)
-                        .addToCart(CartItem(excursion: excursion));
+                        .isExcursionInCart(excursion.id ?? 0)) {
+                      // ignore: use_build_context_synchronously
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content:
+                                Text('Esta excursión ya está en el carrito')),
+                      );
+                    } else {
+                      ref
+                          .read(cartProvider.notifier)
+                          .addToCart(CartItem(excursion: excursion));
+                    }
                     // ignore: use_build_context_synchronously
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text('Excursión agregada al carrito')));
@@ -146,3 +157,26 @@ class TPlaceMetadata extends ConsumerWidget {
     );
   }
 }
+
+
+// ElevatedButton(
+//               onPressed: () {
+//                 if (ref
+//                     .read(cartProvider.notifier)
+//                     .isExcursionInCart(excursion.id ?? 0)) {
+//                   ScaffoldMessenger.of(context).showSnackBar(
+//                     const SnackBar(
+//                         content: Text('Esta excursión ya está en el carrito')),
+//                   );
+//                 } else {
+//                   ref
+//                       .read(cartProvider.notifier)
+//                       .addToCart(CartItem(excursion: excursion));
+//                   ScaffoldMessenger.of(context).showSnackBar(
+//                     SnackBar(
+//                         content: Text(
+//                             'Excursión ${excursion.touristPlaces!.name} agregada al carrito')),
+//                   );
+//                 }
+//               },
+//               child: const Text('Agregar al carrito'),
