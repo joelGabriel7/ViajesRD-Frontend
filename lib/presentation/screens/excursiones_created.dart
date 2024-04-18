@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:viajes/config/constants/sizes.dart';
 import 'package:viajes/config/helpers/auth/decode_token.dart';
@@ -47,20 +48,15 @@ class CreateExcursionFormState extends ConsumerState<CreateExcursionForm> {
           description: _descriptionController.text,
           availablePlaces: int.parse(_availablePlacesController.text),
         );
-
         await ref
             .read(excursionNotifierProvider.notifier)
             .createExcursion(newExcursion);
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Excursión creada con éxito!')),
-          );
+          context.pop(context); // Cierra el modal
         }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error al crear la excursión: $e')),
-          );
+          context.pop(context); // Cierra el modal incluso si hay un error
         }
       }
     } else {

@@ -28,7 +28,9 @@ class PlaceDetailBody extends StatelessWidget {
           child: CreateExcursionForm(places: places),
         );
       },
-    );
+    ).then((_) => ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Excursión creada con éxito!')),
+        ));
   }
 
   @override
