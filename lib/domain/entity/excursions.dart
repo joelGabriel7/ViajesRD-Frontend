@@ -8,9 +8,9 @@ class Excursion {
   final double price;
   final String description;
   final int availablePlaces;
-  final int id;
-  final Agency agencyE;
-  final TouristPlace touristPlaces;
+  final int? id;
+  final Agency? agencyE;
+  final TouristPlace? touristPlaces;
 
   Excursion({
     required this.agencyId,
@@ -20,9 +20,9 @@ class Excursion {
     required this.price,
     required this.description,
     required this.availablePlaces,
-    required this.id,
-    required this.agencyE,
-    required this.touristPlaces,
+    this.id,
+    this.agencyE,
+    this.touristPlaces,
   });
 }
 

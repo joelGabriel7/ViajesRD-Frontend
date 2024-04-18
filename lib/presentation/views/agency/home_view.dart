@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:viajes/config/constants/colors.dart';
@@ -10,7 +11,7 @@ import 'package:viajes/presentation/widgets/side_menu.dart';
 
 // import '../../shared/bottom_navigations.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends ConsumerStatefulWidget {
   const HomeView({
     super.key,
     required this.height,
@@ -23,6 +24,11 @@ class HomeView extends StatelessWidget {
   final List<MenuItem> titles;
 
   @override
+  HomeViewState createState() => HomeViewState();
+}
+
+class HomeViewState extends ConsumerState<HomeView> {
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
@@ -33,8 +39,9 @@ class HomeView extends StatelessWidget {
     final scaffolKey = GlobalKey<ScaffoldState>();
     final date = DateTime.now();
     final format = DateFormat('jm').format(date);
-    final lastFourTitles =
-        titles.length >= 4 ? titles.sublist(titles.length - 4) : titles;
+    final lastFourTitles = widget.titles.length >= 4
+        ? widget.titles.sublist(widget.titles.length - 4)
+        : widget.titles;
     return Scaffold(
       key: scaffolKey,
       appBar: AppBar(
@@ -54,14 +61,14 @@ class HomeView extends StatelessWidget {
       drawer: SideMenu(scaffolKey: scaffolKey),
       body: Container(
         color: backgroundColor,
-        height: height,
-        width: widht,
+        height: widget.height,
+        width: widget.widht,
         child: Column(
           children: [
             Container(
                 decoration: const BoxDecoration(),
-                height: height * 0.18,
-                width: widht,
+                height: widget.height * 0.18,
+                width: widget.widht,
                 child: Column(children: [
                   Padding(
                     padding:
@@ -93,8 +100,8 @@ class HomeView extends StatelessWidget {
                     topRight: Radius.circular(30),
                   ),
                 ),
-                height: height,
-                width: widht,
+                height: widget.height,
+                width: widget.widht,
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     childAspectRatio: 1.1,

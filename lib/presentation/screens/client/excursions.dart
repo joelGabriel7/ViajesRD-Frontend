@@ -14,10 +14,10 @@ class ExcursionScreen extends ConsumerStatefulWidget {
   final int excursionId;
 
   @override
-  _ExcursionScreenState createState() => _ExcursionScreenState();
+  ExcursionScreenState createState() => ExcursionScreenState();
 }
 
-class _ExcursionScreenState extends ConsumerState<ExcursionScreen> {
+class ExcursionScreenState extends ConsumerState<ExcursionScreen> {
   @override
   void initState() {
     super.initState();
@@ -68,11 +68,11 @@ class TExcursionMetadata extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TProductTitleText(
-            title: 'Nombre - ${excursion.touristPlaces.name}',
+            title: 'Nombre - ${excursion.touristPlaces!.name}',
           ),
           const SizedBox(height: TSizes.defaultSpace),
           TProductTitleText(
-            title: 'Ubicación - ${excursion.touristPlaces.location}',
+            title: 'Ubicación - ${excursion.touristPlaces!.location}',
           ),
           const SizedBox(height: TSizes.defaultSpace),
           TProductTitleText(
@@ -98,7 +98,7 @@ class TExcursionMetadata extends ConsumerWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                         content: Text(
-                            'Excursión ${excursion.touristPlaces.name} agregada al carrito')),
+                            'Excursión ${excursion.touristPlaces!.name} agregada al carrito')),
                   );
                 },
                 child: const Text('Agregar al carrito')),

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:viajes/config/constants/dio_const.dart';
 import 'package:viajes/domain/datasource/excursions.dart';
 import 'package:viajes/domain/entity/excursions.dart';
@@ -31,9 +32,24 @@ class ExcursionApiDatasources extends ExcursionDatasources {
   }
 
   @override
-  Future<void> createExcursion(Excursion excursion) {
-    // TODO: implement createExcursion
-    throw UnimplementedError();
+  Future<void> createExcursion(Excursion excursion) async {
+    final response = await dio.post('/excursions/create', data: {
+      'agency_id': excursion.agencyId,
+      'tourist_place_id': excursion.touristPlaceId,
+      'date_excursion': excursion.dateExcursion.toIso8601String(),
+      'duration_excursion': excursion.durationExcursion,
+      'price': excursion.price,
+      'description': excursion.description,
+      'available_places': excursion.availablePlaces,
+    });
+
+    if (response.statusCode != 201) {
+      throw Exception('Error al crear la excursión');
+    } else {
+      final excursion = ExcursionsResponses.fromJson(response.data);
+      final entity = ExcursionMapper.excursionToEntity(excursion);
+      debugPrint('Excursión creada con éxito: $entity');
+    }
   }
 
   @override

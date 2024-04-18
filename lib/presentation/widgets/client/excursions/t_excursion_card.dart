@@ -17,8 +17,8 @@ class TExcursionCardVertical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dark = THelperFunctions.isDarkMode(context);
-    String urlbase = excursion.touristPlaces.images.isNotEmpty
-        ? 'https://apiviajesrd.info/${excursion.touristPlaces.images[0].imageUrl}'
+    String urlbase = excursion.touristPlaces!.images.isNotEmpty
+        ? 'https://apiviajesrd.info/${excursion.touristPlaces!.images[0].imageUrl}'
         : 'https://cdn.dribbble.com/users/760347/screenshots/7341673/loading_ps.gif';
 
     final size = MediaQuery.of(context).size;
@@ -73,7 +73,7 @@ class TExcursionCardVertical extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TProductTitleText(
-                  title: excursion.touristPlaces.name,
+                  title: excursion.touristPlaces!.name,
                   smallSize: true,
                 ),
                 const SizedBox(

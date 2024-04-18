@@ -21,8 +21,8 @@ class TCartItem extends StatelessWidget {
         TRoundedBanner(
           isNetworkImage: true,
           imageUrl: cartItem
-                  .excursion.touristPlaces.images.first.imageUrl.isNotEmpty
-              ? 'https://apiviajesrd.info/${cartItem.excursion.touristPlaces.images[0].imageUrl}'
+                  .excursion.touristPlaces!.images.first.imageUrl.isNotEmpty
+              ? 'https://apiviajesrd.info/${cartItem.excursion.touristPlaces!.images[0].imageUrl}'
               : 'https://th.bing.com/th/id/OIP.NtlX1xnmpCVssKBag3XPNAHaFj?rs=1&pid=ImgDetMain',
           width: 60,
           height: 60,
@@ -40,7 +40,7 @@ class TCartItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BrandTitleWithVerifiedIcon(
-                title: cartItem.excursion.touristPlaces.name,
+                title: cartItem.excursion.touristPlaces!.name,
               ),
               TBrandTitleText(
                   title:
@@ -52,7 +52,7 @@ class TCartItem extends StatelessWidget {
                     text: 'Ubicacion: ',
                     style: Theme.of(context).textTheme.bodySmall),
                 TextSpan(
-                    text: cartItem.excursion.touristPlaces.location,
+                    text: cartItem.excursion.touristPlaces!.location,
                     style: Theme.of(context).textTheme.bodyLarge),
               ]))
             ],

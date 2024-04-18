@@ -34,8 +34,8 @@ class _ExcursionImagesState extends State<ExcursionImages> {
                 aspectRatio: 1,
                 child: TRoundedBanner(
                   isNetworkImage: true,
-                  imageUrl: widget.excursion.touristPlaces.images.isNotEmpty
-                      ? '${widget.base}${widget.excursion.touristPlaces.images[selectedImage].imageUrl}'
+                  imageUrl: widget.excursion.touristPlaces!.images.isNotEmpty
+                      ? '${widget.base}${widget.excursion.touristPlaces!.images[selectedImage].imageUrl}'
                       : 'https://via.placeholder.com/400', // URL de imagen de respaldo
                   fit: BoxFit.cover,
                 ),
@@ -50,7 +50,7 @@ class _ExcursionImagesState extends State<ExcursionImages> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                widget.excursion.touristPlaces.images.length,
+                widget.excursion.touristPlaces!.images.length,
                 (index) => buildSmallPreview(index),
               ),
             ),
@@ -81,7 +81,7 @@ class _ExcursionImagesState extends State<ExcursionImages> {
         child: TRoundedBanner(
           isNetworkImage: true,
           imageUrl:
-              '${widget.base}${widget.excursion.touristPlaces.images[index].imageUrl}',
+              '${widget.base}${widget.excursion.touristPlaces!.images[index].imageUrl}',
           height: 48,
           width: 48,
           fit: BoxFit.cover,

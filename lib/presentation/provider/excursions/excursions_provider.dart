@@ -25,7 +25,7 @@ class ExcursionsNotifier extends StateNotifier<List<Excursion>> {
   Future<void> loadMoreExcursion() async {
     currentPage++;
     final excursions = await getExcursionsCustom(page: currentPage);
-    state = [...state, ...excursions];
+    state = excursions;
   }
 
   Future<Excursion?> getExcursionByTouristPlaceId(int touristPlaceId) async {

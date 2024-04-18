@@ -57,4 +57,9 @@ class TokenService {
     final payload = await decodeToken();
     return payload!['agency_id'];
   }
+
+  Future<int?> getClientId() async {
+    final payload = await decodeToken();
+    return payload!['client_id'];
+  }
 }
