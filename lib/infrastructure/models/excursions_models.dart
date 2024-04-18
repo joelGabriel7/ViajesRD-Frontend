@@ -28,13 +28,13 @@ class ExcursionsResponses {
         agencyId: json["agency_id"] ?? 0,
         touristPlaceId: json["tourist_place_id"] ?? 0,
         dateExcursion: DateTime.parse(json["date_excursion"]),
-        durationExcursion: json["duration_excursion"],
-        price: json["price"],
-        description: json["description"],
-        availablePlaces: json["available_places"],
-        id: json["id"],
-        agencyResponseE: Agency.fromJson(json["agency"]),
-        touristPlace: TouristPlace.fromJson(json["tourist_place"]),
+        durationExcursion: json["duration_excursion"] ?? '',
+        price: json["price"] ?? '',
+        description: json["description"] ?? '',
+        availablePlaces: json["available_places"] ?? '',
+        id: json["id"] ?? 0,
+        agencyResponseE: Agency.fromJson(json["agency"] ?? {}),
+        touristPlace: TouristPlace.fromJson(json["tourist_place"] ?? {}),
       );
 
   Map<String, dynamic> toJson() => {
@@ -62,8 +62,8 @@ class Agency {
   });
 
   factory Agency.fromJson(Map<String, dynamic> json) => Agency(
-        name: json["name"],
-        email: json["email"],
+        name: json["name"] ?? '',
+        email: json["email"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -84,9 +84,11 @@ class TouristPlace {
   });
 
   factory TouristPlace.fromJson(Map<String, dynamic> json) => TouristPlace(
-        name: json["name"],
-        location: json["location"],
-        images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+        name: json["name"] ?? '',
+        location: json["location"] ?? '',
+        images: json["images"] != null
+            ? List<Image>.from(json["images"].map((x) => Image.fromJson(x)))
+            : [],
       );
 
   Map<String, dynamic> toJson() => {
@@ -106,8 +108,8 @@ class Image {
   });
 
   factory Image.fromJson(Map<String, dynamic> json) => Image(
-        id: json["id"],
-        imageUrl: json["image_url"],
+        id: json["id"] ?? 0,
+        imageUrl: json["image_url"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {

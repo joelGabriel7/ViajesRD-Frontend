@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:viajes/config/constants/colors.dart';
 import 'package:viajes/config/constants/sizes.dart';
@@ -22,7 +23,7 @@ class TExcursionCardVertical extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () {},
+      onTap: () => context.push('/home/client/0/excursion/${excursion.id}'),
       child: Container(
         width: 180,
         padding: const EdgeInsets.all(1),
