@@ -7,10 +7,6 @@ class ExcursionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Excursion Screen'),
-        centerTitle: true,
-      ),
       body: const ExcursionViewClient(),
       floatingActionButton:
           FloatingActionButton(onPressed: () {}, child: const Icon(Icons.add)),

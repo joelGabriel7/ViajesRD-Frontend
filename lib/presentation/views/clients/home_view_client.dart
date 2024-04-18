@@ -92,6 +92,9 @@ class HomeViewClientState extends ConsumerState<HomeViewClient> {
                     //* Categories
                     THomeCategory(
                       item: categories,
+                    ),
+                    const SizedBox(
+                      height: TSizes.spaceBtwSections,
                     )
                   ],
                 ),

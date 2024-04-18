@@ -41,7 +41,7 @@ class ExcursionViewClientState extends ConsumerState<ExcursionViewClient> {
             itemCount: excursion.isNotEmpty ? excursion.length : 1,
             itemBuilder: (_, index) => excursion.isNotEmpty
                 ? TExcursionCardVertical(excursion: excursion[index])
-                : const CircularProgressIndicator()),
+                : const Center(child: CircularProgressIndicator())),
       ),
     );
   }
